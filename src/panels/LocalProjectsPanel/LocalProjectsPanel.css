@@ -1,0 +1,86 @@
+/* Container query for responsive LocalProjectCard */
+.local-projects-panel {
+  container-type: inline-size;
+  container-name: local-projects;
+  height: 100%;
+}
+
+.local-project-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.local-project-card__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.local-project-card__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.local-project-card__path,
+.local-project-card__meta {
+  display: flex;
+}
+
+.local-project-card__actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.local-project-card__actions--stacked {
+  display: none;
+}
+
+/* Compact mode when container is 400px or less */
+@container local-projects (max-width: 400px) {
+  .local-projects-panel {
+    padding: 8px !important;
+    gap: 8px !important;
+  }
+
+  .local-projects-list {
+    gap: 12px !important;
+  }
+
+  .local-project-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 0 !important;
+  }
+
+  .local-project-card__content {
+    gap: 8px;
+  }
+
+  .local-project-card__path,
+  .local-project-card__meta {
+    display: none;
+  }
+
+  .local-project-card__actions {
+    display: none;
+  }
+
+  .local-project-card__actions--stacked {
+    display: flex;
+    gap: 4px;
+  }
+
+  .local-project-card__actions--stacked button {
+    flex: 1;
+  }
+}
