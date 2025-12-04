@@ -77,7 +77,8 @@ export interface LocalProjectsPanelActions extends PanelActions {
 export type CardActionMode =
   | 'default'           // Show open and remove buttons
   | 'add-to-workspace'  // Show "Add to workspace" button only
-  | 'minimal';          // Show only open button
+  | 'minimal'           // Show only open button
+  | 'workspace';        // Show open, move, and remove-from-workspace buttons
 
 /**
  * Props for LocalProjectCard component
@@ -97,12 +98,22 @@ export interface LocalProjectCardProps {
   onRemove?: (entry: AlexandriaEntry) => void;
   /** Callback for add-to-workspace action */
   onAddToWorkspace?: (entry: AlexandriaEntry) => void;
+  /** Callback for remove-from-workspace action (workspace mode) */
+  onRemoveFromWorkspace?: (entry: AlexandriaEntry) => void;
+  /** Callback for move-to-workspace-directory action (workspace mode) */
+  onMoveToWorkspace?: (entry: AlexandriaEntry) => void;
   /** Whether an operation is in progress */
   isLoading?: boolean;
   /** Current window state for this repository */
   windowState?: RepositoryWindowState;
   /** Compact mode - hides path/info, stacks buttons under name */
   compact?: boolean;
+  /** Whether in edit mode (workspace mode) */
+  isEditMode?: boolean;
+  /** Whether repository is in workspace directory (workspace mode) */
+  isInWorkspaceDirectory?: boolean | null;
+  /** Workspace path for relative path display (workspace mode) */
+  workspacePath?: string;
 }
 
 /**

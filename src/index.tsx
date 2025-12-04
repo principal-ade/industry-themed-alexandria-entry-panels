@@ -1,6 +1,8 @@
 import { LocalProjectsPanel } from './panels/LocalProjectsPanel';
+import { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
 import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
+import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
 
 /**
  * Export array of panel definitions.
@@ -38,6 +40,31 @@ export const panels: PanelDefinition[] = [
       console.log('Local Projects Panel unmounting');
     },
   },
+  {
+    metadata: {
+      id: 'industry-theme.workspace-repositories',
+      name: 'Workspace Repositories',
+      icon: 'FolderGit2',
+      version: '0.1.0',
+      author: 'Industry Theme',
+      description: 'Workspace and repository management panel',
+      slices: ['workspace', 'workspaceRepositories'],
+      tools: workspaceRepositoriesPanelTools,
+    },
+    component: WorkspaceRepositoriesPanel,
+
+    onMount: async (context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Workspace Repositories Panel mounted');
+      // eslint-disable-next-line no-console
+      console.log('Current scope:', context.currentScope.type);
+    },
+
+    onUnmount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Workspace Repositories Panel unmounting');
+    },
+  },
 ];
 
 /**
@@ -68,6 +95,14 @@ export {
   openProjectTool,
 } from './panels/LocalProjectsPanel/tools';
 
+export {
+  workspaceRepositoriesPanelTools,
+  workspaceRepositoriesPanelToolsMetadata,
+  selectRepositoryTool,
+  refreshWorkspaceTool,
+  openRepositoryTool,
+} from './panels/WorkspaceRepositoriesPanel/tools';
+
 /**
  * Export panel components for direct use
  */
@@ -77,6 +112,8 @@ export {
   LocalProjectCard,
   RepositoryAvatar,
 } from './panels/LocalProjectsPanel';
+
+export { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
 
 /**
  * Export types
@@ -89,3 +126,10 @@ export type {
   CardActionMode,
   RepositoryWindowState,
 } from './panels/LocalProjectsPanel/types';
+
+export type {
+  Workspace,
+  WorkspaceRepositoriesPanelActions,
+  RepositorySelectedPayload,
+  RepositoryOpenedPayload,
+} from './panels/WorkspaceRepositoriesPanel/types';

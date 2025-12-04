@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus } from 'lucide-react';
+import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus, MoveUp } from 'lucide-react';
 import { RepositoryAvatar } from './RepositoryAvatar';
 import type { LocalProjectCardProps } from './types';
 import './LocalProjectsPanel.css';
@@ -50,12 +50,19 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   onOpen,
   onRemove,
   onAddToWorkspace,
+  onRemoveFromWorkspace,
+  onMoveToWorkspace,
   isLoading = false,
   windowState = 'closed',
   compact: _compact = false,
+  isEditMode = false,
+  isInWorkspaceDirectory,
+  workspacePath,
 }) => {
   const { theme } = useTheme();
   const [copiedPath, setCopiedPath] = useState(false);
+  const [isMoving, setIsMoving] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   const highlightColor = theme.colors.primary;
 
@@ -82,6 +89,37 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     e.stopPropagation();
     onAddToWorkspace?.(entry);
   };
+
+  const handleRemoveFromWorkspaceClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      setIsRemoving(true);
+      onRemoveFromWorkspace?.(entry);
+    } finally {
+      setIsRemoving(false);
+    }
+  };
+
+  const handleMoveToWorkspaceClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      setIsMoving(true);
+      onMoveToWorkspace?.(entry);
+    } finally {
+      setIsMoving(false);
+    }
+  };
+
+  // Compute display path - show relative path if in workspace directory
+  const displayPath = useMemo(() => {
+    if (actionMode === 'workspace' && isInWorkspaceDirectory && workspacePath) {
+      if (entry.path.startsWith(workspacePath)) {
+        const relativePath = entry.path.slice(workspacePath.length);
+        return relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
+      }
+    }
+    return entry.path;
+  }, [actionMode, isInWorkspaceDirectory, workspacePath, entry.path]);
 
   const handleCopyPath = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -129,6 +167,101 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           )}
           {isLoading ? 'Adding...' : 'Add'}
         </button>
+      );
+    }
+
+    // Workspace mode - show Move (if outside), Open, and Remove buttons
+    if (actionMode === 'workspace') {
+      return (
+        <>
+          {/* Move to workspace button - only in edit mode and if outside workspace */}
+          {isEditMode && isInWorkspaceDirectory === false && onMoveToWorkspace && (
+            <button
+              type="button"
+              onClick={handleMoveToWorkspaceClick}
+              disabled={isMoving}
+              title="Move to workspace directory"
+              style={{
+                flex: buttonFlex,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '6px 10px',
+                gap: '4px',
+                borderRadius: '4px',
+                border: `1px solid ${theme.colors.primary || '#3b82f6'}`,
+                backgroundColor: `${theme.colors.primary || '#3b82f6'}15`,
+                color: theme.colors.primary || '#3b82f6',
+                fontSize: `${theme.fontSizes[0]}px`,
+                fontWeight: theme.fontWeights.medium,
+                cursor: isMoving ? 'wait' : 'pointer',
+                opacity: isMoving ? 0.6 : 1,
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {isMoving ? <Loader2 size={12} className="animate-spin" /> : <MoveUp size={12} />}
+              {isMoving ? 'Moving...' : 'Move'}
+            </button>
+          )}
+
+          {/* Open button */}
+          <button
+            type="button"
+            onClick={handleOpenClick}
+            title="Open repository"
+            style={{
+              flex: buttonFlex,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '6px 10px',
+              gap: '4px',
+              borderRadius: '4px',
+              border: `1px solid ${theme.colors.success || '#10b981'}`,
+              backgroundColor: `${theme.colors.success || '#10b981'}15`,
+              color: theme.colors.success || '#10b981',
+              fontSize: `${theme.fontSizes[0]}px`,
+              fontWeight: theme.fontWeights.medium,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <FolderOpen size={12} />
+            Open
+          </button>
+
+          {/* Remove from workspace button - only in edit mode */}
+          {isEditMode && onRemoveFromWorkspace && (
+            <button
+              type="button"
+              onClick={handleRemoveFromWorkspaceClick}
+              disabled={isRemoving}
+              title="Remove from workspace"
+              style={{
+                flex: buttonFlex,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: isCompact ? undefined : '28px',
+                height: '28px',
+                padding: isCompact ? '6px 10px' : 0,
+                gap: '4px',
+                borderRadius: '4px',
+                border: isCompact ? `1px solid ${theme.colors.error || '#ef4444'}` : 'none',
+                backgroundColor: isCompact ? `${theme.colors.error || '#ef4444'}15` : 'transparent',
+                color: isCompact ? theme.colors.error || '#ef4444' : theme.colors.textSecondary,
+                fontSize: `${theme.fontSizes[0]}px`,
+                fontWeight: theme.fontWeights.medium,
+                cursor: isRemoving ? 'wait' : 'pointer',
+                opacity: isRemoving ? 0.6 : 1,
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {isRemoving ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
+              {isCompact && (isRemoving ? 'Removing...' : 'Remove')}
+            </button>
+          )}
+        </>
       );
     }
 
@@ -290,7 +423,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
             title={copiedPath ? 'Copied!' : `Click to copy: ${entry.path}`}
           >
             {copiedPath ? <Check size={12} /> : <Copy size={12} />}
-            {entry.path}
+            {displayPath}
           </div>
 
           {/* Description - hidden in compact via CSS */}
