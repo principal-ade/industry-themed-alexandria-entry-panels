@@ -40,3 +40,11 @@ export type {
   JsonSchema,
   PanelEventCallTemplate,
 } from '@principal-ade/panel-framework-core';
+
+// Re-export dependencies panel types
+export type {
+  PackageLayer,
+  DependencyItem,
+  PackageSummary,
+  PackagesSliceData,
+} from '../panels/DependenciesPanel/types';

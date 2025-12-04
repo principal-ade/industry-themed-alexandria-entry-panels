@@ -1,8 +1,10 @@
 import { LocalProjectsPanel } from './panels/LocalProjectsPanel';
 import { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
+import { DependenciesPanel } from './panels/DependenciesPanel';
 import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
 import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
+import { dependenciesPanelTools } from './panels/DependenciesPanel/tools';
 
 /**
  * Export array of panel definitions.
@@ -65,6 +67,29 @@ export const panels: PanelDefinition[] = [
       console.log('Workspace Repositories Panel unmounting');
     },
   },
+  {
+    metadata: {
+      id: 'principal-ade.dependencies-panel',
+      name: 'Dependencies',
+      icon: 'Package',
+      version: '0.1.0',
+      author: 'Principal ADE',
+      description: 'View and explore package dependencies',
+      slices: ['packages'],
+      tools: dependenciesPanelTools,
+    },
+    component: DependenciesPanel,
+
+    onMount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Dependencies Panel mounted');
+    },
+
+    onUnmount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Dependencies Panel unmounting');
+    },
+  },
 ];
 
 /**
@@ -103,6 +128,14 @@ export {
   openRepositoryTool,
 } from './panels/WorkspaceRepositoriesPanel/tools';
 
+export {
+  dependenciesPanelTools,
+  dependenciesPanelToolsMetadata,
+  filterDependenciesTool,
+  selectDependencyTypeTool,
+  selectPackageTool,
+} from './panels/DependenciesPanel/tools';
+
 /**
  * Export panel components for direct use
  */
@@ -114,6 +147,8 @@ export {
 } from './panels/LocalProjectsPanel';
 
 export { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
+
+export { DependenciesPanel } from './panels/DependenciesPanel';
 
 /**
  * Export types
@@ -133,3 +168,10 @@ export type {
   RepositorySelectedPayload,
   RepositoryOpenedPayload,
 } from './panels/WorkspaceRepositoriesPanel/types';
+
+export type {
+  PackageLayer,
+  DependencyItem,
+  PackageSummary,
+  PackagesSliceData,
+} from './panels/DependenciesPanel/types';

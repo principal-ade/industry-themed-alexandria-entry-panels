@@ -10,6 +10,7 @@ import type {
   DataSlice,
 } from '../types';
 import type { AlexandriaRepositoriesSlice } from '../panels/LocalProjectsPanel/types';
+import type { PackagesSliceData, PackageLayer } from '../panels/DependenciesPanel/types';
 
 /**
  * Mock Alexandria Repositories for Storybook
@@ -124,6 +125,77 @@ const mockGitStatusData = {
 };
 
 /**
+ * Mock Package Layer for Storybook
+ */
+const createMockPackageLayer = (
+  name: string,
+  path: string,
+  deps: Record<string, string>,
+  devDeps: Record<string, string>,
+  peerDeps: Record<string, string> = {}
+): PackageLayer => ({
+  id: `package-${name}`,
+  name: `Package: ${name}`,
+  type: 'package',
+  enabled: true,
+  derivedFrom: {
+    fileSets: [],
+    derivationType: 'presence',
+    description: `Package ${name}`,
+  },
+  packageData: {
+    name,
+    version: '1.0.0',
+    path,
+    manifestPath: `${path}/package.json`,
+    packageManager: 'npm',
+    dependencies: deps,
+    devDependencies: devDeps,
+    peerDependencies: peerDeps,
+    isMonorepoRoot: false,
+    isWorkspace: false,
+  },
+});
+
+/**
+ * Mock Packages data for Storybook
+ */
+const mockPackagesData: PackagesSliceData = {
+  packages: [
+    createMockPackageLayer(
+      'my-project',
+      '',
+      {
+        'react': '^19.0.0',
+        'react-dom': '^19.0.0',
+        'lodash': '^4.17.21',
+        'axios': '^1.6.0',
+        'zustand': '^4.4.0',
+      },
+      {
+        'typescript': '^5.3.0',
+        'vite': '^5.0.0',
+        'vitest': '^1.0.0',
+        'eslint': '^8.55.0',
+        '@types/react': '^18.2.0',
+      },
+      {
+        'react': '>=18.0.0',
+      }
+    ),
+  ],
+  summary: {
+    isMonorepo: false,
+    rootPackageName: 'my-project',
+    totalPackages: 1,
+    workspacePackages: [{ name: 'my-project', path: '' }],
+    totalDependencies: 5,
+    totalDevDependencies: 5,
+    availableScripts: ['build', 'dev', 'test'],
+  },
+};
+
+/**
  * Create a mock DataSlice
  */
 const createMockSlice = <T,>(
@@ -188,14 +260,7 @@ export const createMockContext = (
     ],
     [
       'packages',
-      createMockSlice('packages', [
-        { name: 'react', version: '19.0.0', path: '/node_modules/react' },
-        {
-          name: 'typescript',
-          version: '5.0.4',
-          path: '/node_modules/typescript',
-        },
-      ]),
+      createMockSlice<PackagesSliceData>('packages', mockPackagesData),
     ],
     [
       'quality',
