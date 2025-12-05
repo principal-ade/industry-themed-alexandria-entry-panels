@@ -58,6 +58,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   isInWorkspaceDirectory,
 }) => {
   const { theme } = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
   const [copiedPath, setCopiedPath] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -124,119 +125,158 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     }
   };
 
+  // Icon-only action button style (like WorkspaceCard)
+  const actionButtonStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '24px',
+    height: '24px',
+    padding: 0,
+    border: 'none',
+    borderRadius: '4px',
+    backgroundColor: 'transparent',
+    color: theme.colors.textSecondary,
+    cursor: 'pointer',
+    opacity: isHovered ? 1 : 0,
+    pointerEvents: isHovered ? 'auto' : 'none',
+    transition: 'all 0.15s ease',
+  };
+
   const renderActionButtons = (isCompact = false) => {
     const buttonFlex = isCompact ? 1 : undefined;
 
-    if (actionMode === 'add-to-workspace') {
-      return (
-        <button
-          type="button"
-          onClick={handleAddToWorkspaceClick}
-          disabled={isLoading}
-          title="Add to workspace"
-          style={{
-            flex: buttonFlex,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '6px 10px',
-            gap: '4px',
-            borderRadius: '4px',
-            border: `1px solid ${theme.colors.primary || '#3b82f6'}`,
-            backgroundColor: `${theme.colors.primary || '#3b82f6'}15`,
-            color: theme.colors.primary || '#3b82f6',
-            fontSize: `${theme.fontSizes[0]}px`,
-            fontWeight: theme.fontWeights.medium,
-            cursor: isLoading ? 'wait' : 'pointer',
-            opacity: isLoading ? 0.6 : 1,
-            transition: 'all 0.15s ease',
-          }}
-        >
-          {isLoading ? (
-            <Loader2 size={12} className="animate-spin" />
-          ) : (
-            <Plus size={12} />
-          )}
-          {isLoading ? 'Adding...' : 'Add'}
-        </button>
-      );
-    }
+    // Compact mode uses full buttons with text
+    if (isCompact) {
+      if (actionMode === 'add-to-workspace') {
+        return (
+          <button
+            type="button"
+            onClick={handleAddToWorkspaceClick}
+            disabled={isLoading}
+            title="Add to workspace"
+            style={{
+              flex: buttonFlex,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '6px 10px',
+              gap: '4px',
+              borderRadius: '4px',
+              border: `1px solid ${theme.colors.primary || '#3b82f6'}`,
+              backgroundColor: `${theme.colors.primary || '#3b82f6'}15`,
+              color: theme.colors.primary || '#3b82f6',
+              fontSize: `${theme.fontSizes[0]}px`,
+              fontWeight: theme.fontWeights.medium,
+              cursor: isLoading ? 'wait' : 'pointer',
+              opacity: isLoading ? 0.6 : 1,
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {isLoading ? <Loader2 size={12} className="animate-spin" /> : <Plus size={12} />}
+            {isLoading ? 'Adding...' : 'Add'}
+          </button>
+        );
+      }
 
-    // Copy path button - shown in all modes except add-to-workspace
-    const copyPathButton = (
-      <button
-        type="button"
-        onClick={handleCopyPath}
-        title={copiedPath ? 'Copied!' : `Copy path: ${entry.path}`}
-        style={{
-          flex: buttonFlex,
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '6px 10px',
-          gap: '4px',
-          borderRadius: '4px',
-          border: `1px solid ${copiedPath ? theme.colors.success || '#10b981' : theme.colors.border}`,
-          backgroundColor: copiedPath
-            ? `${theme.colors.success || '#10b981'}15`
-            : theme.colors.backgroundTertiary,
-          color: copiedPath
-            ? theme.colors.success || '#10b981'
-            : theme.colors.textSecondary,
-          fontSize: `${theme.fontSizes[0]}px`,
-          fontWeight: theme.fontWeights.medium,
-          cursor: 'pointer',
-          transition: 'all 0.15s ease',
-        }}
-      >
-        {copiedPath ? <Check size={12} /> : <Copy size={12} />}
-        {copiedPath ? 'Copied' : 'Path'}
-      </button>
-    );
-
-    // Workspace mode - show Move (if outside), Open, and Remove buttons
-    if (actionMode === 'workspace') {
-      return (
-        <>
-          {/* Move to workspace button - if outside workspace */}
-          {isInWorkspaceDirectory === false && onMoveToWorkspace && (
+      // Compact workspace mode
+      if (actionMode === 'workspace') {
+        return (
+          <>
+            {isInWorkspaceDirectory === false && onMoveToWorkspace && (
+              <button
+                type="button"
+                onClick={handleMoveToWorkspaceClick}
+                disabled={isMoving}
+                title="Move to workspace directory"
+                style={{
+                  flex: 1,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '6px 10px',
+                  gap: '4px',
+                  borderRadius: '4px',
+                  border: `1px solid ${theme.colors.primary || '#3b82f6'}`,
+                  backgroundColor: `${theme.colors.primary || '#3b82f6'}15`,
+                  color: theme.colors.primary || '#3b82f6',
+                  fontSize: `${theme.fontSizes[0]}px`,
+                  fontWeight: theme.fontWeights.medium,
+                  cursor: isMoving ? 'wait' : 'pointer',
+                  opacity: isMoving ? 0.6 : 1,
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                {isMoving ? <Loader2 size={12} className="animate-spin" /> : <MoveUp size={12} />}
+                {isMoving ? 'Moving...' : 'Move'}
+              </button>
+            )}
             <button
               type="button"
-              onClick={handleMoveToWorkspaceClick}
-              disabled={isMoving}
-              title="Move to workspace directory"
+              onClick={handleOpenClick}
+              title="Open repository"
               style={{
-                flex: buttonFlex,
+                flex: 1,
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '6px 10px',
                 gap: '4px',
                 borderRadius: '4px',
-                border: `1px solid ${theme.colors.primary || '#3b82f6'}`,
-                backgroundColor: `${theme.colors.primary || '#3b82f6'}15`,
-                color: theme.colors.primary || '#3b82f6',
+                border: `1px solid ${theme.colors.success || '#10b981'}`,
+                backgroundColor: `${theme.colors.success || '#10b981'}15`,
+                color: theme.colors.success || '#10b981',
                 fontSize: `${theme.fontSizes[0]}px`,
                 fontWeight: theme.fontWeights.medium,
-                cursor: isMoving ? 'wait' : 'pointer',
-                opacity: isMoving ? 0.6 : 1,
+                cursor: 'pointer',
                 transition: 'all 0.15s ease',
               }}
             >
-              {isMoving ? <Loader2 size={12} className="animate-spin" /> : <MoveUp size={12} />}
-              {isMoving ? 'Moving...' : 'Move'}
+              <FolderOpen size={12} />
+              Open
             </button>
-          )}
+            {onRemoveFromWorkspace && (
+              <button
+                type="button"
+                onClick={handleRemoveFromWorkspaceClick}
+                disabled={isRemoving}
+                title="Remove from workspace"
+                style={{
+                  flex: 1,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '6px 10px',
+                  gap: '4px',
+                  borderRadius: '4px',
+                  border: `1px solid ${theme.colors.error || '#ef4444'}`,
+                  backgroundColor: `${theme.colors.error || '#ef4444'}15`,
+                  color: theme.colors.error || '#ef4444',
+                  fontSize: `${theme.fontSizes[0]}px`,
+                  fontWeight: theme.fontWeights.medium,
+                  cursor: isRemoving ? 'wait' : 'pointer',
+                  opacity: isRemoving ? 0.6 : 1,
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                {isRemoving ? <Loader2 size={12} className="animate-spin" /> : <X size={12} />}
+                {isRemoving ? 'Removing...' : 'Remove'}
+              </button>
+            )}
+          </>
+        );
+      }
 
-          {copyPathButton}
-
-          {/* Open button */}
+      // Compact default mode
+      return (
+        <>
           <button
             type="button"
             onClick={handleOpenClick}
-            title="Open repository"
+            title="Open locally"
+            disabled={windowState === 'opening'}
             style={{
-              flex: buttonFlex,
+              flex: 1,
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -248,53 +288,133 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
               color: theme.colors.success || '#10b981',
               fontSize: `${theme.fontSizes[0]}px`,
               fontWeight: theme.fontWeights.medium,
-              cursor: 'pointer',
+              cursor: windowState === 'opening' ? 'wait' : 'pointer',
+              opacity: windowState === 'opening' ? 0.6 : 1,
               transition: 'all 0.15s ease',
             }}
           >
-            <FolderOpen size={12} />
-            Open
+            {windowState === 'opening' ? <Loader2 size={12} className="animate-spin" /> : <FolderOpen size={12} />}
+            {windowState === 'opening' ? 'Opening...' : 'Open'}
           </button>
-
-          {/* Remove from workspace button */}
-          {onRemoveFromWorkspace && (
+          {actionMode === 'default' && onRemove && (
             <button
               type="button"
-              onClick={handleRemoveFromWorkspaceClick}
-              disabled={isRemoving}
-              title="Remove from workspace"
+              onClick={handleRemoveClick}
+              disabled={isLoading}
+              title="Remove from local projects"
               style={{
-                flex: buttonFlex,
+                flex: 1,
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minWidth: isCompact ? undefined : '28px',
-                height: '28px',
-                padding: isCompact ? '6px 10px' : 0,
+                padding: '6px 10px',
                 gap: '4px',
                 borderRadius: '4px',
-                border: isCompact ? `1px solid ${theme.colors.error || '#ef4444'}` : 'none',
-                backgroundColor: isCompact ? `${theme.colors.error || '#ef4444'}15` : 'transparent',
-                color: isCompact ? theme.colors.error || '#ef4444' : theme.colors.textSecondary,
+                border: `1px solid ${theme.colors.error || '#ef4444'}`,
+                backgroundColor: `${theme.colors.error || '#ef4444'}15`,
+                color: theme.colors.error || '#ef4444',
                 fontSize: `${theme.fontSizes[0]}px`,
                 fontWeight: theme.fontWeights.medium,
-                cursor: isRemoving ? 'wait' : 'pointer',
-                opacity: isRemoving ? 0.6 : 1,
+                cursor: isLoading ? 'wait' : 'pointer',
+                opacity: isLoading ? 0.6 : 1,
                 transition: 'all 0.15s ease',
               }}
             >
-              {isRemoving ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
-              {isCompact && (isRemoving ? 'Removing...' : 'Remove')}
+              {isLoading ? <Loader2 size={12} className="animate-spin" /> : <X size={12} />}
+              {isLoading ? 'Removing...' : 'Remove'}
             </button>
           )}
         </>
       );
     }
 
-    // Default and minimal modes - show Open button
+    // Non-compact: icon-only buttons that fade in on hover
+    if (actionMode === 'add-to-workspace') {
+      return (
+        <button
+          type="button"
+          onClick={handleAddToWorkspaceClick}
+          disabled={isLoading}
+          title="Add to workspace"
+          style={{
+            ...actionButtonStyle,
+            color: theme.colors.primary || '#3b82f6',
+          }}
+        >
+          {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
+        </button>
+      );
+    }
+
+    // Workspace mode - icon-only buttons
+    if (actionMode === 'workspace') {
+      return (
+        <>
+          {isInWorkspaceDirectory === false && onMoveToWorkspace && (
+            <button
+              type="button"
+              onClick={handleMoveToWorkspaceClick}
+              disabled={isMoving}
+              title="Move to workspace directory"
+              style={{
+                ...actionButtonStyle,
+                color: theme.colors.primary || '#3b82f6',
+              }}
+            >
+              {isMoving ? <Loader2 size={16} className="animate-spin" /> : <MoveUp size={16} />}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={handleCopyPath}
+            title={copiedPath ? 'Copied!' : `Copy path: ${entry.path}`}
+            style={{
+              ...actionButtonStyle,
+              color: copiedPath ? theme.colors.success || '#10b981' : theme.colors.textSecondary,
+            }}
+          >
+            {copiedPath ? <Check size={16} /> : <Copy size={16} />}
+          </button>
+          <button
+            type="button"
+            onClick={handleOpenClick}
+            title="Open repository"
+            style={{
+              ...actionButtonStyle,
+              color: theme.colors.success || '#10b981',
+            }}
+          >
+            <FolderOpen size={16} />
+          </button>
+          {onRemoveFromWorkspace && (
+            <button
+              type="button"
+              onClick={handleRemoveFromWorkspaceClick}
+              disabled={isRemoving}
+              title="Remove from workspace"
+              style={actionButtonStyle}
+            >
+              {isRemoving ? <Loader2 size={16} className="animate-spin" /> : <X size={16} />}
+            </button>
+          )}
+        </>
+      );
+    }
+
+    // Default and minimal modes - icon-only buttons
     return (
       <>
-        {copyPathButton}
+        <button
+          type="button"
+          onClick={handleCopyPath}
+          title={copiedPath ? 'Copied!' : `Copy path: ${entry.path}`}
+          style={{
+            ...actionButtonStyle,
+            color: copiedPath ? theme.colors.success || '#10b981' : theme.colors.textSecondary,
+          }}
+        >
+          {copiedPath ? <Check size={16} /> : <Copy size={16} />}
+        </button>
         <button
           type="button"
           onClick={handleOpenClick}
@@ -307,66 +427,27 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           }
           disabled={windowState === 'opening'}
           style={{
-            flex: buttonFlex,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '6px 10px',
-            gap: '4px',
-            borderRadius: '4px',
-            border: `1px solid ${theme.colors.success || '#10b981'}`,
-            backgroundColor: `${theme.colors.success || '#10b981'}15`,
+            ...actionButtonStyle,
             color: theme.colors.success || '#10b981',
-            fontSize: `${theme.fontSizes[0]}px`,
-            fontWeight: theme.fontWeights.medium,
-            cursor: windowState === 'opening' ? 'wait' : 'pointer',
-            opacity: windowState === 'opening' ? 0.6 : 1,
-            transition: 'all 0.15s ease',
           }}
         >
           {windowState === 'ready' ? (
-            <Focus size={12} />
+            <Focus size={16} />
           ) : windowState === 'opening' ? (
-            <Loader2 size={12} className="animate-spin" />
+            <Loader2 size={16} className="animate-spin" />
           ) : (
-            <FolderOpen size={12} />
+            <FolderOpen size={16} />
           )}
-          {windowState === 'ready'
-            ? 'Focus'
-            : windowState === 'opening'
-              ? 'Opening...'
-              : 'Open'}
         </button>
-
-        {/* Remove button - only in default mode */}
         {actionMode === 'default' && onRemove && (
           <button
             type="button"
             onClick={handleRemoveClick}
             disabled={isLoading}
             title="Remove from local projects"
-            style={{
-              flex: buttonFlex,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minWidth: isCompact ? undefined : '28px',
-              height: '28px',
-              padding: isCompact ? '6px 10px' : 0,
-              gap: '4px',
-              borderRadius: '4px',
-              border: isCompact ? `1px solid ${theme.colors.error || '#ef4444'}` : 'none',
-              backgroundColor: isCompact ? `${theme.colors.error || '#ef4444'}15` : 'transparent',
-              color: isCompact ? theme.colors.error || '#ef4444' : theme.colors.textSecondary,
-              fontSize: `${theme.fontSizes[0]}px`,
-              fontWeight: theme.fontWeights.medium,
-              cursor: isLoading ? 'wait' : 'pointer',
-              opacity: isLoading ? 0.6 : 1,
-              transition: 'all 0.15s ease',
-            }}
+            style={actionButtonStyle}
           >
-            {isLoading ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
-            {isCompact && (isLoading ? 'Removing...' : 'Remove')}
+            {isLoading ? <Loader2 size={16} className="animate-spin" /> : <X size={16} />}
           </button>
         )}
       </>
@@ -389,6 +470,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
       }}
       onClick={handleCardClick}
       onDoubleClick={handleDoubleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Top row: Avatar + Name (+ buttons in non-compact) */}
       <div className="local-project-card__content">

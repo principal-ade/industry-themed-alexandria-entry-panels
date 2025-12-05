@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useCallback, useState } from 'react';
-import { ThemeProvider, useTheme } from '@principal-ade/industry-theme';
+import { useTheme } from '@principal-ade/industry-theme';
 import { Folder, Home, Check } from 'lucide-react';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
 import type { PanelComponentProps } from '../../types';
@@ -431,7 +431,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
                   key={repository.path}
                   entry={repository}
                   actionMode="workspace"
-                                    isInWorkspaceDirectory={true}
+                  isInWorkspaceDirectory={true}
                   workspacePath={workspace.suggestedClonePath}
                   onSelect={handleSelectRepository}
                   onOpen={handleOpenRepository}
@@ -466,7 +466,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
                   key={repository.path}
                   entry={repository}
                   actionMode="workspace"
-                                    isInWorkspaceDirectory={false}
+                  isInWorkspaceDirectory={false}
                   workspacePath={workspace.suggestedClonePath}
                   onSelect={handleSelectRepository}
                   onOpen={handleOpenRepository}
@@ -500,11 +500,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
  * - repository:opened
  */
 export const WorkspaceRepositoriesPanel: React.FC<PanelComponentProps> = (props) => {
-  return (
-    <ThemeProvider>
-      <WorkspaceRepositoriesPanelContent {...props} />
-    </ThemeProvider>
-  );
+  return <WorkspaceRepositoriesPanelContent {...props} />;
 };
 
 // Re-export types

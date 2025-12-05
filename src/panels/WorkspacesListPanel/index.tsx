@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { ThemeProvider, useTheme } from '@principal-ade/industry-theme';
+import { useTheme } from '@principal-ade/industry-theme';
 import { Search, Plus, X, Layers } from 'lucide-react';
 import type { PanelComponentProps } from '../../types';
 import { WorkspaceCard } from './WorkspaceCard';
@@ -524,11 +524,7 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
  * - industry-theme.workspaces-list:create-workspace
  */
 export const WorkspacesListPanel: React.FC<PanelComponentProps> = (props) => {
-  return (
-    <ThemeProvider>
-      <WorkspacesListPanelContent {...props} />
-    </ThemeProvider>
-  );
+  return <WorkspacesListPanelContent {...props} />;
 };
 
 /**

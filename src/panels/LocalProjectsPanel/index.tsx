@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { ThemeProvider, useTheme } from '@principal-ade/industry-theme';
+import { useTheme } from '@principal-ade/industry-theme';
 import { Search, Plus, Building2, FolderGit2 } from 'lucide-react';
 import './LocalProjectsPanel.css';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
@@ -398,11 +398,7 @@ const LocalProjectsPanelContent: React.FC<PanelComponentProps> = ({
  * - industry-theme.local-projects:open-repository
  */
 export const LocalProjectsPanel: React.FC<PanelComponentProps> = (props) => {
-  return (
-    <ThemeProvider>
-      <LocalProjectsPanelContent {...props} />
-    </ThemeProvider>
-  );
+  return <LocalProjectsPanelContent {...props} />;
 };
 
 /**

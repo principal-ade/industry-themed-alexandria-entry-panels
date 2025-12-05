@@ -10,6 +10,7 @@
   flex-direction: row;
   align-items: center;
   gap: 12px;
+  position: relative;
 }
 
 .local-project-card__content {
@@ -35,14 +36,8 @@
 .local-project-card__actions {
   display: flex;
   gap: 4px;
-  flex-shrink: 0;
   align-items: center;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.local-project-card:hover .local-project-card__actions {
-  opacity: 1;
+  flex-shrink: 0;
 }
 
 .local-project-card__actions--stacked {

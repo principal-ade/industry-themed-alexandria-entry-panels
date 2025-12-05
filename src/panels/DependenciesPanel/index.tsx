@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Package, HelpCircle, Boxes } from 'lucide-react';
-import { ThemeProvider, useTheme } from '@principal-ade/industry-theme';
+import { useTheme } from '@principal-ade/industry-theme';
 import type { PanelComponentProps } from '../../types';
 import type {
   PackageLayer,
@@ -406,12 +406,8 @@ const DependenciesPanelContent: React.FC<PanelComponentProps> = ({
 };
 
 /**
- * DependenciesPanel - Main panel component with ThemeProvider wrapper
+ * DependenciesPanel - Main panel component
  */
 export const DependenciesPanel: React.FC<PanelComponentProps> = (props) => {
-  return (
-    <ThemeProvider>
-      <DependenciesPanelContent {...props} />
-    </ThemeProvider>
-  );
+  return <DependenciesPanelContent {...props} />;
 };
