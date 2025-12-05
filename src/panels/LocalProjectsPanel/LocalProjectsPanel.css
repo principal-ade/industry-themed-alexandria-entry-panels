@@ -28,7 +28,6 @@
   gap: 2px;
 }
 
-.local-project-card__path,
 .local-project-card__meta {
   display: flex;
 }
@@ -38,6 +37,12 @@
   gap: 4px;
   flex-shrink: 0;
   align-items: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.local-project-card:hover .local-project-card__actions {
+  opacity: 1;
 }
 
 .local-project-card__actions--stacked {
@@ -66,7 +71,6 @@
     gap: 8px;
   }
 
-  .local-project-card__path,
   .local-project-card__meta {
     display: none;
   }

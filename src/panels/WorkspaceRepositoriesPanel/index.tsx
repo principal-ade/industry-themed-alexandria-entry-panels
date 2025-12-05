@@ -1,6 +1,6 @@
-import React, { useMemo, useEffect, useCallback } from 'react';
+import React, { useMemo, useEffect, useCallback, useState } from 'react';
 import { ThemeProvider, useTheme } from '@principal-ade/industry-theme';
-import { Folder, Home, Pencil, AlertTriangle } from 'lucide-react';
+import { Folder, Home, Check } from 'lucide-react';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
 import type { PanelComponentProps } from '../../types';
 import { LocalProjectCard } from '../LocalProjectsPanel/LocalProjectCard';
@@ -27,10 +27,11 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
   events,
 }) => {
   const { theme } = useTheme();
-  const [isEditMode, setIsEditMode] = React.useState(false);
   const [repositoryLocations, setRepositoryLocations] = React.useState<Map<string, boolean>>(
     new Map()
   );
+  const [copiedPath, setCopiedPath] = useState(false);
+  const [isPathHovered, setIsPathHovered] = useState(false);
 
   // Get extended actions
   const panelActions = actions as WorkspaceRepositoriesPanelActions;
@@ -288,10 +289,6 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
     );
   }
 
-  const handleToggleEditMode = () => {
-    setIsEditMode(!isEditMode);
-  };
-
   return (
     <div style={contentContainerStyle}>
       {/* Workspace header */}
@@ -305,94 +302,71 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
             marginBottom: '4px',
           }}
         >
-          {/* Left: Workspace name with edit button */}
-          <div
+          {/* Left: Workspace name */}
+          <h3
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
+              margin: 0,
+              fontSize: `${theme.fontSizes[2]}px`,
+              fontWeight: theme.fontWeights.semibold,
+              color: theme.colors.text,
+              fontFamily: theme.fonts.body,
             }}
           >
-            <h3
-              style={{
-                margin: 0,
-                fontSize: `${theme.fontSizes[2]}px`,
-                fontWeight: theme.fontWeights.semibold,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.body,
-              }}
-            >
-              {workspace.name}
-            </h3>
+            {workspace.name}
+          </h3>
+
+          {/* Right: Home directory button */}
+          {workspace.suggestedClonePath && (
             <button
               type="button"
-              onClick={handleToggleEditMode}
-              title={isEditMode ? 'Exit edit mode' : 'Edit workspace'}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '24px',
-                height: '24px',
-                padding: 0,
-                borderRadius: '4px',
-                border: 'none',
-                backgroundColor: isEditMode
-                  ? theme.colors.backgroundTertiary || theme.colors.backgroundSecondary
-                  : 'transparent',
-                color: isEditMode ? theme.colors.primary : theme.colors.textSecondary,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-              onMouseEnter={(event) => {
-                if (!isEditMode) {
-                  event.currentTarget.style.backgroundColor =
-                    theme.colors.backgroundTertiary || theme.colors.backgroundSecondary;
-                  event.currentTarget.style.color = theme.colors.text;
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(workspace.suggestedClonePath!);
+                  setCopiedPath(true);
+                  setTimeout(() => setCopiedPath(false), 2000);
+                } catch (err) {
+                  console.error('Failed to copy path:', err);
                 }
               }}
-              onMouseLeave={(event) => {
-                if (!isEditMode) {
-                  event.currentTarget.style.backgroundColor = 'transparent';
-                  event.currentTarget.style.color = theme.colors.textSecondary;
-                }
-              }}
-            >
-              <Pencil size={14} />
-            </button>
-          </div>
-
-          {/* Right: Home directory */}
-          {workspace.suggestedClonePath && (
-            <div
+              onMouseEnter={() => setIsPathHovered(true)}
+              onMouseLeave={() => setIsPathHovered(false)}
+              title={copiedPath ? 'Copied!' : `Click to copy: ${workspace.suggestedClonePath}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                border: `1px solid ${copiedPath ? theme.colors.success || '#10b981' : theme.colors.border}`,
+                backgroundColor: copiedPath
+                  ? `${theme.colors.success || '#10b981'}15`
+                  : theme.colors.backgroundTertiary,
+                color: copiedPath
+                  ? theme.colors.success || '#10b981'
+                  : theme.colors.textSecondary,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
                 minWidth: 0,
+                maxWidth: isPathHovered || copiedPath ? '200px' : '32px',
+                overflow: 'hidden',
               }}
             >
-              <Home
-                size={14}
-                style={{
-                  color: theme.colors.textSecondary,
-                  flexShrink: 0,
-                }}
-              />
+              {copiedPath ? <Check size={14} style={{ flexShrink: 0 }} /> : <Home size={14} style={{ flexShrink: 0 }} />}
               <span
                 style={{
                   fontSize: `${theme.fontSizes[0]}px`,
-                  color: theme.colors.textSecondary,
                   fontFamily: theme.fonts.monospace,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
+                  opacity: isPathHovered || copiedPath ? 1 : 0,
+                  width: isPathHovered || copiedPath ? 'auto' : 0,
+                  transition: 'opacity 0.15s ease',
                 }}
-                title={workspace.suggestedClonePath}
               >
-                {workspace.suggestedClonePath}
+                {copiedPath ? 'Copied!' : workspace.suggestedClonePath}
               </span>
-            </div>
+            </button>
           )}
         </div>
 
@@ -437,52 +411,27 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
         {/* Repositories in workspace directory */}
         {repositoriesInWorkspace.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <div
+            <h4
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
+                margin: 0,
                 paddingBottom: '4px',
+                fontSize: `${theme.fontSizes[1]}px`,
+                fontWeight: theme.fontWeights.semibold,
+                color: theme.colors.textSecondary,
+                fontFamily: theme.fonts.body,
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
               }}
             >
-              <Home
-                size={14}
-                style={{
-                  color: theme.colors.success || '#10b981',
-                  flexShrink: 0,
-                }}
-              />
-              <h4
-                style={{
-                  margin: 0,
-                  fontSize: `${theme.fontSizes[1]}px`,
-                  fontWeight: theme.fontWeights.semibold,
-                  color: theme.colors.textSecondary,
-                  fontFamily: theme.fonts.body,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                }}
-              >
-                In Workspace Directory
-              </h4>
-              <span
-                style={{
-                  fontSize: `${theme.fontSizes[0]}px`,
-                  color: theme.colors.textTertiary || theme.colors.textSecondary,
-                  fontWeight: theme.fontWeights.medium,
-                }}
-              >
-                {repositoriesInWorkspace.length}
-              </span>
-            </div>
+              In Workspace Directory
+            </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {repositoriesInWorkspace.map((repository) => (
                 <LocalProjectCard
                   key={repository.path}
                   entry={repository}
                   actionMode="workspace"
-                  isEditMode={isEditMode}
-                  isInWorkspaceDirectory={true}
+                                    isInWorkspaceDirectory={true}
                   workspacePath={workspace.suggestedClonePath}
                   onSelect={handleSelectRepository}
                   onOpen={handleOpenRepository}
@@ -497,52 +446,27 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
         {/* Repositories outside workspace directory */}
         {repositoriesOutsideWorkspace.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <div
+            <h4
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
+                margin: 0,
                 paddingBottom: '4px',
+                fontSize: `${theme.fontSizes[1]}px`,
+                fontWeight: theme.fontWeights.semibold,
+                color: theme.colors.textSecondary,
+                fontFamily: theme.fonts.body,
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
               }}
             >
-              <AlertTriangle
-                size={14}
-                style={{
-                  color: theme.colors.warning || '#f59e0b',
-                  flexShrink: 0,
-                }}
-              />
-              <h4
-                style={{
-                  margin: 0,
-                  fontSize: `${theme.fontSizes[1]}px`,
-                  fontWeight: theme.fontWeights.semibold,
-                  color: theme.colors.textSecondary,
-                  fontFamily: theme.fonts.body,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                }}
-              >
-                Outside Workspace Directory
-              </h4>
-              <span
-                style={{
-                  fontSize: `${theme.fontSizes[0]}px`,
-                  color: theme.colors.textTertiary || theme.colors.textSecondary,
-                  fontWeight: theme.fontWeights.medium,
-                }}
-              >
-                {repositoriesOutsideWorkspace.length}
-              </span>
-            </div>
+              Outside Workspace Directory
+            </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {repositoriesOutsideWorkspace.map((repository) => (
                 <LocalProjectCard
                   key={repository.path}
                   entry={repository}
                   actionMode="workspace"
-                  isEditMode={isEditMode}
-                  isInWorkspaceDirectory={false}
+                                    isInWorkspaceDirectory={false}
                   workspacePath={workspace.suggestedClonePath}
                   onSelect={handleSelectRepository}
                   onOpen={handleOpenRepository}

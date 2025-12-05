@@ -108,8 +108,6 @@ export interface LocalProjectCardProps {
   windowState?: RepositoryWindowState;
   /** Compact mode - hides path/info, stacks buttons under name */
   compact?: boolean;
-  /** Whether in edit mode (workspace mode) */
-  isEditMode?: boolean;
   /** Whether repository is in workspace directory (workspace mode) */
   isInWorkspaceDirectory?: boolean | null;
   /** Workspace path for relative path display (workspace mode) */

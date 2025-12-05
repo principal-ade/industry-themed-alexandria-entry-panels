@@ -1,6 +1,6 @@
 {
   "name": "@industry-theme/alexandria-panels",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Alexandria entry panels for browsing and managing local repositories",
   "type": "module",
   "main": "dist/panels.bundle.js",
@@ -86,7 +86,8 @@
     "storybook": "10.1.2",
     "typescript": "^5.0.4",
     "typescript-eslint": "^8.38.0",
-    "vite": "^6.0.7"
+    "vite": "^6.0.7",
+    "vite-plugin-css-injected-by-js": "^3.5.2"
   },
   "files": [
     "dist",

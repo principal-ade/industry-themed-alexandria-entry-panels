@@ -11,6 +11,50 @@ import type {
 } from '../types';
 import type { AlexandriaRepositoriesSlice } from '../panels/LocalProjectsPanel/types';
 import type { PackagesSliceData, PackageLayer } from '../panels/DependenciesPanel/types';
+import type { Workspace, WorkspacesSlice } from '../panels/WorkspacesListPanel/types';
+
+/**
+ * Mock Workspaces for Storybook
+ */
+export const mockWorkspaces: Workspace[] = [
+  {
+    id: 'workspace-1',
+    name: 'Principal ADE',
+    description: 'Development environment for Principal ADE projects',
+    icon: '🏛️',
+    theme: 'indigo',
+    suggestedClonePath: '/Users/developer/workspaces/principal-ade',
+    createdAt: Date.now() - 86400000 * 30, // 30 days ago
+    updatedAt: Date.now() - 86400000, // 1 day ago
+  },
+  {
+    id: 'workspace-2',
+    name: 'Personal Projects',
+    description: 'Side projects and experiments',
+    icon: '🚀',
+    theme: 'purple',
+    suggestedClonePath: '/Users/developer/workspaces/personal',
+    createdAt: Date.now() - 86400000 * 60, // 60 days ago
+    updatedAt: Date.now() - 86400000 * 7, // 7 days ago
+  },
+  {
+    id: 'workspace-3',
+    name: 'Learning',
+    description: 'Tutorials and learning projects',
+    icon: '📚',
+    theme: 'green',
+    suggestedClonePath: '/Users/developer/workspaces/learning',
+    createdAt: Date.now() - 86400000 * 90, // 90 days ago
+    updatedAt: Date.now() - 86400000 * 14, // 14 days ago
+  },
+  {
+    id: 'workspace-4',
+    name: 'Open Source',
+    icon: '🌐',
+    createdAt: Date.now() - 86400000 * 45, // 45 days ago
+    updatedAt: Date.now() - 86400000 * 3, // 3 days ago
+  },
+];
 
 /**
  * Mock Alexandria Repositories for Storybook
@@ -277,6 +321,14 @@ export const createMockContext = (
         loading: false,
       }, 'global'),
     ],
+    [
+      'workspaces',
+      createMockSlice<WorkspacesSlice>('workspaces', {
+        workspaces: mockWorkspaces,
+        defaultWorkspaceId: 'workspace-1',
+        loading: false,
+      }, 'global'),
+    ],
   ]);
 
   const defaultContext: PanelContextValue = {
@@ -390,6 +442,58 @@ export const createMockLocalProjectsActions = () => ({
   },
   getRepositoryWindowState: async () => {
     return 'closed' as const;
+  },
+});
+
+/**
+ * Mock WorkspacesListPanel Actions for Storybook
+ */
+export const createMockWorkspacesListActions = () => ({
+  ...createMockActions(),
+  createWorkspace: async (name: string, options?: { description?: string }) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Creating workspace:', { name, ...options });
+    const newWorkspace: Workspace = {
+      id: `workspace-${Date.now()}`,
+      name,
+      description: options?.description,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    return newWorkspace;
+  },
+  updateWorkspace: async (workspaceId: string, updates: Partial<Workspace>) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Updating workspace:', { workspaceId, updates });
+  },
+  deleteWorkspace: async (workspaceId: string) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Deleting workspace:', workspaceId);
+  },
+  setDefaultWorkspace: async (workspaceId: string) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Setting default workspace:', workspaceId);
+  },
+  openWorkspace: async (workspaceId: string) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Opening workspace:', workspaceId);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  },
+  getWorkspaceRepositories: async (workspaceId: string) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Getting workspace repositories:', workspaceId);
+    // Return mock repository names based on workspace
+    if (workspaceId === 'workspace-1') {
+      return [
+        { name: 'panel-framework-core' },
+        { name: 'industry-theme' },
+        { name: 'alexandria-core-library' },
+      ];
+    }
+    if (workspaceId === 'workspace-2') {
+      return [{ name: 'my-rust-project' }];
+    }
+    return [];
   },
 });
 

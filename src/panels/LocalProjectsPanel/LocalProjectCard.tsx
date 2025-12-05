@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
 import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus, MoveUp } from 'lucide-react';
 import { RepositoryAvatar } from './RepositoryAvatar';
@@ -55,9 +55,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   isLoading = false,
   windowState = 'closed',
   compact: _compact = false,
-  isEditMode = false,
   isInWorkspaceDirectory,
-  workspacePath,
 }) => {
   const { theme } = useTheme();
   const [copiedPath, setCopiedPath] = useState(false);
@@ -73,6 +71,10 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
 
   const handleCardClick = () => {
     onSelect?.(entry);
+  };
+
+  const handleDoubleClick = () => {
+    onOpen?.(entry);
   };
 
   const handleOpenClick = (e: React.MouseEvent) => {
@@ -110,16 +112,6 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     }
   };
 
-  // Compute display path - show relative path if in workspace directory
-  const displayPath = useMemo(() => {
-    if (actionMode === 'workspace' && isInWorkspaceDirectory && workspacePath) {
-      if (entry.path.startsWith(workspacePath)) {
-        const relativePath = entry.path.slice(workspacePath.length);
-        return relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
-      }
-    }
-    return entry.path;
-  }, [actionMode, isInWorkspaceDirectory, workspacePath, entry.path]);
 
   const handleCopyPath = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -170,12 +162,44 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
       );
     }
 
+    // Copy path button - shown in all modes except add-to-workspace
+    const copyPathButton = (
+      <button
+        type="button"
+        onClick={handleCopyPath}
+        title={copiedPath ? 'Copied!' : `Copy path: ${entry.path}`}
+        style={{
+          flex: buttonFlex,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '6px 10px',
+          gap: '4px',
+          borderRadius: '4px',
+          border: `1px solid ${copiedPath ? theme.colors.success || '#10b981' : theme.colors.border}`,
+          backgroundColor: copiedPath
+            ? `${theme.colors.success || '#10b981'}15`
+            : theme.colors.backgroundTertiary,
+          color: copiedPath
+            ? theme.colors.success || '#10b981'
+            : theme.colors.textSecondary,
+          fontSize: `${theme.fontSizes[0]}px`,
+          fontWeight: theme.fontWeights.medium,
+          cursor: 'pointer',
+          transition: 'all 0.15s ease',
+        }}
+      >
+        {copiedPath ? <Check size={12} /> : <Copy size={12} />}
+        {copiedPath ? 'Copied' : 'Path'}
+      </button>
+    );
+
     // Workspace mode - show Move (if outside), Open, and Remove buttons
     if (actionMode === 'workspace') {
       return (
         <>
-          {/* Move to workspace button - only in edit mode and if outside workspace */}
-          {isEditMode && isInWorkspaceDirectory === false && onMoveToWorkspace && (
+          {/* Move to workspace button - if outside workspace */}
+          {isInWorkspaceDirectory === false && onMoveToWorkspace && (
             <button
               type="button"
               onClick={handleMoveToWorkspaceClick}
@@ -204,6 +228,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
             </button>
           )}
 
+          {copyPathButton}
+
           {/* Open button */}
           <button
             type="button"
@@ -230,8 +256,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
             Open
           </button>
 
-          {/* Remove from workspace button - only in edit mode */}
-          {isEditMode && onRemoveFromWorkspace && (
+          {/* Remove from workspace button */}
+          {onRemoveFromWorkspace && (
             <button
               type="button"
               onClick={handleRemoveFromWorkspaceClick}
@@ -268,6 +294,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     // Default and minimal modes - show Open button
     return (
       <>
+        {copyPathButton}
         <button
           type="button"
           onClick={handleOpenClick}
@@ -361,6 +388,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
         fontFamily: theme.fonts.body,
       }}
       onClick={handleCardClick}
+      onDoubleClick={handleDoubleClick}
     >
       {/* Top row: Avatar + Name (+ buttons in non-compact) */}
       <div className="local-project-card__content">
@@ -401,30 +429,6 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           >
             {entry.name}
           </span>
-
-          {/* Path with copy - hidden in compact via CSS */}
-          <div
-            className="local-project-card__path"
-            onClick={handleCopyPath}
-            style={{
-              fontSize: `${theme.fontSizes[0]}px`,
-              fontFamily: theme.fonts.monospace,
-              color: copiedPath
-                ? theme.colors.success || '#10b981'
-                : theme.colors.textTertiary || theme.colors.textSecondary,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              cursor: 'pointer',
-              alignItems: 'center',
-              gap: '4px',
-              transition: 'color 0.15s ease',
-            }}
-            title={copiedPath ? 'Copied!' : `Click to copy: ${entry.path}`}
-          >
-            {copiedPath ? <Check size={12} /> : <Copy size={12} />}
-            {displayPath}
-          </div>
 
           {/* Description - hidden in compact via CSS */}
           {entry.github?.description && (

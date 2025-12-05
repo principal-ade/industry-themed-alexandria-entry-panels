@@ -1,9 +1,11 @@
 import { LocalProjectsPanel } from './panels/LocalProjectsPanel';
 import { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
+import { WorkspacesListPanel } from './panels/WorkspacesListPanel';
 import { DependenciesPanel } from './panels/DependenciesPanel';
 import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
 import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
+import { workspacesListPanelTools } from './panels/WorkspacesListPanel/tools';
 import { dependenciesPanelTools } from './panels/DependenciesPanel/tools';
 
 /**
@@ -69,6 +71,37 @@ export const panels: PanelDefinition[] = [
   },
   {
     metadata: {
+      id: 'industry-theme.workspaces-list',
+      name: 'Workspaces',
+      icon: 'Layers',
+      version: '0.1.0',
+      author: 'Industry Theme',
+      description: 'Browse and manage workspaces',
+      slices: ['workspaces'],
+      tools: workspacesListPanelTools,
+    },
+    component: WorkspacesListPanel,
+
+    onMount: async (context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Workspaces List Panel mounted');
+
+      // Refresh workspaces if available
+      if (
+        context.hasSlice('workspaces') &&
+        !context.isSliceLoading('workspaces')
+      ) {
+        await context.refresh('workspace', 'workspaces');
+      }
+    },
+
+    onUnmount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Workspaces List Panel unmounting');
+    },
+  },
+  {
+    metadata: {
       id: 'principal-ade.dependencies-panel',
       name: 'Dependencies',
       icon: 'Package',
@@ -129,6 +162,15 @@ export {
 } from './panels/WorkspaceRepositoriesPanel/tools';
 
 export {
+  workspacesListPanelTools,
+  workspacesListPanelToolsMetadata,
+  filterWorkspacesTool,
+  selectWorkspaceTool,
+  openWorkspaceTool,
+  createWorkspaceTool,
+} from './panels/WorkspacesListPanel/tools';
+
+export {
   dependenciesPanelTools,
   dependenciesPanelToolsMetadata,
   filterDependenciesTool,
@@ -147,6 +189,12 @@ export {
 } from './panels/LocalProjectsPanel';
 
 export { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
+
+export {
+  WorkspacesListPanel,
+  WorkspacesListPanelPreview,
+  WorkspaceCard,
+} from './panels/WorkspacesListPanel';
 
 export { DependenciesPanel } from './panels/DependenciesPanel';
 
@@ -168,6 +216,16 @@ export type {
   RepositorySelectedPayload,
   RepositoryOpenedPayload,
 } from './panels/WorkspaceRepositoriesPanel/types';
+
+export type {
+  WorkspacesSlice,
+  WorkspacesListPanelActions,
+  WorkspaceCardProps,
+  WorkspaceSelectedPayload,
+  WorkspaceOpenedPayload,
+  WorkspaceCreatedPayload,
+  WorkspaceDeletedPayload,
+} from './panels/WorkspacesListPanel/types';
 
 export type {
   PackageLayer,
