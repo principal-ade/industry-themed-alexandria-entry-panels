@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@principal-ade/industry-theme';
 import { WorkspacesListPanel } from './index';
 import { WorkspaceCard } from './WorkspaceCard';
 import {
@@ -202,106 +201,94 @@ export const ManyWorkspaces: Story = {
  */
 export const CardDefault: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
-        <WorkspaceCard
-          workspace={mockWorkspaces[0]}
-          onClick={(ws) => console.log('Clicked:', ws.name)}
-          onOpen={(ws) => console.log('Open:', ws.name)}
-          onDelete={(ws) => console.log('Delete:', ws.name)}
-          onUpdateName={async (id, name) => console.log('Update name:', id, name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+      <WorkspaceCard
+        workspace={mockWorkspaces[0]}
+        onClick={(ws) => console.log('Clicked:', ws.name)}
+        onOpen={(ws) => console.log('Open:', ws.name)}
+        onDelete={(ws) => console.log('Delete:', ws.name)}
+        onUpdateName={async (id, name) => console.log('Update name:', id, name)}
+      />
+    </div>
   ),
 };
 
 export const CardSelected: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
-        <WorkspaceCard
-          workspace={mockWorkspaces[0]}
-          isSelected={true}
-          onClick={(ws) => console.log('Clicked:', ws.name)}
-          onOpen={(ws) => console.log('Open:', ws.name)}
-          onDelete={(ws) => console.log('Delete:', ws.name)}
-          onUpdateName={async (id, name) => console.log('Update name:', id, name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+      <WorkspaceCard
+        workspace={mockWorkspaces[0]}
+        isSelected={true}
+        onClick={(ws) => console.log('Clicked:', ws.name)}
+        onOpen={(ws) => console.log('Open:', ws.name)}
+        onDelete={(ws) => console.log('Delete:', ws.name)}
+        onUpdateName={async (id, name) => console.log('Update name:', id, name)}
+      />
+    </div>
   ),
 };
 
 export const CardDefault_IsDefault: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
-        <WorkspaceCard
-          workspace={mockWorkspaces[0]}
-          isDefault={true}
-          onClick={(ws) => console.log('Clicked:', ws.name)}
-          onOpen={(ws) => console.log('Open:', ws.name)}
-          onDelete={(ws) => console.log('Delete:', ws.name)}
-          onUpdateName={async (id, name) => console.log('Update name:', id, name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+      <WorkspaceCard
+        workspace={mockWorkspaces[0]}
+        isDefault={true}
+        onClick={(ws) => console.log('Clicked:', ws.name)}
+        onOpen={(ws) => console.log('Open:', ws.name)}
+        onDelete={(ws) => console.log('Delete:', ws.name)}
+        onUpdateName={async (id, name) => console.log('Update name:', id, name)}
+      />
+    </div>
   ),
 };
 
 export const CardWithoutDescription: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
-        <WorkspaceCard
-          workspace={mockWorkspaces[3]} // Open Source - no description
-          onClick={(ws) => console.log('Clicked:', ws.name)}
-          onOpen={(ws) => console.log('Open:', ws.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+      <WorkspaceCard
+        workspace={mockWorkspaces[3]} // Open Source - no description
+        onClick={(ws) => console.log('Clicked:', ws.name)}
+        onOpen={(ws) => console.log('Open:', ws.name)}
+      />
+    </div>
   ),
 };
 
 export const CardMinimal: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
-        <WorkspaceCard
-          workspace={mockWorkspaces[1]}
-          onClick={(ws) => console.log('Clicked:', ws.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+      <WorkspaceCard
+        workspace={mockWorkspaces[1]}
+        onClick={(ws) => console.log('Clicked:', ws.name)}
+      />
+    </div>
   ),
 };
 
 export const CardList: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <ThemeProvider>
-      <div
-        style={{
-          padding: '16px',
-          backgroundColor: '#1a1a2e',
-          maxWidth: '400px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-        }}
-      >
-        {mockWorkspaces.map((workspace, index) => (
-          <WorkspaceCard
-            key={workspace.id}
-            workspace={workspace}
-            isDefault={index === 0}
-            onClick={(ws) => console.log('Clicked:', ws.name)}
-            onOpen={(ws) => console.log('Open:', ws.name)}
-            onDelete={(ws) => console.log('Delete:', ws.name)}
-            onUpdateName={async (id, name) => console.log('Update name:', id, name)}
-          />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div
+      style={{
+        padding: '16px',
+        backgroundColor: '#1a1a2e',
+        maxWidth: '400px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+      }}
+    >
+      {mockWorkspaces.map((workspace, index) => (
+        <WorkspaceCard
+          key={workspace.id}
+          workspace={workspace}
+          isDefault={index === 0}
+          onClick={(ws) => console.log('Clicked:', ws.name)}
+          onOpen={(ws) => console.log('Open:', ws.name)}
+          onDelete={(ws) => console.log('Delete:', ws.name)}
+          onUpdateName={async (id, name) => console.log('Update name:', id, name)}
+        />
+      ))}
+    </div>
   ),
 };

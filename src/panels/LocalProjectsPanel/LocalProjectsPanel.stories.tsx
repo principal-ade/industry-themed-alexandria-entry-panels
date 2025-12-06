@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@principal-ade/industry-theme';
 import { LocalProjectsPanel } from './index';
 import { LocalProjectCard } from './LocalProjectCard';
 import { RepositoryAvatar } from './RepositoryAvatar';
@@ -146,143 +145,125 @@ export const ReadOnly: Story = {
  */
 export const CardDefault: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[0]}
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onOpen={(entry) => console.log('Open:', entry.name)}
-          onRemove={(entry) => console.log('Remove:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[0]}
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onOpen={(entry) => console.log('Open:', entry.name)}
+        onRemove={(entry) => console.log('Remove:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardSelected: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[0]}
-          isSelected={true}
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onOpen={(entry) => console.log('Open:', entry.name)}
-          onRemove={(entry) => console.log('Remove:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[0]}
+        isSelected={true}
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onOpen={(entry) => console.log('Open:', entry.name)}
+        onRemove={(entry) => console.log('Remove:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardWindowOpen: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[0]}
-          windowState="ready"
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onOpen={(entry) => console.log('Focus:', entry.name)}
-          onRemove={(entry) => console.log('Remove:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[0]}
+        windowState="ready"
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onOpen={(entry) => console.log('Focus:', entry.name)}
+        onRemove={(entry) => console.log('Remove:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardWindowOpening: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[0]}
-          windowState="opening"
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onOpen={(entry) => console.log('Open:', entry.name)}
-          onRemove={(entry) => console.log('Remove:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[0]}
+        windowState="opening"
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onOpen={(entry) => console.log('Open:', entry.name)}
+        onRemove={(entry) => console.log('Remove:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardMinimalMode: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[0]}
-          actionMode="minimal"
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onOpen={(entry) => console.log('Open:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[0]}
+        actionMode="minimal"
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onOpen={(entry) => console.log('Open:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardAddToWorkspaceMode: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[0]}
-          actionMode="add-to-workspace"
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onAddToWorkspace={(entry) => console.log('Add to workspace:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[0]}
+        actionMode="add-to-workspace"
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onAddToWorkspace={(entry) => console.log('Add to workspace:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardLocalOnly: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[4]} // local-scripts (no GitHub)
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onOpen={(entry) => console.log('Open:', entry.name)}
-          onRemove={(entry) => console.log('Remove:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[4]} // local-scripts (no GitHub)
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onOpen={(entry) => console.log('Open:', entry.name)}
+        onRemove={(entry) => console.log('Remove:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardCompact: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', width: '100%', maxWidth: '400px' }}>
-        <LocalProjectCard
-          entry={mockAlexandriaRepositories[0]}
-          compact={true}
-          onSelect={(entry) => console.log('Selected:', entry.name)}
-          onOpen={(entry) => console.log('Open:', entry.name)}
-          onRemove={(entry) => console.log('Remove:', entry.name)}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', width: '100%', maxWidth: '400px' }}>
+      <LocalProjectCard
+        entry={mockAlexandriaRepositories[0]}
+        compact={true}
+        onSelect={(entry) => console.log('Selected:', entry.name)}
+        onOpen={(entry) => console.log('Open:', entry.name)}
+        onRemove={(entry) => console.log('Remove:', entry.name)}
+      />
+    </div>
   ),
 };
 
 export const CardCompactList: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        {mockAlexandriaRepositories.slice(0, 3).map((entry) => (
-          <LocalProjectCard
-            key={entry.path}
-            entry={entry}
-            compact={true}
-            onSelect={(e) => console.log('Selected:', e.name)}
-            onOpen={(e) => console.log('Open:', e.name)}
-          />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      {mockAlexandriaRepositories.slice(0, 3).map((entry) => (
+        <LocalProjectCard
+          key={entry.path}
+          entry={entry}
+          compact={true}
+          onSelect={(e) => console.log('Selected:', e.name)}
+          onOpen={(e) => console.log('Open:', e.name)}
+        />
+      ))}
+    </div>
   ),
 };
 
@@ -291,42 +272,36 @@ export const CardCompactList: StoryObj<typeof LocalProjectCard> = {
  */
 export const AvatarWithOwner: StoryObj<typeof RepositoryAvatar> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px' }}>
-        <RepositoryAvatar owner="principal-ade" size={32} />
-        <RepositoryAvatar owner="principal-ai" size={32} />
-        <RepositoryAvatar owner="facebook" size={32} />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px' }}>
+      <RepositoryAvatar owner="principal-ade" size={32} />
+      <RepositoryAvatar owner="principal-ai" size={32} />
+      <RepositoryAvatar owner="facebook" size={32} />
+    </div>
   ),
 };
 
 export const AvatarSizes: StoryObj<typeof RepositoryAvatar> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px', alignItems: 'center' }}>
-        <RepositoryAvatar owner="principal-ade" size={24} />
-        <RepositoryAvatar owner="principal-ade" size={32} />
-        <RepositoryAvatar owner="principal-ade" size={48} />
-        <RepositoryAvatar owner="principal-ade" size={64} />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px', alignItems: 'center' }}>
+      <RepositoryAvatar owner="principal-ade" size={24} />
+      <RepositoryAvatar owner="principal-ade" size={32} />
+      <RepositoryAvatar owner="principal-ade" size={48} />
+      <RepositoryAvatar owner="principal-ade" size={64} />
+    </div>
   ),
 };
 
 export const AvatarFallback: StoryObj<typeof RepositoryAvatar> = {
   render: () => (
-    <ThemeProvider>
-      <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px' }}>
-        <RepositoryAvatar
-          size={32}
-          fallbackIcon={<span style={{ color: '#888', fontWeight: 'bold' }}>P</span>}
-        />
-        <RepositoryAvatar
-          size={32}
-          fallbackIcon={<span style={{ color: '#888', fontWeight: 'bold' }}>A</span>}
-        />
-      </div>
-    </ThemeProvider>
+    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px' }}>
+      <RepositoryAvatar
+        size={32}
+        fallbackIcon={<span style={{ color: '#888', fontWeight: 'bold' }}>P</span>}
+      />
+      <RepositoryAvatar
+        size={32}
+        fallbackIcon={<span style={{ color: '#888', fontWeight: 'bold' }}>A</span>}
+      />
+    </div>
   ),
 };

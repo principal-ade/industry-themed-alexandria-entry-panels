@@ -1,4 +1,6 @@
+import React from 'react';
 import type { Preview } from '@storybook/react-vite';
+import { ThemeProvider } from '@principal-ade/industry-theme';
 
 const preview: Preview = {
   parameters: {
@@ -14,6 +16,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
 };
 
 export default preview;

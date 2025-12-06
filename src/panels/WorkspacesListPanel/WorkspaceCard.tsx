@@ -140,8 +140,6 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
     backgroundColor: 'transparent',
     color: theme.colors.textSecondary,
     cursor: 'pointer',
-    opacity: isHovered ? 1 : 0,
-    pointerEvents: isHovered ? 'auto' : 'none',
     transition: 'all 0.15s ease',
   };
 
@@ -267,6 +265,63 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
               >
                 {workspace.name}
               </span>
+              {isDefault && (
+                <span
+                  style={{
+                    fontSize: `${theme.fontSizes[1]}px`,
+                    color: theme.colors.textSecondary,
+                    fontWeight: 400,
+                    flexShrink: 0,
+                  }}
+                >
+                  Default
+                </span>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Description row with action buttons */}
+        {!isEditing && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              minHeight: '20px',
+            }}
+          >
+            {/* Description - shrinks to make room for buttons */}
+            <div
+              style={{
+                flex: 1,
+                fontSize: `${theme.fontSizes[1]}px`,
+                color: theme.colors.textSecondary,
+                fontFamily: theme.fonts.body,
+                lineHeight: 1.4,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+              }}
+              title={workspace.description}
+            >
+              {workspace.description || '\u00A0'}
+            </div>
+
+            {/* Action buttons - grow from right */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                maxWidth: isHovered ? '200px' : 0,
+                marginLeft: isHovered ? '8px' : 0,
+                overflow: 'hidden',
+                opacity: isHovered ? 1 : 0,
+                flexShrink: 0,
+                transition: 'max-width 0.2s ease, opacity 0.15s ease, margin-left 0.2s ease',
+              }}
+            >
               {onOpen && (
                 <button
                   onClick={handleOpenClick}
@@ -318,37 +373,7 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
                   <Trash2 size={16} />
                 </button>
               )}
-              {isDefault && (
-                <span
-                  style={{
-                    fontSize: `${theme.fontSizes[1]}px`,
-                    color: theme.colors.textSecondary,
-                    fontWeight: 400,
-                    flexShrink: 0,
-                  }}
-                >
-                  Default
-                </span>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Description */}
-        {workspace.description && !isEditing && (
-          <div
-            style={{
-              fontSize: `${theme.fontSizes[1]}px`,
-              color: theme.colors.textSecondary,
-              fontFamily: theme.fonts.body,
-              lineHeight: 1.4,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-            title={workspace.description}
-          >
-            {workspace.description}
+            </div>
           </div>
         )}
       </div>
