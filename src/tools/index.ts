@@ -34,11 +34,3 @@ export {
   openWorkspaceTool,
   createWorkspaceTool,
 } from '../panels/WorkspacesListPanel/tools';
-
-export {
-  dependenciesPanelTools,
-  dependenciesPanelToolsMetadata,
-  filterDependenciesTool,
-  selectDependencyTypeTool,
-  selectPackageTool,
-} from '../panels/DependenciesPanel/tools';

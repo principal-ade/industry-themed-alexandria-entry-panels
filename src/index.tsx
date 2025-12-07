@@ -1,12 +1,14 @@
 import { LocalProjectsPanel } from './panels/LocalProjectsPanel';
 import { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
 import { WorkspacesListPanel } from './panels/WorkspacesListPanel';
-import { DependenciesPanel } from './panels/DependenciesPanel';
+import { GitHubStarredPanel } from './panels/GitHubStarredPanel';
+import { GitHubProjectsPanel } from './panels/GitHubProjectsPanel';
 import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
 import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
 import { workspacesListPanelTools } from './panels/WorkspacesListPanel/tools';
-import { dependenciesPanelTools } from './panels/DependenciesPanel/tools';
+import { githubStarredPanelTools } from './panels/GitHubStarredPanel/tools';
+import { githubProjectsPanelTools } from './panels/GitHubProjectsPanel/tools';
 
 /**
  * Export array of panel definitions.
@@ -102,25 +104,62 @@ export const panels: PanelDefinition[] = [
   },
   {
     metadata: {
-      id: 'principal-ade.dependencies-panel',
-      name: 'Dependencies',
-      icon: 'Package',
+      id: 'industry-theme.github-starred',
+      name: 'Starred',
+      icon: 'Star',
       version: '0.1.0',
-      author: 'Principal ADE',
-      description: 'View and explore package dependencies',
-      slices: ['packages'],
-      tools: dependenciesPanelTools,
+      author: 'Industry Theme',
+      description: 'Browse your starred GitHub repositories',
+      slices: ['githubStarred', 'alexandriaRepositories'],
+      tools: githubStarredPanelTools,
     },
-    component: DependenciesPanel,
+    component: GitHubStarredPanel,
 
-    onMount: async (_context: PanelContextValue) => {
+    onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
-      console.log('Dependencies Panel mounted');
+      console.log('GitHub Starred Panel mounted');
+
+      if (
+        context.hasSlice('githubStarred') &&
+        !context.isSliceLoading('githubStarred')
+      ) {
+        await context.refresh('global', 'githubStarred');
+      }
     },
 
     onUnmount: async (_context: PanelContextValue) => {
       // eslint-disable-next-line no-console
-      console.log('Dependencies Panel unmounting');
+      console.log('GitHub Starred Panel unmounting');
+    },
+  },
+  {
+    metadata: {
+      id: 'industry-theme.github-projects',
+      name: 'GitHub Projects',
+      icon: 'FolderGit2',
+      version: '0.1.0',
+      author: 'Industry Theme',
+      description: 'Your repositories and organization projects',
+      slices: ['githubProjects', 'alexandriaRepositories'],
+      tools: githubProjectsPanelTools,
+    },
+    component: GitHubProjectsPanel,
+
+    onMount: async (context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('GitHub Projects Panel mounted');
+
+      if (
+        context.hasSlice('githubProjects') &&
+        !context.isSliceLoading('githubProjects')
+      ) {
+        await context.refresh('global', 'githubProjects');
+      }
+    },
+
+    onUnmount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('GitHub Projects Panel unmounting');
     },
   },
 ];
@@ -171,12 +210,21 @@ export {
 } from './panels/WorkspacesListPanel/tools';
 
 export {
-  dependenciesPanelTools,
-  dependenciesPanelToolsMetadata,
-  filterDependenciesTool,
-  selectDependencyTypeTool,
-  selectPackageTool,
-} from './panels/DependenciesPanel/tools';
+  githubStarredPanelTools,
+  githubStarredPanelToolsMetadata,
+  filterStarredTool,
+  selectStarredRepositoryTool,
+  cloneStarredRepositoryTool,
+} from './panels/GitHubStarredPanel/tools';
+
+export {
+  githubProjectsPanelTools,
+  githubProjectsPanelToolsMetadata,
+  filterProjectsTool as filterGitHubProjectsTool,
+  toggleOwnerSectionTool,
+  selectProjectRepositoryTool,
+  cloneProjectRepositoryTool,
+} from './panels/GitHubProjectsPanel/tools';
 
 /**
  * Export panel components for direct use
@@ -196,7 +244,17 @@ export {
   WorkspaceCard,
 } from './panels/WorkspacesListPanel';
 
-export { DependenciesPanel } from './panels/DependenciesPanel';
+export {
+  GitHubStarredPanel,
+  GitHubStarredPanelPreview,
+} from './panels/GitHubStarredPanel';
+
+export {
+  GitHubProjectsPanel,
+  GitHubProjectsPanelPreview,
+} from './panels/GitHubProjectsPanel';
+
+export { GitHubRepositoryCard } from './panels/shared/GitHubRepositoryCard';
 
 /**
  * Export types
@@ -228,8 +286,22 @@ export type {
 } from './panels/WorkspacesListPanel/types';
 
 export type {
-  PackageLayer,
-  DependencyItem,
-  PackageSummary,
-  PackagesSliceData,
-} from './panels/DependenciesPanel/types';
+  GitHubRepository,
+  GitHubOrganization,
+  LocalRepositoryReference,
+} from './panels/shared/github-types';
+
+export type {
+  GitHubStarredSlice,
+  GitHubStarredPanelActions,
+  GitHubStarredPanelEventPayloads,
+} from './panels/GitHubStarredPanel/types';
+
+export type {
+  GitHubProjectsSlice,
+  GitHubProjectsPanelActions,
+  GitHubProjectsPanelEventPayloads,
+} from './panels/GitHubProjectsPanel/types';
+
+export type { GitHubRepositoryCardProps } from './panels/shared/GitHubRepositoryCard';
+

@@ -10,8 +10,10 @@ import type {
   DataSlice,
 } from '../types';
 import type { AlexandriaRepositoriesSlice } from '../panels/LocalProjectsPanel/types';
-import type { PackagesSliceData, PackageLayer } from '../panels/DependenciesPanel/types';
 import type { Workspace, WorkspacesSlice } from '../panels/WorkspacesListPanel/types';
+import type { GitHubRepository, GitHubOrganization } from '../panels/shared/github-types';
+import type { GitHubStarredSlice } from '../panels/GitHubStarredPanel/types';
+import type { GitHubProjectsSlice } from '../panels/GitHubProjectsPanel/types';
 
 /**
  * Mock Workspaces for Storybook
@@ -55,6 +57,238 @@ export const mockWorkspaces: Workspace[] = [
     updatedAt: Date.now() - 86400000 * 3, // 3 days ago
   },
 ];
+
+/**
+ * Mock GitHub Starred Repositories for Storybook
+ */
+export const mockGitHubStarredRepositories: GitHubRepository[] = [
+  {
+    id: 1001,
+    name: 'react',
+    full_name: 'facebook/react',
+    owner: { login: 'facebook', avatar_url: 'https://github.com/facebook.png' },
+    private: false,
+    html_url: 'https://github.com/facebook/react',
+    description: 'The library for web and native user interfaces.',
+    clone_url: 'https://github.com/facebook/react.git',
+    updated_at: '2024-12-01T10:00:00Z',
+    pushed_at: '2024-12-01T10:00:00Z',
+    language: 'JavaScript',
+    stargazers_count: 220000,
+    default_branch: 'main',
+    fork: false,
+  },
+  {
+    id: 1002,
+    name: 'typescript',
+    full_name: 'microsoft/typescript',
+    owner: { login: 'microsoft', avatar_url: 'https://github.com/microsoft.png' },
+    private: false,
+    html_url: 'https://github.com/microsoft/typescript',
+    description: 'TypeScript is a superset of JavaScript that compiles to clean JavaScript output.',
+    clone_url: 'https://github.com/microsoft/typescript.git',
+    updated_at: '2024-11-28T15:30:00Z',
+    pushed_at: '2024-11-28T15:30:00Z',
+    language: 'TypeScript',
+    stargazers_count: 98000,
+    default_branch: 'main',
+    fork: false,
+  },
+  {
+    id: 1003,
+    name: 'vscode',
+    full_name: 'microsoft/vscode',
+    owner: { login: 'microsoft', avatar_url: 'https://github.com/microsoft.png' },
+    private: false,
+    html_url: 'https://github.com/microsoft/vscode',
+    description: 'Visual Studio Code',
+    clone_url: 'https://github.com/microsoft/vscode.git',
+    updated_at: '2024-12-02T08:00:00Z',
+    pushed_at: '2024-12-02T08:00:00Z',
+    language: 'TypeScript',
+    stargazers_count: 158000,
+    default_branch: 'main',
+    fork: false,
+  },
+  {
+    id: 1004,
+    name: 'tauri',
+    full_name: 'tauri-apps/tauri',
+    owner: { login: 'tauri-apps', avatar_url: 'https://github.com/tauri-apps.png' },
+    private: false,
+    html_url: 'https://github.com/tauri-apps/tauri',
+    description: 'Build smaller, faster, and more secure desktop and mobile applications with a web frontend.',
+    clone_url: 'https://github.com/tauri-apps/tauri.git',
+    updated_at: '2024-11-30T12:00:00Z',
+    pushed_at: '2024-11-30T12:00:00Z',
+    language: 'Rust',
+    stargazers_count: 78000,
+    default_branch: 'dev',
+    fork: false,
+  },
+  {
+    id: 1005,
+    name: 'electron',
+    full_name: 'electron/electron',
+    owner: { login: 'electron', avatar_url: 'https://github.com/electron.png' },
+    private: false,
+    html_url: 'https://github.com/electron/electron',
+    description: 'Build cross-platform desktop apps with JavaScript, HTML, and CSS',
+    clone_url: 'https://github.com/electron/electron.git',
+    updated_at: '2024-12-01T14:00:00Z',
+    pushed_at: '2024-12-01T14:00:00Z',
+    language: 'C++',
+    stargazers_count: 112000,
+    default_branch: 'main',
+    fork: false,
+  },
+];
+
+/**
+ * Mock GitHub User Repositories for Storybook
+ */
+export const mockGitHubUserRepositories: GitHubRepository[] = [
+  {
+    id: 2001,
+    name: 'my-awesome-project',
+    full_name: 'developer/my-awesome-project',
+    owner: { login: 'developer', avatar_url: 'https://github.com/developer.png' },
+    private: false,
+    html_url: 'https://github.com/developer/my-awesome-project',
+    description: 'A showcase of my best work',
+    clone_url: 'https://github.com/developer/my-awesome-project.git',
+    updated_at: '2024-11-25T09:00:00Z',
+    pushed_at: '2024-11-25T09:00:00Z',
+    language: 'TypeScript',
+    stargazers_count: 42,
+    default_branch: 'main',
+    fork: false,
+  },
+  {
+    id: 2002,
+    name: 'dotfiles',
+    full_name: 'developer/dotfiles',
+    owner: { login: 'developer', avatar_url: 'https://github.com/developer.png' },
+    private: false,
+    html_url: 'https://github.com/developer/dotfiles',
+    description: 'My personal configuration files',
+    clone_url: 'https://github.com/developer/dotfiles.git',
+    updated_at: '2024-10-15T16:30:00Z',
+    pushed_at: '2024-10-15T16:30:00Z',
+    language: 'Shell',
+    stargazers_count: 5,
+    default_branch: 'main',
+    fork: false,
+  },
+  {
+    id: 2003,
+    name: 'private-notes',
+    full_name: 'developer/private-notes',
+    owner: { login: 'developer', avatar_url: 'https://github.com/developer.png' },
+    private: true,
+    html_url: 'https://github.com/developer/private-notes',
+    description: 'Personal notes and documentation',
+    clone_url: 'https://github.com/developer/private-notes.git',
+    updated_at: '2024-12-01T20:00:00Z',
+    pushed_at: '2024-12-01T20:00:00Z',
+    language: 'Markdown',
+    stargazers_count: 0,
+    default_branch: 'main',
+    fork: false,
+  },
+];
+
+/**
+ * Mock GitHub Organizations for Storybook
+ */
+export const mockGitHubOrganizations: GitHubOrganization[] = [
+  {
+    id: 3001,
+    login: 'principal-ade',
+    avatar_url: 'https://github.com/principal-ade.png',
+    description: 'Principal ADE Development',
+  },
+  {
+    id: 3002,
+    login: 'acme-corp',
+    avatar_url: 'https://github.com/acme-corp.png',
+    description: 'Acme Corporation',
+  },
+];
+
+/**
+ * Mock GitHub Organization Repositories for Storybook
+ */
+export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
+  'principal-ade': [
+    {
+      id: 4001,
+      name: 'panel-framework-core',
+      full_name: 'principal-ade/panel-framework-core',
+      owner: { login: 'principal-ade', avatar_url: 'https://github.com/principal-ade.png' },
+      private: false,
+      html_url: 'https://github.com/principal-ade/panel-framework-core',
+      description: 'Core framework for building extensible panels',
+      clone_url: 'https://github.com/principal-ade/panel-framework-core.git',
+      updated_at: '2024-12-01T15:30:00Z',
+      pushed_at: '2024-12-01T15:30:00Z',
+      language: 'TypeScript',
+      stargazers_count: 245,
+      default_branch: 'main',
+      fork: false,
+    },
+    {
+      id: 4002,
+      name: 'industry-theme',
+      full_name: 'principal-ade/industry-theme',
+      owner: { login: 'principal-ade', avatar_url: 'https://github.com/principal-ade.png' },
+      private: false,
+      html_url: 'https://github.com/principal-ade/industry-theme',
+      description: 'Industry-standard theming system for React applications',
+      clone_url: 'https://github.com/principal-ade/industry-theme.git',
+      updated_at: '2024-11-28T09:15:00Z',
+      pushed_at: '2024-11-28T09:15:00Z',
+      language: 'TypeScript',
+      stargazers_count: 128,
+      default_branch: 'main',
+      fork: false,
+    },
+  ],
+  'acme-corp': [
+    {
+      id: 5001,
+      name: 'internal-tools',
+      full_name: 'acme-corp/internal-tools',
+      owner: { login: 'acme-corp', avatar_url: 'https://github.com/acme-corp.png' },
+      private: true,
+      html_url: 'https://github.com/acme-corp/internal-tools',
+      description: 'Internal tooling and utilities',
+      clone_url: 'https://github.com/acme-corp/internal-tools.git',
+      updated_at: '2024-11-20T11:00:00Z',
+      pushed_at: '2024-11-20T11:00:00Z',
+      language: 'Python',
+      stargazers_count: 0,
+      default_branch: 'main',
+      fork: false,
+    },
+    {
+      id: 5002,
+      name: 'product-api',
+      full_name: 'acme-corp/product-api',
+      owner: { login: 'acme-corp', avatar_url: 'https://github.com/acme-corp.png' },
+      private: true,
+      html_url: 'https://github.com/acme-corp/product-api',
+      description: 'Main product API service',
+      clone_url: 'https://github.com/acme-corp/product-api.git',
+      updated_at: '2024-12-02T18:00:00Z',
+      pushed_at: '2024-12-02T18:00:00Z',
+      language: 'Go',
+      stargazers_count: 0,
+      default_branch: 'main',
+      fork: false,
+    },
+  ],
+};
 
 /**
  * Mock Alexandria Repositories for Storybook
@@ -169,77 +403,6 @@ const mockGitStatusData = {
 };
 
 /**
- * Mock Package Layer for Storybook
- */
-const createMockPackageLayer = (
-  name: string,
-  path: string,
-  deps: Record<string, string>,
-  devDeps: Record<string, string>,
-  peerDeps: Record<string, string> = {}
-): PackageLayer => ({
-  id: `package-${name}`,
-  name: `Package: ${name}`,
-  type: 'package',
-  enabled: true,
-  derivedFrom: {
-    fileSets: [],
-    derivationType: 'presence',
-    description: `Package ${name}`,
-  },
-  packageData: {
-    name,
-    version: '1.0.0',
-    path,
-    manifestPath: `${path}/package.json`,
-    packageManager: 'npm',
-    dependencies: deps,
-    devDependencies: devDeps,
-    peerDependencies: peerDeps,
-    isMonorepoRoot: false,
-    isWorkspace: false,
-  },
-});
-
-/**
- * Mock Packages data for Storybook
- */
-const mockPackagesData: PackagesSliceData = {
-  packages: [
-    createMockPackageLayer(
-      'my-project',
-      '',
-      {
-        'react': '^19.0.0',
-        'react-dom': '^19.0.0',
-        'lodash': '^4.17.21',
-        'axios': '^1.6.0',
-        'zustand': '^4.4.0',
-      },
-      {
-        'typescript': '^5.3.0',
-        'vite': '^5.0.0',
-        'vitest': '^1.0.0',
-        'eslint': '^8.55.0',
-        '@types/react': '^18.2.0',
-      },
-      {
-        'react': '>=18.0.0',
-      }
-    ),
-  ],
-  summary: {
-    isMonorepo: false,
-    rootPackageName: 'my-project',
-    totalPackages: 1,
-    workspacePackages: [{ name: 'my-project', path: '' }],
-    totalDependencies: 5,
-    totalDevDependencies: 5,
-    availableScripts: ['build', 'dev', 'test'],
-  },
-};
-
-/**
  * Create a mock DataSlice
  */
 const createMockSlice = <T,>(
@@ -303,10 +466,6 @@ export const createMockContext = (
       }),
     ],
     [
-      'packages',
-      createMockSlice<PackagesSliceData>('packages', mockPackagesData),
-    ],
-    [
       'quality',
       createMockSlice('quality', {
         coverage: 85,
@@ -327,6 +486,23 @@ export const createMockContext = (
         workspaces: mockWorkspaces,
         defaultWorkspaceId: 'workspace-1',
         loading: false,
+      }, 'global'),
+    ],
+    [
+      'githubStarred',
+      createMockSlice<GitHubStarredSlice>('githubStarred', {
+        repositories: mockGitHubStarredRepositories,
+        loading: false,
+      }, 'global'),
+    ],
+    [
+      'githubProjects',
+      createMockSlice<GitHubProjectsSlice>('githubProjects', {
+        userRepositories: mockGitHubUserRepositories,
+        organizations: mockGitHubOrganizations,
+        orgRepositories: mockGitHubOrgRepositories,
+        loading: false,
+        currentUser: 'developer',
       }, 'global'),
     ],
   ]);
@@ -494,6 +670,50 @@ export const createMockWorkspacesListActions = () => ({
       return [{ name: 'my-rust-project' }];
     }
     return [];
+  },
+});
+
+/**
+ * Mock GitHubStarredPanel Actions for Storybook
+ */
+export const createMockGitHubStarredActions = () => ({
+  ...createMockActions(),
+  cloneRepository: async (repo: GitHubRepository) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Cloning repository:', repo.full_name);
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+  },
+  openRepository: async (localPath: string) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Opening repository:', localPath);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  },
+  refreshStarred: async () => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Refreshing starred repositories');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  },
+});
+
+/**
+ * Mock GitHubProjectsPanel Actions for Storybook
+ */
+export const createMockGitHubProjectsActions = () => ({
+  ...createMockActions(),
+  cloneRepository: async (repo: GitHubRepository) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Cloning repository:', repo.full_name);
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+  },
+  openRepository: async (localPath: string) => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Opening repository:', localPath);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  },
+  refreshProjects: async () => {
+    // eslint-disable-next-line no-console
+    console.log('[Mock] Refreshing projects');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   },
 });
 
