@@ -132,14 +132,17 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '24px',
+    gap: '4px',
+    flex: 1,
     height: '24px',
-    padding: 0,
+    padding: '0 8px',
     border: 'none',
     borderRadius: '4px',
     backgroundColor: 'transparent',
     color: theme.colors.textSecondary,
     cursor: 'pointer',
+    fontSize: `${theme.fontSizes[1]}px`,
+    fontFamily: theme.fonts.body,
     transition: 'all 0.15s ease',
   };
 
@@ -157,19 +160,18 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '40px',
-          height: '40px',
+          width: '48px',
+          height: '48px',
           borderRadius: '6px',
           backgroundColor: `color-mix(in srgb, ${iconColor} 12%, transparent)`,
           color: iconColor,
           flexShrink: 0,
-          marginTop: '2px',
         }}
       >
         {workspace.icon ? (
-          <span style={{ fontSize: `${theme.fontSizes[3]}px` }}>{workspace.icon}</span>
+          <span style={{ fontSize: `${theme.fontSizes[4]}px` }}>{workspace.icon}</span>
         ) : (
-          <DoorClosed size={24} />
+          <DoorClosed size={28} />
         )}
       </div>
 
@@ -287,10 +289,11 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              minHeight: '20px',
+              minHeight: '24px',
+              position: 'relative',
             }}
           >
-            {/* Description - shrinks to make room for buttons */}
+            {/* Description - hidden when hovered */}
             <div
               style={{
                 flex: 1,
@@ -302,24 +305,28 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 minWidth: 0,
+                opacity: isHovered ? 0 : 1,
+                transition: 'opacity 0.15s ease',
               }}
               title={workspace.description}
             >
               {workspace.description || '\u00A0'}
             </div>
 
-            {/* Action buttons - grow from right */}
+            {/* Action buttons - cover full width when hovered */}
             <div
               style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-                maxWidth: isHovered ? '200px' : 0,
-                marginLeft: isHovered ? '8px' : 0,
-                overflow: 'hidden',
                 opacity: isHovered ? 1 : 0,
-                flexShrink: 0,
-                transition: 'max-width 0.2s ease, opacity 0.15s ease, margin-left 0.2s ease',
+                pointerEvents: isHovered ? 'auto' : 'none',
+                transition: 'opacity 0.15s ease',
               }}
             >
               {onOpen && (
@@ -336,7 +343,8 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
                     e.currentTarget.style.color = theme.colors.textSecondary;
                   }}
                 >
-                  <ExternalLink size={16} />
+                  <ExternalLink size={14} />
+                  <span>Open</span>
                 </button>
               )}
               {onUpdateName && (
@@ -353,7 +361,8 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
                     e.currentTarget.style.color = theme.colors.textSecondary;
                   }}
                 >
-                  <Edit2 size={16} />
+                  <Edit2 size={14} />
+                  <span>Edit</span>
                 </button>
               )}
               {onDelete && (
@@ -370,7 +379,8 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
                     e.currentTarget.style.color = theme.colors.textSecondary;
                   }}
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={14} />
+                  <span>Delete</span>
                 </button>
               )}
             </div>

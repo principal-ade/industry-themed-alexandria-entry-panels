@@ -110,8 +110,10 @@ export interface LocalProjectCardProps {
   compact?: boolean;
   /** Whether repository is in workspace directory (workspace mode) */
   isInWorkspaceDirectory?: boolean | null;
-  /** Workspace path for relative path display (workspace mode) */
+  /** Workspace path to strip from displayed path */
   workspacePath?: string;
+  /** User home path to strip from displayed path (replaced with ~) */
+  userHomePath?: string;
 }
 
 /**

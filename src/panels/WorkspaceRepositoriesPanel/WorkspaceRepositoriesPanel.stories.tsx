@@ -134,6 +134,7 @@ export const Default: Story = {
       [
         createDataSlice<Workspace>('workspace', 'workspace', mockWorkspace),
         createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', mockRepositories),
+        createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
     actions: mockActions,
@@ -150,6 +151,7 @@ export const NoWorkspaceSelected: Story = {
       [
         createDataSlice<Workspace | null>('workspace', 'workspace', null),
         createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', []),
+        createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
     actions: mockActions,
@@ -167,6 +169,7 @@ export const EmptyWorkspace: Story = {
       [
         createDataSlice<Workspace>('workspace', 'workspace', mockWorkspace),
         createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', []),
+        createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
     actions: mockActions,
@@ -186,6 +189,7 @@ export const Loading: Story = {
         createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', [], {
           loading: true,
         }),
+        createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
     actions: mockActions,
@@ -240,6 +244,7 @@ export const MixedLocations: Story = {
             },
           },
         ]),
+        createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
     actions: {

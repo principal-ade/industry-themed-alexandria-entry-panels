@@ -39,8 +39,10 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
   // Get data from context using framework's getSlice pattern
   const workspaceSlice = context.getSlice<Workspace>('workspace');
   const repositoriesSlice = context.getSlice<AlexandriaEntry[]>('workspaceRepositories');
+  const userHomePathSlice = context.getSlice<string>('userHomePath');
 
   const workspace = workspaceSlice?.data ?? null;
+  const userHomePath = userHomePathSlice?.data ?? undefined;
   const isLoading = workspaceSlice?.loading || repositoriesSlice?.loading || false;
 
   // Sort repositories alphabetically by name
@@ -433,6 +435,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
                   actionMode="workspace"
                   isInWorkspaceDirectory={true}
                   workspacePath={workspace.suggestedClonePath}
+                  userHomePath={userHomePath}
                   onSelect={handleSelectRepository}
                   onOpen={handleOpenRepository}
                   onRemoveFromWorkspace={handleRemoveFromWorkspace}
@@ -468,6 +471,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
                   actionMode="workspace"
                   isInWorkspaceDirectory={false}
                   workspacePath={workspace.suggestedClonePath}
+                  userHomePath={userHomePath}
                   onSelect={handleSelectRepository}
                   onOpen={handleOpenRepository}
                   onRemoveFromWorkspace={handleRemoveFromWorkspace}

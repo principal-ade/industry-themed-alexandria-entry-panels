@@ -56,6 +56,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   windowState = 'closed',
   compact: _compact = false,
   isInWorkspaceDirectory,
+  workspacePath,
+  userHomePath,
 }) => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
@@ -67,6 +69,23 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   const avatarUrl = entry.github?.owner
     ? `https://github.com/${entry.github.owner}.png`
     : null;
+
+  // Format path for display - strip workspace path or replace home with ~
+  const getDisplayPath = (path: string): string => {
+    // First try to strip workspace path
+    if (workspacePath && path.startsWith(workspacePath)) {
+      const relativePath = path.slice(workspacePath.length);
+      // Remove leading slash if present
+      return relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
+    }
+    // Then try to replace home path with ~
+    if (userHomePath && path.startsWith(userHomePath)) {
+      return '~' + path.slice(userHomePath.length);
+    }
+    return path;
+  };
+
+  const displayPath = getDisplayPath(entry.path);
 
   const handleCardClick = () => {
     onSelect?.(entry);
@@ -123,19 +142,22 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     }
   };
 
-  // Icon-only action button style (like WorkspaceCard)
+  // Action button style - flex to share width
   const actionButtonStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '24px',
+    gap: '4px',
+    flex: 1,
     height: '24px',
-    padding: 0,
+    padding: '0 8px',
     border: 'none',
     borderRadius: '4px',
     backgroundColor: 'transparent',
     color: theme.colors.textSecondary,
     cursor: 'pointer',
+    fontSize: `${theme.fontSizes[1]}px`,
+    fontFamily: theme.fonts.body,
     transition: 'all 0.15s ease',
   };
 
@@ -156,7 +178,6 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   };
 
   const renderActionButtons = () => {
-    // Icon-only buttons that appear on hover
     if (actionMode === 'add-to-workspace') {
       return (
         <button
@@ -168,12 +189,12 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           onMouseEnter={(e) => handleButtonHover(e)}
           onMouseLeave={(e) => handleButtonLeave(e)}
         >
-          {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
+          {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+          <span>Add</span>
         </button>
       );
     }
 
-    // Workspace mode - icon-only buttons
     if (actionMode === 'workspace') {
       return (
         <>
@@ -187,7 +208,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
               onMouseEnter={(e) => handleButtonHover(e)}
               onMouseLeave={(e) => handleButtonLeave(e)}
             >
-              {isMoving ? <Loader2 size={16} className="animate-spin" /> : <MoveUp size={16} />}
+              {isMoving ? <Loader2 size={14} className="animate-spin" /> : <MoveUp size={14} />}
+              <span>Move</span>
             </button>
           )}
           <button
@@ -201,7 +223,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
             onMouseEnter={(e) => handleButtonHover(e)}
             onMouseLeave={(e) => handleButtonLeave(e, copiedPath ? theme.colors.success || '#10b981' : undefined)}
           >
-            {copiedPath ? <Check size={16} /> : <Copy size={16} />}
+            {copiedPath ? <Check size={14} /> : <Copy size={14} />}
+            <span>{copiedPath ? 'Copied' : 'Copy'}</span>
           </button>
           <button
             type="button"
@@ -211,7 +234,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
             onMouseEnter={(e) => handleButtonHover(e)}
             onMouseLeave={(e) => handleButtonLeave(e)}
           >
-            <FolderOpen size={16} />
+            <FolderOpen size={14} />
+            <span>Open</span>
           </button>
           {onRemoveFromWorkspace && (
             <button
@@ -223,14 +247,15 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
               onMouseEnter={(e) => handleButtonHover(e, true)}
               onMouseLeave={(e) => handleButtonLeave(e)}
             >
-              {isRemoving ? <Loader2 size={16} className="animate-spin" /> : <X size={16} />}
+              {isRemoving ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
+              <span>Remove</span>
             </button>
           )}
         </>
       );
     }
 
-    // Default and minimal modes - icon-only buttons
+    // Default and minimal modes
     return (
       <>
         <button
@@ -244,7 +269,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           onMouseEnter={(e) => handleButtonHover(e)}
           onMouseLeave={(e) => handleButtonLeave(e, copiedPath ? theme.colors.success || '#10b981' : undefined)}
         >
-          {copiedPath ? <Check size={16} /> : <Copy size={16} />}
+          {copiedPath ? <Check size={14} /> : <Copy size={14} />}
+          <span>{copiedPath ? 'Copied' : 'Copy'}</span>
         </button>
         <button
           type="button"
@@ -262,12 +288,13 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           onMouseLeave={(e) => handleButtonLeave(e)}
         >
           {windowState === 'ready' ? (
-            <Focus size={16} />
+            <Focus size={14} />
           ) : windowState === 'opening' ? (
-            <Loader2 size={16} className="animate-spin" />
+            <Loader2 size={14} className="animate-spin" />
           ) : (
-            <FolderOpen size={16} />
+            <FolderOpen size={14} />
           )}
+          <span>{windowState === 'ready' ? 'Focus' : 'Open'}</span>
         </button>
         {actionMode === 'default' && onRemove && (
           <button
@@ -279,7 +306,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
             onMouseEnter={(e) => handleButtonHover(e, true)}
             onMouseLeave={(e) => handleButtonLeave(e)}
           >
-            {isLoading ? <Loader2 size={16} className="animate-spin" /> : <X size={16} />}
+            {isLoading ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
+            <span>Remove</span>
           </button>
         )}
       </>
@@ -321,12 +349,12 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
       {/* Avatar */}
       <RepositoryAvatar
         customAvatarUrl={avatarUrl}
-        size={40}
+        size={48}
         fallbackIcon={
           <div
             style={{
               color: theme.colors.textSecondary,
-              fontSize: `${theme.fontSizes[1]}px`,
+              fontSize: `${theme.fontSizes[2]}px`,
               fontWeight: theme.fontWeights.semibold,
             }}
           >
@@ -378,10 +406,11 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           style={{
             display: 'flex',
             alignItems: 'center',
-            minHeight: '20px',
+            minHeight: '24px',
+            position: 'relative',
           }}
         >
-          {/* Description - shrinks to make room for buttons */}
+          {/* Description - hidden when hovered */}
           <div
             style={{
               flex: 1,
@@ -392,24 +421,28 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               minWidth: 0,
+              opacity: isHovered ? 0 : 1,
+              transition: 'opacity 0.15s ease',
             }}
-            title={entry.github?.description || entry.path}
+            title={entry.github?.description || displayPath}
           >
-            {entry.github?.description || entry.path}
+            {entry.github?.description || displayPath}
           </div>
 
-          {/* Action buttons - grow from right */}
+          {/* Action buttons - cover full width when hovered */}
           <div
             style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
-              maxWidth: isHovered ? '200px' : 0,
-              marginLeft: isHovered ? '8px' : 0,
-              overflow: 'hidden',
               opacity: isHovered ? 1 : 0,
-              flexShrink: 0,
-              transition: 'max-width 0.2s ease, opacity 0.15s ease, margin-left 0.2s ease',
+              pointerEvents: isHovered ? 'auto' : 'none',
+              transition: 'opacity 0.15s ease',
             }}
           >
             {renderActionButtons()}
