@@ -16,9 +16,16 @@ import type { AlexandriaRepositoriesSlice } from '../LocalProjectsPanel/types';
 import type { GitHubProjectsSlice, GitHubProjectsPanelActions } from './types';
 import type { GitHubRepository, LocalRepositoryReference } from '../shared/github-types';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
-import { createPanelEvent } from '@principal-ade/panel-framework-core';
 
 const PANEL_ID = 'industry-theme.github-projects';
+
+// Helper to create panel events with required fields
+const createPanelEvent = <T,>(type: string, payload: T) => ({
+  type,
+  source: PANEL_ID,
+  timestamp: Date.now(),
+  payload,
+});
 
 /**
  * GitHubProjectsPanel - Browse user's repositories and organization repositories

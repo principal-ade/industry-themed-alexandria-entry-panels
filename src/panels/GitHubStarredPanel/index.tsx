@@ -6,9 +6,16 @@ import type { AlexandriaRepositoriesSlice } from '../LocalProjectsPanel/types';
 import type { GitHubStarredSlice, GitHubStarredPanelActions } from './types';
 import type { GitHubRepository, LocalRepositoryReference } from '../shared/github-types';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
-import { createPanelEvent } from '@principal-ade/panel-framework-core';
 
 const PANEL_ID = 'industry-theme.github-starred';
+
+// Helper to create panel events with required fields
+const createPanelEvent = <T,>(type: string, payload: T) => ({
+  type,
+  source: PANEL_ID,
+  timestamp: Date.now(),
+  payload,
+});
 
 /**
  * GitHubStarredPanel - Browse and manage starred GitHub repositories

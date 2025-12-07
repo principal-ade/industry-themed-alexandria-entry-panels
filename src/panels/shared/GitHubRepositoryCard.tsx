@@ -153,18 +153,20 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
 
           {/* Badges */}
           {repository.private && (
-            <Lock
-              size={12}
-              style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
-              title="Private repository"
-            />
+            <span title="Private repository">
+              <Lock
+                size={12}
+                style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
+              />
+            </span>
           )}
           {repository.fork && (
-            <GitFork
-              size={12}
-              style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
-              title="Forked repository"
-            />
+            <span title="Forked repository">
+              <GitFork
+                size={12}
+                style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
+              />
+            </span>
           )}
         </div>
 

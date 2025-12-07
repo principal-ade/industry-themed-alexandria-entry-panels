@@ -123,7 +123,7 @@ export const panels: PanelDefinition[] = [
         context.hasSlice('githubStarred') &&
         !context.isSliceLoading('githubStarred')
       ) {
-        await context.refresh('global', 'githubStarred');
+        await context.refresh(undefined, 'githubStarred');
       }
     },
 
@@ -153,7 +153,7 @@ export const panels: PanelDefinition[] = [
         context.hasSlice('githubProjects') &&
         !context.isSliceLoading('githubProjects')
       ) {
-        await context.refresh('global', 'githubProjects');
+        await context.refresh(undefined, 'githubProjects');
       }
     },
 
