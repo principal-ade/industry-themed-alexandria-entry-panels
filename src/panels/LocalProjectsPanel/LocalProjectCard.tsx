@@ -382,6 +382,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           }}
         >
           <span
+            className={entry.github?.primaryLanguage ? 'project-name-underline' : undefined}
             style={{
               flex: 1,
               fontSize: `${theme.fontSizes[2]}px`,
@@ -390,12 +391,10 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              textDecoration: 'underline',
-              textDecorationColor: entry.github?.primaryLanguage
+              '--underline-color': entry.github?.primaryLanguage
                 ? getLanguageColor(entry.github.primaryLanguage)
                 : theme.colors.textSecondary,
-              textUnderlineOffset: '3px',
-            }}
+            } as React.CSSProperties}
           >
             {entry.name}
           </span>

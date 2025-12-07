@@ -5,6 +5,27 @@
   height: 100%;
 }
 
+/* Animated underline that grows from left on hover */
+.local-project-card .project-name-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.local-project-card .project-name-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background-color: var(--underline-color);
+  transition: width 0.2s ease-out;
+}
+
+.local-project-card:hover .project-name-underline::after {
+  width: 100%;
+}
+
 /* Compact mode when container is 400px or less */
 @container local-projects (max-width: 400px) {
   .local-projects-panel {
