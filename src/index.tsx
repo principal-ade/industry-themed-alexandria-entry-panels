@@ -3,12 +3,14 @@ import { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel'
 import { WorkspacesListPanel } from './panels/WorkspacesListPanel';
 import { GitHubStarredPanel } from './panels/GitHubStarredPanel';
 import { GitHubProjectsPanel } from './panels/GitHubProjectsPanel';
+import { UserProfilePanel } from './panels/UserProfilePanel';
 import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
 import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
 import { workspacesListPanelTools } from './panels/WorkspacesListPanel/tools';
 import { githubStarredPanelTools } from './panels/GitHubStarredPanel/tools';
 import { githubProjectsPanelTools } from './panels/GitHubProjectsPanel/tools';
+import { userProfilePanelTools } from './panels/UserProfilePanel/tools';
 
 /**
  * Export array of panel definitions.
@@ -162,6 +164,36 @@ export const panels: PanelDefinition[] = [
       console.log('GitHub Projects Panel unmounting');
     },
   },
+  {
+    metadata: {
+      id: 'industry-theme.user-profile',
+      name: 'User Profile',
+      icon: 'User',
+      version: '0.1.0',
+      author: 'Industry Theme',
+      description: 'View user profiles, organizations, and starred repositories',
+      slices: ['userProfile'],
+      tools: userProfilePanelTools,
+    },
+    component: UserProfilePanel,
+
+    onMount: async (context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('User Profile Panel mounted');
+
+      if (
+        context.hasSlice('userProfile') &&
+        !context.isSliceLoading('userProfile')
+      ) {
+        await context.refresh(undefined, 'userProfile');
+      }
+    },
+
+    onUnmount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('User Profile Panel unmounting');
+    },
+  },
 ];
 
 /**
@@ -226,6 +258,17 @@ export {
   cloneProjectRepositoryTool,
 } from './panels/GitHubProjectsPanel/tools';
 
+export {
+  userProfilePanelTools,
+  userProfilePanelToolsMetadata,
+  viewOrganizationsTool,
+  viewStarredTool,
+  selectOrganizationTool,
+  selectRepositoryTool as selectUserRepositoryTool,
+  cloneRepositoryTool as cloneUserRepositoryTool,
+  filterStarredTool as filterUserStarredTool,
+} from './panels/UserProfilePanel/tools';
+
 /**
  * Export panel components for direct use
  */
@@ -253,6 +296,11 @@ export {
   GitHubProjectsPanel,
   GitHubProjectsPanelPreview,
 } from './panels/GitHubProjectsPanel';
+
+export {
+  UserProfilePanel,
+  UserProfilePanelPreview,
+} from './panels/UserProfilePanel';
 
 export { GitHubRepositoryCard } from './panels/shared/GitHubRepositoryCard';
 
@@ -302,6 +350,23 @@ export type {
   GitHubProjectsPanelActions,
   GitHubProjectsPanelEventPayloads,
 } from './panels/GitHubProjectsPanel/types';
+
+export type {
+  GitHubUserProfile,
+  GitHubOrganization as UserProfileOrganization,
+  GitHubRepository as UserProfileRepository,
+  UserProfileSlice,
+  UserProfilePanelActions,
+  UserProfileView,
+  UserPresenceStatus,
+  UserProfileCardProps,
+  OrganizationCardProps,
+  StarredRepositoryCardProps,
+  OrganizationSelectedPayload,
+  RepositorySelectedPayload as UserRepositorySelectedPayload,
+  RepositoryCloneRequestedPayload,
+  UserProfilePanelEventPayloads,
+} from './panels/UserProfilePanel/types';
 
 export type { GitHubRepositoryCardProps } from './panels/shared/GitHubRepositoryCard';
 
