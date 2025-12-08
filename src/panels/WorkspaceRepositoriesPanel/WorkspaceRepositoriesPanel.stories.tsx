@@ -38,6 +38,7 @@ const mockRepositories: AlexandriaEntry[] = [
       stars: 42,
       primaryLanguage: 'TypeScript',
       lastUpdated: new Date().toISOString(),
+      isPublic: true,
     },
   },
   {
@@ -56,6 +57,7 @@ const mockRepositories: AlexandriaEntry[] = [
       stars: 128,
       primaryLanguage: 'Python',
       lastUpdated: new Date().toISOString(),
+      isPublic: false,
     },
   },
   {
@@ -74,6 +76,7 @@ const mockRepositories: AlexandriaEntry[] = [
       stars: 892,
       primaryLanguage: 'Rust',
       lastUpdated: new Date().toISOString(),
+      isPublic: true,
     },
   },
 ];
@@ -223,6 +226,7 @@ export const MixedLocations: Story = {
               stars: 45,
               primaryLanguage: 'TypeScript',
               lastUpdated: new Date().toISOString(),
+              isPublic: true,
             },
           },
           {
@@ -241,6 +245,7 @@ export const MixedLocations: Story = {
               stars: 23,
               primaryLanguage: 'Python',
               lastUpdated: new Date().toISOString(),
+              isPublic: false,
             },
           },
         ]),

@@ -18,6 +18,8 @@ export interface Workspace {
   suggestedClonePath?: string;
   createdAt: number;
   updatedAt: number;
+  /** Whether the workspace is private (not shared) */
+  isPrivate?: boolean;
 }
 
 /**

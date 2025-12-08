@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus, MoveUp } from 'lucide-react';
+import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus, MoveUp, Lock } from 'lucide-react';
 import { RepositoryAvatar } from './RepositoryAvatar';
 import type { LocalProjectCardProps } from './types';
 import './LocalProjectsPanel.css';
@@ -384,7 +384,6 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           <span
             className={entry.github?.primaryLanguage ? 'project-name-underline' : undefined}
             style={{
-              flex: 1,
               fontSize: `${theme.fontSizes[2]}px`,
               fontWeight: theme.fontWeights.semibold,
               color: theme.colors.text,
@@ -398,6 +397,15 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           >
             {entry.name}
           </span>
+          {/* Private badge */}
+          {entry.github && entry.github.isPublic === false && (
+            <span title="Private repository">
+              <Lock
+                size={12}
+                style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
+              />
+            </span>
+          )}
         </div>
 
         {/* Description row with action buttons */}

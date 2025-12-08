@@ -163,6 +163,7 @@ export const mockGitHubUserRepositories: GitHubRepository[] = [
     stargazers_count: 42,
     default_branch: 'main',
     fork: false,
+    license: 'MIT',
   },
   {
     id: 2002,
@@ -179,6 +180,7 @@ export const mockGitHubUserRepositories: GitHubRepository[] = [
     stargazers_count: 5,
     default_branch: 'main',
     fork: false,
+    license: 'Unlicense',
   },
   {
     id: 2003,
@@ -195,6 +197,7 @@ export const mockGitHubUserRepositories: GitHubRepository[] = [
     stargazers_count: 0,
     default_branch: 'main',
     fork: false,
+    license: null,
   },
 ];
 
@@ -236,6 +239,7 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       stargazers_count: 245,
       default_branch: 'main',
       fork: false,
+      license: 'MIT',
     },
     {
       id: 4002,
@@ -252,6 +256,7 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       stargazers_count: 128,
       default_branch: 'main',
       fork: false,
+      license: 'Apache-2.0',
     },
   ],
   'acme-corp': [
@@ -270,6 +275,7 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       stargazers_count: 0,
       default_branch: 'main',
       fork: false,
+      license: null,
     },
     {
       id: 5002,
@@ -286,6 +292,7 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       stargazers_count: 0,
       default_branch: 'main',
       fork: false,
+      license: 'BSD-3-Clause',
     },
   ],
 };

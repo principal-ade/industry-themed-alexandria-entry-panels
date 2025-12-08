@@ -7,6 +7,7 @@ import {
   Star,
   FolderOpen,
   Download,
+  Scale,
 } from 'lucide-react';
 import type { GitHubRepository, LocalRepositoryReference } from './github-types';
 import { RepositoryAvatar } from '../LocalProjectsPanel/RepositoryAvatar';
@@ -236,6 +237,14 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
                 {formatNumber(repository.stargazers_count)}
               </span>
             )}
+
+          {/* License */}
+          {repository.license && (
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Scale size={12} />
+              {repository.license}
+            </span>
+          )}
 
           {/* Updated time */}
           <span>Updated {getRelativeTime(repository.pushed_at || repository.updated_at)}</span>

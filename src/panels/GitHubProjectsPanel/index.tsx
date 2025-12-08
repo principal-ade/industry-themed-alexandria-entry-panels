@@ -136,6 +136,7 @@ const GitHubProjectsPanelContent: React.FC<PanelComponentProps> = ({
   const filteredOrgRepos = useMemo(() => {
     const result: Record<string, GitHubRepository[]> = {};
     for (const [orgLogin, repos] of Object.entries(orgRepositories)) {
+      if (!Array.isArray(repos)) continue;
       const filtered = filterRepos(repos);
       if (filtered.length > 0) {
         result[orgLogin] = filtered;
@@ -148,7 +149,9 @@ const GitHubProjectsPanelContent: React.FC<PanelComponentProps> = ({
   const allRepositories = useMemo(() => {
     const all = [...userRepositories];
     for (const repos of Object.values(orgRepositories)) {
-      all.push(...repos);
+      if (Array.isArray(repos)) {
+        all.push(...repos);
+      }
     }
     return all;
   }, [userRepositories, orgRepositories]);

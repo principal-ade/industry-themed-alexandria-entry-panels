@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { DoorClosed, Edit2, Check, X, ExternalLink, Trash2 } from 'lucide-react';
+import { DoorClosed, Edit2, Check, X, ExternalLink, Trash2, Lock } from 'lucide-react';
 import type { WorkspaceCardProps } from './types';
 
 /**
@@ -259,7 +259,6 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
             <>
               <span
                 style={{
-                  flex: 1,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -267,6 +266,17 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
               >
                 {workspace.name}
               </span>
+              {/* Private badge */}
+              {workspace.isPrivate && (
+                <span title="Private workspace">
+                  <Lock
+                    size={12}
+                    style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
+                  />
+                </span>
+              )}
+              {/* Spacer to push default badge right */}
+              <span style={{ flex: 1 }} />
               {isDefault && (
                 <span
                   style={{

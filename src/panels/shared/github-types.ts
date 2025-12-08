@@ -25,6 +25,8 @@ export interface GitHubRepository {
   stargazers_count?: number;
   default_branch: string;
   fork?: boolean;
+  /** License SPDX identifier (e.g., "MIT", "Apache-2.0") */
+  license?: string | null;
 }
 
 /**
