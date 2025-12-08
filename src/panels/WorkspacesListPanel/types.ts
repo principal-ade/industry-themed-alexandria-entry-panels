@@ -151,6 +151,8 @@ export interface WorkspacesListPanelEventPayloads {
   'open-workspace': { workspaceId: string };
   /** Create workspace event (from tools) */
   'create-workspace': { name: string; description?: string };
+  /** Create workspace requested - emitted when user clicks add button */
+  'create-workspace-requested': Record<string, never>;
   /** Workspace selected notification */
   'workspace:selected': WorkspaceSelectedPayload;
   /** Workspace opened notification */

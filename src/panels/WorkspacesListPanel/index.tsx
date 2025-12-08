@@ -35,7 +35,6 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
   const [workspaceRepositories, setWorkspaceRepositories] = useState<Map<string, string[]>>(
     new Map()
   );
-  const [isCreating, setIsCreating] = useState(false);
 
   // Get extended actions
   const panelActions = actions as WorkspacesListPanelActions;
@@ -194,34 +193,13 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
     [panelActions, context]
   );
 
-  // Handle create workspace
-  const handleCreateWorkspace = useCallback(async () => {
-    if (!panelActions.createWorkspace) {
-      console.warn('Create workspace action not available');
-      return;
-    }
-
-    const name = window.prompt('Enter workspace name:');
-    if (!name?.trim()) return;
-
-    try {
-      setIsCreating(true);
-      const workspace = await panelActions.createWorkspace(name.trim());
-      events.emit(
-        createPanelEvent(`${PANEL_ID}:workspace:created`, {
-          workspaceId: workspace.id,
-          workspace,
-        })
-      );
-
-      // Refresh workspaces
-      await context.refresh('workspace', 'workspaces');
-    } catch (error) {
-      console.error('Failed to create workspace:', error);
-    } finally {
-      setIsCreating(false);
-    }
-  }, [panelActions, events, context]);
+  // Handle create workspace - emits event for host app to show modal
+  const handleCreateWorkspace = useCallback(() => {
+    // Emit event for host app to handle (e.g., show a modal)
+    events.emit(
+      createPanelEvent(`${PANEL_ID}:create-workspace-requested`, {})
+    );
+  }, [events]);
 
   // Subscribe to panel events
   useEffect(() => {
@@ -376,29 +354,25 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
           >
             <Search size={16} />
           </button>
-          {panelActions.createWorkspace && (
-            <button
-              onClick={handleCreateWorkspace}
-              disabled={isCreating}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '28px',
-                height: '28px',
-                borderRadius: '6px',
-                border: `1px solid ${theme.colors.border}`,
-                backgroundColor: theme.colors.primary,
-                color: theme.colors.background,
-                cursor: isCreating ? 'not-allowed' : 'pointer',
-                opacity: isCreating ? 0.6 : 1,
-                transition: 'all 0.15s ease',
-              }}
-              title="Create new workspace"
-            >
-              <Plus size={16} />
-            </button>
-          )}
+          <button
+            onClick={handleCreateWorkspace}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '28px',
+              height: '28px',
+              borderRadius: '6px',
+              border: `1px solid ${theme.colors.border}`,
+              backgroundColor: theme.colors.primary,
+              color: theme.colors.background,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+            title="Create new workspace"
+          >
+            <Plus size={16} />
+          </button>
         </div>
       </div>
 
