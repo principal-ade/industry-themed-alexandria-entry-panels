@@ -34,3 +34,13 @@ export {
   openWorkspaceTool,
   createWorkspaceTool,
 } from '../panels/WorkspacesListPanel/tools';
+
+export {
+  workspaceCollectionPanelTools,
+  workspaceCollectionPanelToolsMetadata,
+  filterRepositoriesTool,
+  selectRepositoryTool as selectCollectionRepositoryTool,
+  navigateRepositoryTool,
+  removeRepositoryTool,
+  refreshWorkspaceCollectionTool,
+} from '../panels/WorkspaceCollectionPanel/tools';

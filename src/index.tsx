@@ -1,6 +1,7 @@
 import { LocalProjectsPanel } from './panels/LocalProjectsPanel';
 import { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
 import { WorkspacesListPanel } from './panels/WorkspacesListPanel';
+import { WorkspaceCollectionPanel } from './panels/WorkspaceCollectionPanel';
 import { GitHubStarredPanel } from './panels/GitHubStarredPanel';
 import { GitHubProjectsPanel } from './panels/GitHubProjectsPanel';
 import { UserProfilePanel } from './panels/UserProfilePanel';
@@ -8,6 +9,7 @@ import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
 import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
 import { workspacesListPanelTools } from './panels/WorkspacesListPanel/tools';
+import { workspaceCollectionPanelTools } from './panels/WorkspaceCollectionPanel/tools';
 import { githubStarredPanelTools } from './panels/GitHubStarredPanel/tools';
 import { githubProjectsPanelTools } from './panels/GitHubProjectsPanel/tools';
 import { userProfilePanelTools } from './panels/UserProfilePanel/tools';
@@ -102,6 +104,31 @@ export const panels: PanelDefinition[] = [
     onUnmount: async (_context: PanelContextValue) => {
       // eslint-disable-next-line no-console
       console.log('Workspaces List Panel unmounting');
+    },
+  },
+  {
+    metadata: {
+      id: 'industry-theme.workspace-collection',
+      name: 'Workspace Collection',
+      icon: 'FolderOpen',
+      version: '0.1.0',
+      author: 'Industry Theme',
+      description: 'Browse repositories in a workspace (browser)',
+      slices: ['workspace', 'workspaceRepositories'],
+      tools: workspaceCollectionPanelTools,
+    },
+    component: WorkspaceCollectionPanel,
+
+    onMount: async (context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Workspace Collection Panel mounted');
+      // eslint-disable-next-line no-console
+      console.log('Current scope:', context.currentScope.type);
+    },
+
+    onUnmount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('Workspace Collection Panel unmounting');
     },
   },
   {
@@ -242,6 +269,16 @@ export {
 } from './panels/WorkspacesListPanel/tools';
 
 export {
+  workspaceCollectionPanelTools,
+  workspaceCollectionPanelToolsMetadata,
+  filterRepositoriesTool,
+  selectRepositoryTool as selectCollectionRepositoryTool,
+  navigateRepositoryTool,
+  removeRepositoryTool,
+  refreshWorkspaceCollectionTool,
+} from './panels/WorkspaceCollectionPanel/tools';
+
+export {
   githubStarredPanelTools,
   githubStarredPanelToolsMetadata,
   filterStarredTool,
@@ -288,6 +325,11 @@ export {
 } from './panels/WorkspacesListPanel';
 
 export {
+  WorkspaceCollectionPanel,
+  WorkspaceCollectionPanelPreview,
+} from './panels/WorkspaceCollectionPanel';
+
+export {
   GitHubStarredPanel,
   GitHubStarredPanelPreview,
 } from './panels/GitHubStarredPanel';
@@ -332,6 +374,17 @@ export type {
   WorkspaceCreatedPayload,
   WorkspaceDeletedPayload,
 } from './panels/WorkspacesListPanel/types';
+
+export type {
+  Workspace as WorkspaceCollectionWorkspace,
+  WorkspaceCollectionSlice,
+  WorkspaceRepositoriesSlice,
+  WorkspaceCollectionPanelActions,
+  RepositorySelectedPayload as CollectionRepositorySelectedPayload,
+  RepositoryRemovedPayload,
+  RepositoryNavigatePayload,
+  WorkspaceCollectionPanelEventPayloads,
+} from './panels/WorkspaceCollectionPanel/types';
 
 export type {
   GitHubRepository,
