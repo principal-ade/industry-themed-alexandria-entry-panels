@@ -25,6 +25,14 @@ export interface GitHubRepository {
   stargazers_count?: number;
   default_branch: string;
   fork?: boolean;
+  /** Parent repository info (for forks) */
+  parent?: {
+    full_name: string;
+    owner: {
+      login: string;
+      avatar_url: string;
+    };
+  };
   /** License SPDX identifier (e.g., "MIT", "Apache-2.0") */
   license?: string | null;
 }

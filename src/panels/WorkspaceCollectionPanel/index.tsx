@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
 import {
-  ExternalLink,
   Folder,
   Loader2,
   Trash2,
-  ArrowRight,
 } from 'lucide-react';
 import type { PanelComponentProps } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
@@ -61,15 +59,11 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
     }
   }, [onSelect, repository]);
 
-  const handleNavigate = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (onNavigate) {
-        onNavigate(repository);
-      }
-    },
-    [onNavigate, repository]
-  );
+  const handleDoubleClick = useCallback(() => {
+    if (onNavigate) {
+      onNavigate(repository);
+    }
+  }, [onNavigate, repository]);
 
   const handleRemove = useCallback(
     (e: React.MouseEvent) => {
@@ -79,14 +73,6 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
       }
     },
     [onRemove, repository]
-  );
-
-  const handleOpenOnGitHub = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      window.open(repository.html_url, '_blank', 'noopener,noreferrer');
-    },
-    [repository.html_url]
   );
 
   // Format relative time
@@ -107,6 +93,7 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
   return (
     <div
       onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
@@ -125,10 +112,10 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
         transition: 'background-color 0.15s, border-color 0.15s',
       }}
     >
-      {/* Avatar */}
+      {/* Avatar - show original owner for forks */}
       <RepositoryAvatar
-        owner={repository.owner.login}
-        customAvatarUrl={repository.owner.avatar_url}
+        owner={repository.fork && repository.parent ? repository.parent.owner.login : repository.owner.login}
+        customAvatarUrl={repository.fork && repository.parent ? repository.parent.owner.avatar_url : repository.owner.avatar_url}
         size={40}
       />
 
@@ -159,7 +146,7 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
           </span>
         </div>
 
-        {/* Owner */}
+        {/* Owner - show "forked by" for forks */}
         <div
           style={{
             fontSize: `${theme.fontSizes[0]}px`,
@@ -168,7 +155,15 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
             marginBottom: '4px',
           }}
         >
-          {repository.owner.login}
+          {repository.fork && repository.parent ? (
+            <>
+              {repository.parent.owner.login}
+              <span style={{ opacity: 0.7 }}> · forked by </span>
+              {repository.owner.login}
+            </>
+          ) : (
+            repository.owner.login
+          )}
         </div>
 
         {/* Description */}
@@ -264,63 +259,6 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
             }}
           >
             <Trash2 size={16} />
-          </button>
-        )}
-
-        {/* Open on GitHub button */}
-        <button
-          type="button"
-          onClick={handleOpenOnGitHub}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '32px',
-            height: '32px',
-            borderRadius: '6px',
-            border: `1px solid ${theme.colors.border}`,
-            backgroundColor: 'transparent',
-            color: theme.colors.textSecondary,
-            cursor: 'pointer',
-            transition: 'background-color 0.15s, color 0.15s',
-          }}
-          title="Open on GitHub"
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = theme.colors.backgroundTertiary;
-            e.currentTarget.style.color = theme.colors.text;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = theme.colors.textSecondary;
-          }}
-        >
-          <ExternalLink size={16} />
-        </button>
-
-        {/* Navigate button */}
-        {onNavigate && (
-          <button
-            type="button"
-            onClick={handleNavigate}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
-              borderRadius: '6px',
-              border: 'none',
-              backgroundColor: theme.colors.primary,
-              color: theme.colors.background,
-              fontSize: `${theme.fontSizes[1]}px`,
-              fontWeight: theme.fontWeights.medium,
-              fontFamily: theme.fonts.body,
-              cursor: 'pointer',
-              transition: 'opacity 0.15s',
-            }}
-            title="View repository"
-          >
-            <ArrowRight size={14} />
-            View
           </button>
         )}
       </div>
