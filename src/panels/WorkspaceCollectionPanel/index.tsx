@@ -4,7 +4,6 @@ import {
   ExternalLink,
   Folder,
   Loader2,
-  Search,
   Trash2,
   ArrowRight,
 } from 'lucide-react';
@@ -17,6 +16,12 @@ import type {
   WorkspaceCollectionPanelActions,
 } from './types';
 import { RepositoryAvatar } from '../LocalProjectsPanel/RepositoryAvatar';
+
+type SortField = 'name' | 'updated';
+
+export interface WorkspaceCollectionPanelProps extends PanelComponentProps {
+  selectedRepository?: string; // full_name like "owner/repo"
+}
 
 // Panel event prefix
 const PANEL_ID = 'industry-theme.workspace-collection';
@@ -353,14 +358,15 @@ function getLanguageColor(language: string): string {
 /**
  * WorkspaceCollectionPanelContent - Internal component that uses theme
  */
-const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
+const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> = ({
   context,
   actions,
   events,
+  selectedRepository,
 }) => {
   const { theme } = useTheme();
-  const [filter, setFilter] = useState('');
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
+  const [sortField, setSortField] = useState<SortField>('name');
 
   // Get extended actions
   const panelActions = actions as WorkspaceCollectionPanelActions;
@@ -374,30 +380,49 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
   const isLoading = workspaceSlice?.loading || repositoriesSlice?.loading || false;
   const error = workspaceSlice?.data?.error || repositoriesSlice?.data?.error;
 
-  // Filter and sort repositories
-  const filteredRepositories = useMemo(() => {
-    let filtered = [...repositories];
-
-    // Apply text filter
-    if (filter.trim()) {
-      const normalizedFilter = filter.trim().toLowerCase();
-      filtered = filtered.filter((repo) => {
-        const haystack = [
-          repo.name,
-          repo.full_name,
-          repo.owner?.login ?? '',
-          repo.description ?? '',
-          repo.language ?? '',
-        ]
-          .join(' ')
-          .toLowerCase();
-        return haystack.includes(normalizedFilter);
-      });
+  // Sync selectedRepository prop with internal state
+  useEffect(() => {
+    if (selectedRepository && repositories.length > 0) {
+      const repo = repositories.find(r => r.full_name === selectedRepository);
+      if (repo) {
+        setSelectedRepo(repo);
+      }
     }
+  }, [selectedRepository, repositories]);
 
-    // Sort alphabetically by name
-    return filtered.sort((a, b) => a.name.localeCompare(b.name));
-  }, [repositories, filter]);
+  // Listen for repository:selected events to sync selection
+  useEffect(() => {
+    const unsubscribe = events.on('repository:selected', (event) => {
+      const payload = event.payload as { repository?: { id?: number; full_name?: string } };
+      if (payload?.repository?.full_name && repositories.length > 0) {
+        const repo = repositories.find(r => r.full_name === payload.repository?.full_name);
+        if (repo) {
+          setSelectedRepo(repo);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [events, repositories]);
+
+  // Toggle sort between name and updated
+  const toggleSort = () => {
+    setSortField(sortField === 'name' ? 'updated' : 'name');
+  };
+
+  // Sort repositories
+  const sortedRepositories = useMemo(() => {
+    return [...repositories].sort((a, b) => {
+      if (sortField === 'name') {
+        return a.name.localeCompare(b.name);
+      } else {
+        // Sort by updated (most recent first)
+        const aTime = new Date(a.pushed_at || a.updated_at || 0).getTime();
+        const bTime = new Date(b.pushed_at || b.updated_at || 0).getTime();
+        return bTime - aTime;
+      }
+    });
+  }, [repositories, sortField]);
 
   // Event handlers
   const handleSelectRepository = useCallback(
@@ -494,10 +519,6 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
           }
         }
       }),
-
-      events.on<{ filter: string }>(`${PANEL_ID}:filter`, (event) => {
-        setFilter(event.payload?.filter || '');
-      }),
     ];
 
     return () => unsubscribers.forEach((unsub) => unsub());
@@ -512,8 +533,6 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
 
   const contentContainerStyle: React.CSSProperties = {
     ...baseContainerStyle,
-    padding: '16px',
-    gap: '12px',
   };
 
   // No workspace selected
@@ -621,66 +640,64 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
 
   return (
     <div style={contentContainerStyle}>
-      {/* Workspace header */}
-      <div>
-        <h3
+      {/* Header with repository count and sort toggle */}
+      <div
+        style={{
+          height: '40px',
+          minHeight: '40px',
+          padding: '0 16px',
+          borderBottom: `1px solid ${theme.colors.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <Folder size={18} color={theme.colors.primary} />
+        <span
           style={{
-            margin: '0 0 4px 0',
             fontSize: `${theme.fontSizes[2]}px`,
-            fontWeight: theme.fontWeights.semibold,
+            fontWeight: theme.fontWeights.medium,
             color: theme.colors.text,
             fontFamily: theme.fonts.body,
           }}
         >
-          {workspace.name}
-        </h3>
-        {workspace.description && (
-          <p
-            style={{
-              margin: 0,
-              fontSize: `${theme.fontSizes[1]}px`,
-              color: theme.colors.textSecondary,
-              fontFamily: theme.fonts.body,
-            }}
-          >
-            {workspace.description}
-          </p>
+          Repositories
+        </span>
+        {repositories.length > 0 && (
+          <>
+            <span
+              style={{
+                fontSize: `${theme.fontSizes[1]}px`,
+                color: theme.colors.textSecondary,
+                padding: '2px 8px',
+                borderRadius: '12px',
+                backgroundColor: theme.colors.background,
+              }}
+            >
+              {repositories.length}
+            </span>
+            <button
+              onClick={toggleSort}
+              style={{
+                marginLeft: 'auto',
+                padding: '4px 10px',
+                borderRadius: '4px',
+                border: `1px solid ${theme.colors.border}`,
+                background: theme.colors.background,
+                color: theme.colors.text,
+                fontSize: `${theme.fontSizes[1]}px`,
+                fontFamily: theme.fonts.body,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              {sortField === 'name' ? 'A-Z' : 'Recent'}
+            </button>
+          </>
         )}
       </div>
-
-      {/* Search bar */}
-      {repositories.length > 0 && (
-        <div style={{ position: 'relative' }}>
-          <Search
-            size={16}
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '12px',
-              transform: 'translateY(-50%)',
-              color: theme.colors.textSecondary,
-              pointerEvents: 'none',
-            }}
-          />
-          <input
-            type="text"
-            value={filter}
-            placeholder="Filter repositories..."
-            onChange={(e) => setFilter(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '8px 12px 8px 36px',
-              borderRadius: '6px',
-              border: `1px solid ${theme.colors.border}`,
-              backgroundColor: theme.colors.background,
-              color: theme.colors.text,
-              fontSize: `${theme.fontSizes[1]}px`,
-              fontFamily: theme.fonts.body,
-              outline: 'none',
-            }}
-          />
-        </div>
-      )}
 
       {/* Error banner */}
       {error && (
@@ -690,6 +707,7 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
             alignItems: 'center',
             gap: '8px',
             padding: '10px 14px',
+            margin: '8px 16px',
             borderRadius: '6px',
             backgroundColor: `${theme.colors.error || '#ef4444'}20`,
             color: theme.colors.error || '#ef4444',
@@ -701,22 +719,6 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
         </div>
       )}
 
-      {/* Repository count */}
-      <div
-        style={{
-          fontSize: `${theme.fontSizes[0]}px`,
-          fontFamily: theme.fonts.body,
-          color: theme.colors.textSecondary,
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px',
-        }}
-      >
-        {filteredRepositories.length} {filteredRepositories.length === 1 ? 'repository' : 'repositories'}
-        {filter && repositories.length !== filteredRepositories.length && (
-          <span> (filtered from {repositories.length})</span>
-        )}
-      </div>
-
       {/* Scrollable content */}
       <div
         style={{
@@ -725,6 +727,7 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
+          padding: '8px',
         }}
       >
         {/* Empty state */}
@@ -752,21 +755,8 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
           </div>
         )}
 
-        {/* No filter results */}
-        {repositories.length > 0 && filteredRepositories.length === 0 && (
-          <div
-            style={{
-              padding: '32px',
-              textAlign: 'center',
-              color: theme.colors.textSecondary,
-            }}
-          >
-            <p style={{ margin: 0 }}>No repositories match your filter.</p>
-          </div>
-        )}
-
         {/* Repository list */}
-        {filteredRepositories.map((repository) => (
+        {sortedRepositories.map((repository) => (
           <WorkspaceCollectionRepositoryCard
             key={repository.id}
             repository={repository}
@@ -784,9 +774,13 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
 /**
  * WorkspaceCollectionPanel - Browser-based workspace repository management panel
  *
+ * Props:
+ * - selectedRepository: Full name of the selected repo (e.g., "owner/repo")
+ *
  * Features:
  * - List all repositories in a workspace
- * - Filter repositories by name/description
+ * - Toggle between name (A-Z) and recently updated sorting
+ * - Syncs selection with selectedRepository prop and repository:selected events
  * - Navigate to repository pages
  * - Remove repositories from workspace
  *
@@ -799,7 +793,7 @@ const WorkspaceCollectionPanelContent: React.FC<PanelComponentProps> = ({
  * - repository:navigate
  * - repository:removed
  */
-export const WorkspaceCollectionPanel: React.FC<PanelComponentProps> = (props) => {
+export const WorkspaceCollectionPanel: React.FC<WorkspaceCollectionPanelProps> = (props) => {
   return <WorkspaceCollectionPanelContent {...props} />;
 };
 
