@@ -206,8 +206,6 @@ const LocalProjectsPanelContent: React.FC<PanelComponentProps> = ({
 
   const contentContainerStyle: React.CSSProperties = {
     ...baseContainerStyle,
-    padding: '16px',
-    gap: '12px',
   };
 
   // Loading state
@@ -252,9 +250,91 @@ const LocalProjectsPanelContent: React.FC<PanelComponentProps> = ({
 
   return (
     <div className="local-projects-panel" style={contentContainerStyle}>
-      {/* Search bar with sort toggle and add button */}
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
+      {/* Header */}
+      <div
+        style={{
+          height: '40px',
+          minHeight: '40px',
+          padding: '0 16px',
+          borderBottom: `1px solid ${theme.colors.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <FolderGit2 size={18} style={{ color: theme.colors.success || '#10b981' }} />
+        <span
+          style={{
+            fontSize: `${theme.fontSizes[2]}px`,
+            fontWeight: theme.fontWeights.medium,
+            color: theme.colors.text,
+            fontFamily: theme.fonts.body,
+          }}
+        >
+          Local Projects
+        </span>
+        {repositories.length > 0 && (
+          <span
+            style={{
+              fontSize: `${theme.fontSizes[1]}px`,
+              color: theme.colors.textSecondary,
+              padding: '2px 8px',
+              borderRadius: '12px',
+              backgroundColor: theme.colors.background,
+            }}
+          >
+            {repositories.length}
+          </span>
+        )}
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+          <button
+            onClick={() => setSortByOrg(!sortByOrg)}
+            title={sortByOrg ? 'Sorting by organization' : 'Sorting by repo name'}
+            style={{
+              padding: '6px',
+              borderRadius: '6px',
+              border: `1px solid ${theme.colors.border}`,
+              backgroundColor: sortByOrg ? `${theme.colors.primary}20` : theme.colors.background,
+              color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.15s',
+              flexShrink: 0,
+            }}
+          >
+            {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
+          </button>
+          {panelActions.selectDirectory && (
+            <button
+              onClick={handleAddProject}
+              disabled={isAdding}
+              title="Add existing project"
+              style={{
+                padding: '6px',
+                borderRadius: '6px',
+                border: `1px solid ${theme.colors.border}`,
+                backgroundColor: theme.colors.primary,
+                color: theme.colors.background,
+                cursor: isAdding ? 'default' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: isAdding ? 0.6 : 1,
+                transition: 'opacity 0.2s',
+                flexShrink: 0,
+              }}
+            >
+              <Plus size={16} />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Search bar */}
+      <div style={{ padding: '8px 16px' }}>
+        <div style={{ position: 'relative' }}>
           <Search
             size={16}
             style={{
@@ -286,48 +366,6 @@ const LocalProjectsPanelContent: React.FC<PanelComponentProps> = ({
             }}
           />
         </div>
-        <button
-          onClick={() => setSortByOrg(!sortByOrg)}
-          title={sortByOrg ? 'Sorting by organization' : 'Sorting by repo name'}
-          style={{
-            padding: '8px',
-            borderRadius: '6px',
-            border: `1px solid ${theme.colors.border}`,
-            backgroundColor: sortByOrg ? `${theme.colors.primary}20` : theme.colors.background,
-            color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.15s',
-            flexShrink: 0,
-          }}
-        >
-          {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
-        </button>
-        {panelActions.selectDirectory && (
-          <button
-            onClick={handleAddProject}
-            disabled={isAdding}
-            title="Add existing project"
-            style={{
-              padding: '8px',
-              borderRadius: '6px',
-              border: `1px solid ${theme.colors.border}`,
-              backgroundColor: theme.colors.primary,
-              color: theme.colors.background,
-              cursor: isAdding ? 'default' : 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              opacity: isAdding ? 0.6 : 1,
-              transition: 'opacity 0.2s',
-              flexShrink: 0,
-            }}
-          >
-            <Plus size={16} />
-          </button>
-        )}
       </div>
 
       {/* Scrollable content */}
@@ -339,6 +377,7 @@ const LocalProjectsPanelContent: React.FC<PanelComponentProps> = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
+          padding: '8px',
         }}
       >
         {/* Repository list */}

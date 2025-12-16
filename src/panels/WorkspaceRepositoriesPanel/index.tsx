@@ -188,8 +188,6 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
 
   const contentContainerStyle: React.CSSProperties = {
     ...baseContainerStyle,
-    padding: '16px',
-    gap: '12px',
   };
 
   // No workspace selected
@@ -293,87 +291,106 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
 
   return (
     <div style={contentContainerStyle}>
-      {/* Workspace header */}
-      <div>
-        <div
+      {/* Header */}
+      <div
+        style={{
+          height: '40px',
+          minHeight: '40px',
+          padding: '0 16px',
+          borderBottom: `1px solid ${theme.colors.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <Folder size={18} color={theme.colors.primary} />
+        <span
           style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            gap: '16px',
-            marginBottom: '4px',
+            fontSize: `${theme.fontSizes[2]}px`,
+            fontWeight: theme.fontWeights.medium,
+            color: theme.colors.text,
+            fontFamily: theme.fonts.body,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
           }}
         >
-          {/* Left: Workspace name */}
-          <h3
+          {workspace.name}
+        </span>
+        {sortedRepositories.length > 0 && (
+          <span
             style={{
-              margin: 0,
-              fontSize: `${theme.fontSizes[2]}px`,
-              fontWeight: theme.fontWeights.semibold,
-              color: theme.colors.text,
-              fontFamily: theme.fonts.body,
+              fontSize: `${theme.fontSizes[1]}px`,
+              color: theme.colors.textSecondary,
+              padding: '2px 8px',
+              borderRadius: '12px',
+              backgroundColor: theme.colors.background,
+              flexShrink: 0,
             }}
           >
-            {workspace.name}
-          </h3>
-
-          {/* Right: Home directory button */}
-          {workspace.suggestedClonePath && (
-            <button
-              type="button"
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(workspace.suggestedClonePath!);
-                  setCopiedPath(true);
-                  setTimeout(() => setCopiedPath(false), 2000);
-                } catch (err) {
-                  console.error('Failed to copy path:', err);
-                }
-              }}
-              onMouseEnter={() => setIsPathHovered(true)}
-              onMouseLeave={() => setIsPathHovered(false)}
-              title={copiedPath ? 'Copied!' : `Click to copy: ${workspace.suggestedClonePath}`}
+            {sortedRepositories.length}
+          </span>
+        )}
+        {/* Home directory button */}
+        {workspace.suggestedClonePath && (
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(workspace.suggestedClonePath!);
+                setCopiedPath(true);
+                setTimeout(() => setCopiedPath(false), 2000);
+              } catch (err) {
+                console.error('Failed to copy path:', err);
+              }
+            }}
+            onMouseEnter={() => setIsPathHovered(true)}
+            onMouseLeave={() => setIsPathHovered(false)}
+            title={copiedPath ? 'Copied!' : `Click to copy: ${workspace.suggestedClonePath}`}
+            style={{
+              marginLeft: 'auto',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              border: `1px solid ${copiedPath ? theme.colors.success || '#10b981' : theme.colors.border}`,
+              backgroundColor: copiedPath
+                ? `${theme.colors.success || '#10b981'}15`
+                : theme.colors.backgroundTertiary,
+              color: copiedPath
+                ? theme.colors.success || '#10b981'
+                : theme.colors.textSecondary,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+              minWidth: 0,
+              maxWidth: isPathHovered || copiedPath ? '200px' : '32px',
+              overflow: 'hidden',
+              flexShrink: 0,
+            }}
+          >
+            {copiedPath ? <Check size={14} style={{ flexShrink: 0 }} /> : <Home size={14} style={{ flexShrink: 0 }} />}
+            <span
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '4px 8px',
-                borderRadius: '4px',
-                border: `1px solid ${copiedPath ? theme.colors.success || '#10b981' : theme.colors.border}`,
-                backgroundColor: copiedPath
-                  ? `${theme.colors.success || '#10b981'}15`
-                  : theme.colors.backgroundTertiary,
-                color: copiedPath
-                  ? theme.colors.success || '#10b981'
-                  : theme.colors.textSecondary,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                minWidth: 0,
-                maxWidth: isPathHovered || copiedPath ? '200px' : '32px',
+                fontSize: `${theme.fontSizes[0]}px`,
+                fontFamily: theme.fonts.monospace,
+                whiteSpace: 'nowrap',
                 overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                opacity: isPathHovered || copiedPath ? 1 : 0,
+                width: isPathHovered || copiedPath ? 'auto' : 0,
+                transition: 'opacity 0.15s ease',
               }}
             >
-              {copiedPath ? <Check size={14} style={{ flexShrink: 0 }} /> : <Home size={14} style={{ flexShrink: 0 }} />}
-              <span
-                style={{
-                  fontSize: `${theme.fontSizes[0]}px`,
-                  fontFamily: theme.fonts.monospace,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  opacity: isPathHovered || copiedPath ? 1 : 0,
-                  width: isPathHovered || copiedPath ? 'auto' : 0,
-                  transition: 'opacity 0.15s ease',
-                }}
-              >
-                {copiedPath ? 'Copied!' : workspace.suggestedClonePath}
-              </span>
-            </button>
-          )}
-        </div>
+              {copiedPath ? 'Copied!' : workspace.suggestedClonePath}
+            </span>
+          </button>
+        )}
+      </div>
 
-        {/* Workspace description */}
-        {workspace.description && (
+      {/* Workspace description */}
+      {workspace.description && (
+        <div style={{ padding: '8px 16px' }}>
           <p
             style={{
               margin: 0,
@@ -384,8 +401,8 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
           >
             {workspace.description}
           </p>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Scrollable content */}
       <div
@@ -395,6 +412,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '12px',
+          padding: '8px 16px',
         }}
       >
         {/* Empty state */}

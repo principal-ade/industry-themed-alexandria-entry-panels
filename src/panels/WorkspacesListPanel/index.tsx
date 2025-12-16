@@ -261,8 +261,6 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
 
   const contentContainerStyle: React.CSSProperties = {
     ...baseContainerStyle,
-    padding: '16px',
-    gap: '12px',
   };
 
   // Loading state
@@ -310,23 +308,29 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
       {/* Header with search and create buttons */}
       <div
         style={{
+          height: '40px',
+          minHeight: '40px',
+          padding: '0 16px',
+          borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '8px',
         }}
       >
-        <h3
-          style={{
-            margin: 0,
-            fontSize: `${theme.fontSizes[2]}px`,
-            fontWeight: theme.fontWeights.semibold,
-            color: theme.colors.text,
-            fontFamily: theme.fonts.body,
-          }}
-        >
-          Workspaces
-        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Layers size={18} color={theme.colors.primary} />
+          <span
+            style={{
+              fontSize: `${theme.fontSizes[2]}px`,
+              fontWeight: theme.fontWeights.medium,
+              color: theme.colors.text,
+              fontFamily: theme.fonts.body,
+            }}
+          >
+            Workspaces
+          </span>
+        </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => {
@@ -383,6 +387,7 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
+            padding: '8px 16px',
           }}
         >
           <input
@@ -435,6 +440,7 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
+          padding: '8px',
         }}
       >
         {/* Workspace list */}

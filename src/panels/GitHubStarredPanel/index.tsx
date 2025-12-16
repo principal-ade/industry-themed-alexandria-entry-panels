@@ -329,21 +329,53 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
   }
 
   return (
-    <div
-      style={{
-        ...baseContainerStyle,
-        padding: '16px',
-        gap: '12px',
-      }}
-    >
+    <div style={baseContainerStyle}>
+      {/* Header */}
+      <div
+        style={{
+          height: '40px',
+          minHeight: '40px',
+          padding: '0 16px',
+          borderBottom: `1px solid ${theme.colors.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <Star size={18} style={{ color: '#f59e0b' }} />
+        <span
+          style={{
+            fontSize: `${theme.fontSizes[2]}px`,
+            fontWeight: theme.fontWeights.medium,
+            color: theme.colors.text,
+            fontFamily: theme.fonts.body,
+          }}
+        >
+          Starred
+        </span>
+        {repositories.length > 0 && (
+          <span
+            style={{
+              fontSize: `${theme.fontSizes[1]}px`,
+              color: theme.colors.textSecondary,
+              padding: '2px 8px',
+              borderRadius: '12px',
+              backgroundColor: theme.colors.background,
+            }}
+          >
+            {repositories.length}
+          </span>
+        )}
+      </div>
+
       {/* Search bar */}
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', padding: '8px 16px' }}>
         <Search
           size={16}
           style={{
             position: 'absolute',
             top: '50%',
-            left: '12px',
+            left: '28px',
             transform: 'translateY(-50%)',
             color: theme.colors.textSecondary,
             pointerEvents: 'none',
@@ -364,6 +396,7 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
             fontSize: `${theme.fontSizes[1]}px`,
             fontFamily: theme.fonts.body,
             outline: 'none',
+            boxSizing: 'border-box',
           }}
         />
       </div>
@@ -376,6 +409,7 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
             alignItems: 'center',
             gap: '8px',
             padding: '10px 14px',
+            margin: '0 16px',
             borderRadius: '6px',
             backgroundColor: `${theme.colors.error || '#ef4444'}20`,
             color: theme.colors.error || '#ef4444',
@@ -396,6 +430,7 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
+          padding: '8px',
         }}
       >
         {sortedRepositories.map((repo) => (

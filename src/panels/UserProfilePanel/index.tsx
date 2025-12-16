@@ -551,11 +551,35 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
 
   return (
     <div style={baseContainerStyle}>
-      {/* User Header */}
+      {/* Panel Header */}
+      <div
+        style={{
+          height: '40px',
+          minHeight: '40px',
+          padding: '0 16px',
+          borderBottom: `1px solid ${theme.colors.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <User size={18} color={theme.colors.primary} />
+        <span
+          style={{
+            fontSize: `${theme.fontSizes[2]}px`,
+            fontWeight: theme.fontWeights.medium,
+            color: theme.colors.text,
+            fontFamily: theme.fonts.body,
+          }}
+        >
+          User Profile
+        </span>
+      </div>
+
+      {/* User Info */}
       <div
         style={{
           padding: '16px',
-          borderBottom: `1px solid ${theme.colors.border}`,
           backgroundColor: theme.colors.background,
         }}
       >
