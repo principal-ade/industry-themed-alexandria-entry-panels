@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { AlertCircle, Loader2, RotateCcw, Search, Star } from 'lucide-react';
+import { AlertCircle, Loader2, RotateCcw, Search, Star, X } from 'lucide-react';
 import type { PanelComponentProps } from '../../types';
 import type { AlexandriaRepositoriesSlice } from '../LocalProjectsPanel/types';
 import type { GitHubStarredSlice, GitHubStarredPanelActions } from './types';
 import type { GitHubRepository, LocalRepositoryReference } from '../shared/github-types';
+import type { WorkspaceCollectionSlice, WorkspaceRepositoriesSlice } from '../WorkspaceCollectionPanel/types';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
+import '../shared/styles.css';
 
 const PANEL_ID = 'industry-theme.github-starred';
 
@@ -31,11 +33,30 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
 }) => {
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
+
+  // Toggle search and clear filter when closing
+  const handleToggleSearch = useCallback(() => {
+    setShowSearch((prev) => {
+      if (prev) {
+        setFilter('');
+      }
+      return !prev;
+    });
+  }, []);
+
+  const handleClearFilter = useCallback(() => {
+    setFilter('');
+  }, []);
 
   // Get data from slices
   const starredSlice = context.getSlice<GitHubStarredSlice>('githubStarred');
   const localReposSlice = context.getSlice<AlexandriaRepositoriesSlice>('alexandriaRepositories');
+
+  // Get workspace/collection context for "Add to Collection" functionality
+  const workspaceSlice = context.getSlice<WorkspaceCollectionSlice>('workspace');
+  const workspaceReposSlice = context.getSlice<WorkspaceRepositoriesSlice>('workspaceRepositories');
 
   const repositories = useMemo(
     () => starredSlice?.data?.repositories || [],
@@ -48,6 +69,19 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
     () => localReposSlice?.data?.repositories || [],
     [localReposSlice?.data?.repositories]
   );
+
+  // Collection context - used to show "Add to Collection" button
+  const currentWorkspace = workspaceSlice?.data?.workspace;
+  const collectionName = currentWorkspace?.name;
+  const collectionRepos = useMemo(
+    () => workspaceReposSlice?.data?.repositories || [],
+    [workspaceReposSlice?.data?.repositories]
+  );
+
+  // Set of repo full_names already in the collection for quick lookup
+  const collectionRepoSet = useMemo(() => {
+    return new Set(collectionRepos.map((r) => r.full_name));
+  }, [collectionRepos]);
 
   // Cast actions to panel-specific type
   const panelActions = actions as GitHubStarredPanelActions;
@@ -156,6 +190,20 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
       await panelActions.refreshStarred();
     }
   }, [panelActions]);
+
+  const handleAddToCollection = useCallback(
+    async (repo: GitHubRepository) => {
+      if (panelActions.addToCollection) {
+        await panelActions.addToCollection(repo);
+        events.emit(
+          createPanelEvent(`${PANEL_ID}:repository-added-to-collection`, {
+            repository: repo,
+          })
+        );
+      }
+    },
+    [panelActions, events]
+  );
 
   // Subscribe to tool events
   useEffect(() => {
@@ -333,72 +381,167 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
       {/* Header */}
       <div
         style={{
+          position: 'relative',
           height: '40px',
           minHeight: '40px',
           padding: '0 16px',
           borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          boxSizing: 'border-box',
         }}
       >
-        <Star size={18} style={{ color: '#f59e0b' }} />
-        <span
+        <div
           style={{
-            fontSize: `${theme.fontSizes[2]}px`,
-            fontWeight: theme.fontWeights.medium,
-            color: theme.colors.text,
-            fontFamily: theme.fonts.body,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            visibility: showSearch ? 'hidden' : 'visible',
           }}
         >
-          Starred
-        </span>
-        {repositories.length > 0 && (
-          <span
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Star size={18} style={{ color: '#f59e0b' }} />
+            <span
+              style={{
+                fontSize: `${theme.fontSizes[2]}px`,
+                fontWeight: theme.fontWeights.medium,
+                color: theme.colors.text,
+                fontFamily: theme.fonts.body,
+              }}
+            >
+              Starred
+            </span>
+            {repositories.length > 0 && (
+              <span
+                style={{
+                  fontSize: `${theme.fontSizes[1]}px`,
+                  color: theme.colors.textSecondary,
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                  backgroundColor: theme.colors.background,
+                }}
+              >
+                {repositories.length}
+              </span>
+            )}
+          </div>
+
+          {/* Search toggle button */}
+          <button
+            className={`header-button ${showSearch ? 'active' : ''}`}
+            onClick={handleToggleSearch}
             style={{
-              fontSize: `${theme.fontSizes[1]}px`,
-              color: theme.colors.textSecondary,
-              padding: '2px 8px',
-              borderRadius: '12px',
-              backgroundColor: theme.colors.background,
+              background: showSearch
+                ? theme.colors.backgroundSecondary
+                : 'none',
+              border: `1px solid ${showSearch ? theme.colors.border : 'transparent'}`,
+              borderRadius: '4px',
+              cursor: 'pointer',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: showSearch
+                ? theme.colors.primary
+                : theme.colors.textSecondary,
+              ['--theme-text' as string]: theme.colors.text,
+            }}
+            title={showSearch ? 'Close search' : 'Search repositories'}
+          >
+            <Search size={16} />
+          </button>
+        </div>
+
+        {/* Search overlay */}
+        {showSearch && (
+          <div
+            className="search-overlay"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0 16px',
+              backgroundColor: theme.colors.backgroundSecondary,
+              zIndex: 10,
             }}
           >
-            {repositories.length}
-          </span>
+            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+              <Search
+                size={16}
+                color={theme.colors.textSecondary}
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  pointerEvents: 'none',
+                }}
+              />
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Filter starred repositories..."
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '6px 32px 6px 32px',
+                  fontSize: `${theme.fontSizes[1]}px`,
+                  color: theme.colors.text,
+                  backgroundColor: theme.colors.background,
+                  border: `1px solid ${theme.colors.border}`,
+                  borderRadius: '4px',
+                  outline: 'none',
+                  fontFamily: theme.fonts.body,
+                  transition: 'border-color 0.2s ease',
+                  ['--theme-primary' as string]: theme.colors.primary,
+                }}
+              />
+              {filter && (
+                <button
+                  className="clear-filter-button"
+                  onClick={handleClearFilter}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: theme.colors.textSecondary,
+                    ['--theme-text' as string]: theme.colors.text,
+                  }}
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+            <button
+              onClick={handleToggleSearch}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '4px',
+                marginLeft: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: theme.colors.textSecondary,
+              }}
+              title="Close search"
+            >
+              <X size={16} />
+            </button>
+          </div>
         )}
-      </div>
-
-      {/* Search bar */}
-      <div style={{ position: 'relative', padding: '8px 16px' }}>
-        <Search
-          size={16}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '28px',
-            transform: 'translateY(-50%)',
-            color: theme.colors.textSecondary,
-            pointerEvents: 'none',
-          }}
-        />
-        <input
-          type="text"
-          value={filter}
-          placeholder="Filter starred repositories..."
-          onChange={(event) => setFilter(event.target.value)}
-          style={{
-            width: '100%',
-            padding: '8px 12px 8px 36px',
-            borderRadius: '6px',
-            border: `1px solid ${theme.colors.border}`,
-            backgroundColor: theme.colors.background,
-            color: theme.colors.text,
-            fontSize: `${theme.fontSizes[1]}px`,
-            fontFamily: theme.fonts.body,
-            outline: 'none',
-            boxSizing: 'border-box',
-          }}
-        />
       </div>
 
       {/* Error banner (when we have data but also an error) */}
@@ -442,6 +585,9 @@ const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
             onOpen={handleOpen}
             onSelect={handleSelect}
             isSelected={selectedRepo?.id === repo.id}
+            onAddToCollection={currentWorkspace ? handleAddToCollection : undefined}
+            isInCollection={collectionRepoSet.has(repo.full_name)}
+            collectionName={collectionName}
           />
         ))}
 

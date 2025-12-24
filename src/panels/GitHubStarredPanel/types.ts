@@ -39,6 +39,12 @@ export interface GitHubStarredPanelActions extends PanelActions {
    * Refresh starred repositories data
    */
   refreshStarred?: () => Promise<void>;
+
+  /**
+   * Add a repository to the current collection/workspace
+   * @param repo - Repository to add
+   */
+  addToCollection?: (repo: GitHubRepository) => Promise<void>;
 }
 
 /**
@@ -55,4 +61,6 @@ export interface GitHubStarredPanelEventPayloads {
   'repository-selected': { repository: GitHubRepository };
   /** Repository cloned notification */
   'repository-cloned': { repository: GitHubRepository; localPath: string };
+  /** Repository added to collection notification */
+  'repository-added-to-collection': { repository: GitHubRepository };
 }

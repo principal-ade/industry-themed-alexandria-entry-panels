@@ -1,0 +1,38 @@
+/* Shared Panel Styles */
+
+/* Header button hover states */
+.header-button {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.header-button:not(.active):hover {
+  color: var(--theme-text) !important;
+}
+
+/* Search input focus state */
+.search-input:focus {
+  border-color: var(--theme-primary) !important;
+}
+
+/* Clear filter button hover */
+.clear-filter-button {
+  transition: color 0.2s ease;
+}
+
+.clear-filter-button:hover {
+  color: var(--theme-text) !important;
+}
+
+/* Search overlay animation - grows from right to left */
+.search-overlay {
+  animation: searchExpand 0.2s ease-out forwards;
+}
+
+@keyframes searchExpand {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}

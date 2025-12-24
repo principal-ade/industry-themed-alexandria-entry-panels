@@ -45,6 +45,12 @@ export interface GitHubProjectsPanelActions extends PanelActions {
    * Refresh projects data
    */
   refreshProjects?: () => Promise<void>;
+
+  /**
+   * Add a repository to the current collection/workspace
+   * @param repo - Repository to add
+   */
+  addToCollection?: (repo: GitHubRepository) => Promise<void>;
 }
 
 /**
@@ -63,4 +69,6 @@ export interface GitHubProjectsPanelEventPayloads {
   'repository-selected': { repository: GitHubRepository };
   /** Repository cloned notification */
   'repository-cloned': { repository: GitHubRepository; localPath: string };
+  /** Repository added to collection notification */
+  'repository-added-to-collection': { repository: GitHubRepository };
 }

@@ -8,6 +8,8 @@ import {
   FolderOpen,
   Download,
   Scale,
+  FolderPlus,
+  Check,
 } from 'lucide-react';
 import type { GitHubRepository, LocalRepositoryReference } from './github-types';
 import { RepositoryAvatar } from '../LocalProjectsPanel/RepositoryAvatar';
@@ -27,6 +29,12 @@ export interface GitHubRepositoryCardProps {
   isSelected?: boolean;
   /** Callback when card is clicked */
   onSelect?: (repo: GitHubRepository) => void;
+  /** Callback when add to collection button is clicked */
+  onAddToCollection?: (repo: GitHubRepository) => void;
+  /** Whether the repository is already in the current collection */
+  isInCollection?: boolean;
+  /** Name of the current collection (for tooltip) */
+  collectionName?: string;
 }
 
 /**
@@ -43,6 +51,9 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
   isLoading = false,
   isSelected = false,
   onSelect,
+  onAddToCollection,
+  isInCollection = false,
+  collectionName,
 }) => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
@@ -81,6 +92,16 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
       window.open(repository.html_url, '_blank', 'noopener,noreferrer');
     },
     [repository.html_url]
+  );
+
+  const handleAddToCollection = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (onAddToCollection && !isLoading && !isInCollection) {
+        onAddToCollection(repository);
+      }
+    },
+    [onAddToCollection, repository, isLoading, isInCollection]
   );
 
   // Format relative time
@@ -290,12 +311,45 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
           <ExternalLink size={16} />
         </button>
 
-        {/* Clone or Open button */}
-        {isCloned ? (
+        {/* Add to Collection button - only shown when in collection context */}
+        {onAddToCollection && (
+          <button
+            type="button"
+            onClick={handleAddToCollection}
+            disabled={isLoading || isInCollection}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 12px',
+              borderRadius: '6px',
+              border: 'none',
+              backgroundColor: isInCollection ? '#10b981' : theme.colors.secondary,
+              color: isInCollection ? '#ffffff' : theme.colors.text,
+              fontSize: `${theme.fontSizes[1]}px`,
+              fontWeight: theme.fontWeights.medium,
+              fontFamily: theme.fonts.body,
+              cursor: isLoading || isInCollection ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.6 : 1,
+              transition: 'opacity 0.15s, background-color 0.15s',
+            }}
+            title={
+              isInCollection
+                ? `Already in ${collectionName || 'collection'}`
+                : `Add to ${collectionName || 'collection'}`
+            }
+          >
+            {isInCollection ? <Check size={14} /> : <FolderPlus size={14} />}
+            {isInCollection ? 'Added' : 'Add'}
+          </button>
+        )}
+
+        {/* Clone or Open button - only shown when handler is provided */}
+        {isCloned && onOpen && (
           <button
             type="button"
             onClick={handleOpen}
-            disabled={isLoading || !onOpen}
+            disabled={isLoading}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -308,8 +362,8 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
               fontSize: `${theme.fontSizes[1]}px`,
               fontWeight: theme.fontWeights.medium,
               fontFamily: theme.fonts.body,
-              cursor: isLoading || !onOpen ? 'not-allowed' : 'pointer',
-              opacity: isLoading || !onOpen ? 0.6 : 1,
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.6 : 1,
               transition: 'opacity 0.15s',
             }}
             title="Open in workspace"
@@ -317,11 +371,12 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
             <FolderOpen size={14} />
             Open
           </button>
-        ) : (
+        )}
+        {!isCloned && onClone && (
           <button
             type="button"
             onClick={handleClone}
-            disabled={isLoading || !onClone}
+            disabled={isLoading}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -334,8 +389,8 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
               fontSize: `${theme.fontSizes[1]}px`,
               fontWeight: theme.fontWeights.medium,
               fontFamily: theme.fonts.body,
-              cursor: isLoading || !onClone ? 'not-allowed' : 'pointer',
-              opacity: isLoading || !onClone ? 0.6 : 1,
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.6 : 1,
               transition: 'opacity 0.15s',
             }}
             title="Clone repository"
