@@ -314,129 +314,186 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
       {/* Header with search and create buttons */}
       <div
         style={{
+          position: 'relative',
           height: '40px',
           minHeight: '40px',
           padding: '0 16px',
           borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '8px',
+          boxSizing: 'border-box',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Layers size={18} color={theme.colors.primary} />
-          <span
-            style={{
-              fontSize: `${theme.fontSizes[2]}px`,
-              fontWeight: theme.fontWeights.medium,
-              color: theme.colors.text,
-              fontFamily: theme.fonts.body,
-            }}
-          >
-            Workspaces
-          </span>
-        </div>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            onClick={() => {
-              setShowSearchBox(!showSearchBox);
-              if (showSearchBox) {
-                setSearchQuery('');
-              }
-            }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '28px',
-              height: '28px',
-              borderRadius: '6px',
-              border: `1px solid ${theme.colors.border}`,
-              backgroundColor: showSearchBox
-                ? theme.colors.primary
-                : theme.colors.backgroundTertiary,
-              color: showSearchBox ? theme.colors.background : theme.colors.text,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-            title="Search workspaces"
-          >
-            <Search size={16} />
-          </button>
-          <button
-            onClick={handleCreateWorkspace}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '28px',
-              height: '28px',
-              borderRadius: '6px',
-              border: `1px solid ${theme.colors.border}`,
-              backgroundColor: theme.colors.primary,
-              color: theme.colors.background,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-            title="Create new workspace"
-          >
-            <Plus size={16} />
-          </button>
-        </div>
-      </div>
-
-      {/* Search box */}
-      {showSearchBox && (
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            padding: '8px 16px',
+            justifyContent: 'space-between',
+            width: '100%',
+            visibility: showSearchBox ? 'hidden' : 'visible',
           }}
         >
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by workspace or repository name..."
-            autoFocus
-            style={{
-              flex: 1,
-              padding: '8px 12px',
-              borderRadius: '6px',
-              border: `1px solid ${theme.colors.border}`,
-              backgroundColor: theme.colors.background,
-              color: theme.colors.text,
-              fontSize: `${theme.fontSizes[1]}px`,
-              fontFamily: theme.fonts.body,
-              outline: 'none',
-            }}
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Layers size={18} color={theme.colors.primary} />
+            <span
               style={{
+                fontSize: `${theme.fontSizes[2]}px`,
+                fontWeight: theme.fontWeights.medium,
+                color: theme.colors.text,
+                fontFamily: theme.fonts.body,
+              }}
+            >
+              Workspaces
+            </span>
+            {workspaces.length > 0 && (
+              <span
+                style={{
+                  fontSize: `${theme.fontSizes[1]}px`,
+                  color: theme.colors.textSecondary,
+                  padding: '2px 8px',
+                  borderRadius: '12px',
+                  backgroundColor: theme.colors.background,
+                }}
+              >
+                {workspaces.length}
+              </span>
+            )}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={() => {
+                setShowSearchBox(!showSearchBox);
+                if (showSearchBox) {
+                  setSearchQuery('');
+                }
+              }}
+              style={{
+                background: showSearchBox
+                  ? theme.colors.backgroundSecondary
+                  : 'none',
+                border: `1px solid ${showSearchBox ? theme.colors.border : 'transparent'}`,
+                borderRadius: '4px',
+                cursor: 'pointer',
+                padding: '4px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '28px',
-                height: '28px',
-                borderRadius: '6px',
-                border: `1px solid ${theme.colors.border}`,
-                backgroundColor: theme.colors.backgroundTertiary,
-                color: theme.colors.text,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                color: showSearchBox
+                  ? theme.colors.primary
+                  : theme.colors.textSecondary,
               }}
-              title="Clear search"
+              title={showSearchBox ? 'Close search' : 'Search workspaces'}
+            >
+              <Search size={16} />
+            </button>
+            <button
+              onClick={handleCreateWorkspace}
+              style={{
+                padding: '4px',
+                borderRadius: '4px',
+                border: 'none',
+                backgroundColor: theme.colors.primary,
+                color: theme.colors.background,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              title="Create new workspace"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
+        </div>
+
+        {/* Search overlay */}
+        {showSearchBox && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0 16px',
+              backgroundColor: theme.colors.backgroundSecondary,
+              zIndex: 10,
+            }}
+          >
+            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+              <Search
+                size={16}
+                color={theme.colors.textSecondary}
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  pointerEvents: 'none',
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Filter workspaces..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '6px 32px 6px 32px',
+                  fontSize: `${theme.fontSizes[1]}px`,
+                  color: theme.colors.text,
+                  backgroundColor: theme.colors.background,
+                  border: `1px solid ${theme.colors.border}`,
+                  borderRadius: '4px',
+                  outline: 'none',
+                  fontFamily: theme.fonts.body,
+                }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: theme.colors.textSecondary,
+                  }}
+                  title="Clear search"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+            <button
+              onClick={() => {
+                setShowSearchBox(false);
+                setSearchQuery('');
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '4px',
+                marginLeft: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: theme.colors.textSecondary,
+              }}
+              title="Close search"
             >
               <X size={16} />
             </button>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
 
       {/* Scrollable content */}
       <div
