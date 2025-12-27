@@ -314,6 +314,7 @@ export {
   LocalProjectsPanelPreview,
   LocalProjectCard,
   RepositoryAvatar,
+  type LocalProjectsPanelProps,
 } from './panels/LocalProjectsPanel';
 
 export { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
@@ -322,21 +323,25 @@ export {
   WorkspacesListPanel,
   WorkspacesListPanelPreview,
   WorkspaceCard,
+  type WorkspacesListPanelProps,
 } from './panels/WorkspacesListPanel';
 
 export {
   WorkspaceCollectionPanel,
   WorkspaceCollectionPanelPreview,
+  type WorkspaceCollectionPanelProps,
 } from './panels/WorkspaceCollectionPanel';
 
 export {
   GitHubStarredPanel,
   GitHubStarredPanelPreview,
+  type GitHubStarredPanelProps,
 } from './panels/GitHubStarredPanel';
 
 export {
   GitHubProjectsPanel,
   GitHubProjectsPanelPreview,
+  type GitHubProjectsPanelProps,
 } from './panels/GitHubProjectsPanel';
 
 export {

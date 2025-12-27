@@ -20,17 +20,23 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
   payload,
 });
 
+export interface WorkspacesListPanelProps extends PanelComponentProps {
+  /** Whether to show the search bar by default */
+  defaultShowSearch?: boolean;
+}
+
 /**
  * WorkspacesListPanelContent - Internal component that uses theme
  */
-const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
+const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
   context,
   actions,
   events,
+  defaultShowSearch = false,
 }) => {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
-  const [showSearchBox, setShowSearchBox] = useState(false);
+  const [showSearchBox, setShowSearchBox] = useState(defaultShowSearch);
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string | null>(null);
   const [workspaceRepositories, setWorkspaceRepositories] = useState<Map<string, string[]>>(
     new Map()
@@ -503,7 +509,7 @@ const WorkspacesListPanelContent: React.FC<PanelComponentProps> = ({
  * - industry-theme.workspaces-list:open-workspace
  * - industry-theme.workspaces-list:create-workspace
  */
-export const WorkspacesListPanel: React.FC<PanelComponentProps> = (props) => {
+export const WorkspacesListPanel: React.FC<WorkspacesListPanelProps> = (props) => {
   return <WorkspacesListPanelContent {...props} />;
 };
 

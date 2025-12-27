@@ -22,6 +22,11 @@ import '../shared/styles.css';
 
 const PANEL_ID = 'industry-theme.github-projects';
 
+export interface GitHubProjectsPanelProps extends PanelComponentProps {
+  /** Whether to show the search bar by default */
+  defaultShowSearch?: boolean;
+}
+
 // Helper to create panel events with required fields
 const createPanelEvent = <T,>(type: string, payload: T) => ({
   type,
@@ -33,18 +38,19 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
 /**
  * GitHubProjectsPanel - Browse user's repositories and organization repositories
  */
-export const GitHubProjectsPanel: React.FC<PanelComponentProps> = (props) => {
+export const GitHubProjectsPanel: React.FC<GitHubProjectsPanelProps> = (props) => {
   return <GitHubProjectsPanelContent {...props} />;
 };
 
-const GitHubProjectsPanelContent: React.FC<PanelComponentProps> = ({
+const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
   context,
   actions,
   events,
+  defaultShowSearch = false,
 }) => {
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useState(defaultShowSearch);
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
 

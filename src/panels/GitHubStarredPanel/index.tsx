@@ -11,6 +11,11 @@ import '../shared/styles.css';
 
 const PANEL_ID = 'industry-theme.github-starred';
 
+export interface GitHubStarredPanelProps extends PanelComponentProps {
+  /** Whether to show the search bar by default */
+  defaultShowSearch?: boolean;
+}
+
 // Helper to create panel events with required fields
 const createPanelEvent = <T,>(type: string, payload: T) => ({
   type,
@@ -22,18 +27,19 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
 /**
  * GitHubStarredPanel - Browse and manage starred GitHub repositories
  */
-export const GitHubStarredPanel: React.FC<PanelComponentProps> = (props) => {
+export const GitHubStarredPanel: React.FC<GitHubStarredPanelProps> = (props) => {
   return <GitHubStarredPanelContent {...props} />;
 };
 
-const GitHubStarredPanelContent: React.FC<PanelComponentProps> = ({
+const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
   context,
   actions,
   events,
+  defaultShowSearch = false,
 }) => {
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useState(defaultShowSearch);
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
 
   // Toggle search and clear filter when closing

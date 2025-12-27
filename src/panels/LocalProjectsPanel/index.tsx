@@ -23,17 +23,23 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
   payload,
 });
 
+export interface LocalProjectsPanelProps extends PanelComponentProps {
+  /** Whether to show the search bar by default */
+  defaultShowSearch?: boolean;
+}
+
 /**
  * LocalProjectsPanelContent - Internal component that uses theme
  */
-const LocalProjectsPanelContent: React.FC<PanelComponentProps> = ({
+const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   context,
   actions,
   events,
+  defaultShowSearch = false,
 }) => {
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useState(defaultShowSearch);
   const [isAdding, setIsAdding] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<AlexandriaEntry | null>(null);
   const [windowStates, setWindowStates] = useState<Map<string, RepositoryWindowState>>(new Map());
@@ -548,7 +554,7 @@ const LocalProjectsPanelContent: React.FC<PanelComponentProps> = ({
  * - industry-theme.local-projects:select-repository
  * - industry-theme.local-projects:open-repository
  */
-export const LocalProjectsPanel: React.FC<PanelComponentProps> = (props) => {
+export const LocalProjectsPanel: React.FC<LocalProjectsPanelProps> = (props) => {
   return <LocalProjectsPanelContent {...props} />;
 };
 

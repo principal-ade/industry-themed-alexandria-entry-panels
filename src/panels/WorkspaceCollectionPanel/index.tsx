@@ -22,6 +22,8 @@ type SortField = 'name' | 'updated';
 
 export interface WorkspaceCollectionPanelProps extends PanelComponentProps {
   selectedRepository?: string; // full_name like "owner/repo"
+  /** Whether to show the search bar by default */
+  defaultShowSearch?: boolean;
 }
 
 // Panel event prefix
@@ -303,12 +305,13 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
   actions,
   events,
   selectedRepository,
+  defaultShowSearch = false,
 }) => {
   const { theme } = useTheme();
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
   const [sortField, setSortField] = useState<SortField>('name');
   const [filter, setFilter] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useState(defaultShowSearch);
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
