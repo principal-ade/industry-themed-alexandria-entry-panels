@@ -99,7 +99,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
     (repository: AlexandriaEntry) => {
       events.emit(
         createPanelEvent('repository:selected', {
-          repositoryId: repository.github?.id || repository.name,
+          repositoryId: repository.name,
           repository,
           repositoryPath: repository.path,
         })
@@ -112,7 +112,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
     (repository: AlexandriaEntry) => {
       events.emit(
         createPanelEvent('repository:opened', {
-          repositoryId: repository.github?.id || repository.name,
+          repositoryId: repository.name,
           repository,
         })
       );
@@ -124,8 +124,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
     async (repository: AlexandriaEntry) => {
       if (!workspace?.id || !panelActions.removeRepositoryFromWorkspace) return;
       try {
-        const repositoryId = repository.github?.id || repository.name;
-        await panelActions.removeRepositoryFromWorkspace(repositoryId, workspace.id);
+        await panelActions.removeRepositoryFromWorkspace(repository.name, workspace.id);
       } catch (error) {
         console.error('Failed to remove repository from workspace:', error);
         alert(
