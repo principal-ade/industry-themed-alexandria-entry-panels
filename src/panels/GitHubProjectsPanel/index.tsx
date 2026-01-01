@@ -730,7 +730,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
                       key={repo.id}
                       repository={repo}
                       localRepo={localRepoMap.get(repo.full_name)}
-                      onClone={handleClone}
+                      onClone={panelActions.cloneRepository ? handleClone : undefined}
                       onOpen={handleOpen}
                       onSelect={handleSelect}
                       isSelected={selectedRepo?.id === repo.id}
@@ -768,7 +768,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
                         key={repo.id}
                         repository={repo}
                         localRepo={localRepoMap.get(repo.full_name)}
-                        onClone={handleClone}
+                        onClone={panelActions.cloneRepository ? handleClone : undefined}
                         onOpen={handleOpen}
                         onSelect={handleSelect}
                         isSelected={selectedRepo?.id === repo.id}

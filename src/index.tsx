@@ -5,6 +5,7 @@ import { WorkspaceCollectionPanel } from './panels/WorkspaceCollectionPanel';
 import { GitHubStarredPanel } from './panels/GitHubStarredPanel';
 import { GitHubProjectsPanel } from './panels/GitHubProjectsPanel';
 import { UserProfilePanel } from './panels/UserProfilePanel';
+import { UserCollectionsPanel } from './panels/UserCollectionsPanel';
 import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
 import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
@@ -13,6 +14,7 @@ import { workspaceCollectionPanelTools } from './panels/WorkspaceCollectionPanel
 import { githubStarredPanelTools } from './panels/GitHubStarredPanel/tools';
 import { githubProjectsPanelTools } from './panels/GitHubProjectsPanel/tools';
 import { userProfilePanelTools } from './panels/UserProfilePanel/tools';
+import { userCollectionsPanelTools } from './panels/UserCollectionsPanel/tools';
 
 /**
  * Export array of panel definitions.
@@ -221,6 +223,36 @@ export const panels: PanelDefinition[] = [
       console.log('User Profile Panel unmounting');
     },
   },
+  {
+    metadata: {
+      id: 'industry-theme.user-collections',
+      name: 'Collections',
+      icon: 'FolderOpen',
+      version: '0.1.0',
+      author: 'Industry Theme',
+      description: 'Organize repositories into collections that sync to GitHub',
+      slices: ['userCollections'],
+      tools: userCollectionsPanelTools,
+    },
+    component: UserCollectionsPanel,
+
+    onMount: async (context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('User Collections Panel mounted');
+
+      if (
+        context.hasSlice('userCollections') &&
+        !context.isSliceLoading('userCollections')
+      ) {
+        await context.refresh(undefined, 'userCollections');
+      }
+    },
+
+    onUnmount: async (_context: PanelContextValue) => {
+      // eslint-disable-next-line no-console
+      console.log('User Collections Panel unmounting');
+    },
+  },
 ];
 
 /**
@@ -306,6 +338,19 @@ export {
   filterStarredTool as filterUserStarredTool,
 } from './panels/UserProfilePanel/tools';
 
+export {
+  userCollectionsPanelTools,
+  userCollectionsPanelToolsMetadata,
+  filterCollectionsTool,
+  selectCollectionTool,
+  createCollectionTool,
+  deleteCollectionTool,
+  addRepositoryTool as addCollectionRepositoryTool,
+  removeRepositoryTool as removeCollectionRepositoryTool,
+  enableGitHubSyncTool,
+  refreshCollectionsTool,
+} from './panels/UserCollectionsPanel/tools';
+
 /**
  * Export panel components for direct use
  */
@@ -348,6 +393,12 @@ export {
   UserProfilePanel,
   UserProfilePanelPreview,
 } from './panels/UserProfilePanel';
+
+export {
+  UserCollectionsPanel,
+  UserCollectionsPanelPreview,
+  type UserCollectionsPanelProps,
+} from './panels/UserCollectionsPanel';
 
 export { GitHubRepositoryCard } from './panels/shared/GitHubRepositoryCard';
 
@@ -428,3 +479,16 @@ export type {
 
 export type { GitHubRepositoryCardProps } from './panels/shared/GitHubRepositoryCard';
 
+export type {
+  Collection,
+  CollectionMembership,
+  UserCollectionsSlice,
+  UserCollectionsPanelActions,
+  CollectionCardProps,
+  CollectionSelectedPayload,
+  CollectionCreatedPayload,
+  CollectionDeletedPayload,
+  RepositoryAddedPayload as CollectionRepositoryAddedPayload,
+  RepositoryRemovedPayload as CollectionRepositoryRemovedPayload,
+  UserCollectionsPanelEventPayloads,
+} from './panels/UserCollectionsPanel/types';

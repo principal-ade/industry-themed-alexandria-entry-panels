@@ -587,7 +587,7 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
             key={repo.id}
             repository={repo}
             localRepo={localRepoMap.get(repo.full_name)}
-            onClone={handleClone}
+            onClone={panelActions.cloneRepository ? handleClone : undefined}
             onOpen={handleOpen}
             onSelect={handleSelect}
             isSelected={selectedRepo?.id === repo.id}
