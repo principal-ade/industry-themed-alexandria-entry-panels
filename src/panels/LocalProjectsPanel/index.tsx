@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { Search, Plus, Building2, FolderGit2, X } from 'lucide-react';
+import { Search, Plus, Building2, FolderGit2, X, RefreshCw } from 'lucide-react';
 import './LocalProjectsPanel.css';
 import '../shared/styles.css';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
@@ -10,6 +10,7 @@ import type {
   AlexandriaRepositoriesSlice,
   LocalProjectsPanelActions,
   RepositoryWindowState,
+  DiscoveredRepository,
 } from './types';
 
 // Panel event prefix
@@ -41,6 +42,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   const [filter, setFilter] = useState('');
   const [showSearch, setShowSearch] = useState(defaultShowSearch);
   const [isAdding, setIsAdding] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<AlexandriaEntry | null>(null);
   const [windowStates, setWindowStates] = useState<Map<string, RepositoryWindowState>>(new Map());
   const [sortByOrg, setSortByOrg] = useState(false);
@@ -68,7 +70,22 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
     () => repoSlice?.data?.repositories || [],
     [repoSlice?.data?.repositories]
   );
+  const discoveredRepositories = useMemo(
+    () => repoSlice?.data?.discoveredRepositories || [],
+    [repoSlice?.data?.discoveredRepositories]
+  );
   const loading = repoSlice?.loading ?? false;
+
+  // Convert discovered repos to AlexandriaEntry-like format for display
+  const discoveredAsEntries = useMemo(() => {
+    return discoveredRepositories.map((repo: DiscoveredRepository): AlexandriaEntry & { isDiscovered: true } => ({
+      name: repo.name,
+      path: repo.path,
+      registeredAt: new Date().toISOString(),
+      hasViews: false,
+      isDiscovered: true,
+    } as AlexandriaEntry & { isDiscovered: true }));
+  }, [discoveredRepositories]);
 
   // Handle open repository
   const handleOpenRepository = useCallback(
@@ -179,6 +196,46 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
     }
   };
 
+  // Handle track repository (add discovered repo to Alexandria)
+  const handleTrackRepository = async (entry: AlexandriaEntry) => {
+    if (!panelActions.trackRepository) {
+      // Fall back to registerRepository if trackRepository not available
+      if (panelActions.registerRepository) {
+        try {
+          await panelActions.registerRepository(entry.name, entry.path);
+          await context.refresh('repository', 'alexandriaRepositories');
+        } catch (error) {
+          console.error('Failed to track repository:', error);
+        }
+      } else {
+        console.warn('Track repository action not available');
+      }
+      return;
+    }
+
+    try {
+      await panelActions.trackRepository(entry.name, entry.path);
+      await context.refresh('repository', 'alexandriaRepositories');
+    } catch (error) {
+      console.error('Failed to track repository:', error);
+    }
+  };
+
+  // Handle scan for repositories
+  const handleScanForRepos = async () => {
+    setIsScanning(true);
+    try {
+      await context.refresh('repository', 'alexandriaRepositories');
+      events.emit(createPanelEvent(`${PANEL_ID}:scan-completed`, {
+        discoveredCount: discoveredRepositories.length
+      }));
+    } catch (error) {
+      console.error('Failed to scan for repositories:', error);
+    } finally {
+      setIsScanning(false);
+    }
+  };
+
   // Handle select repository
   const handleSelectRepository = (entry: AlexandriaEntry) => {
     setSelectedEntry(entry);
@@ -188,9 +245,16 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   // Filter and sort repositories
   const normalizedFilter = filter.trim().toLowerCase();
 
+  // Combine tracked and discovered repositories
+  const allRepositories = useMemo(() => {
+    // Mark tracked repos with isDiscovered: false for type consistency
+    const tracked = repositories.map(entry => ({ ...entry, isDiscovered: false as const }));
+    return [...tracked, ...discoveredAsEntries];
+  }, [repositories, discoveredAsEntries]);
+
   const filteredAndSortedRepositories = useMemo(() => {
     // Filter repositories by search term
-    const filtered = repositories.filter((entry) => {
+    const filtered = allRepositories.filter((entry) => {
       if (!normalizedFilter) return true;
 
       const haystack = [
@@ -205,8 +269,12 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
       return haystack.includes(normalizedFilter);
     });
 
-    // Sort alphabetically
+    // Sort alphabetically, with tracked repos first, then discovered
     return filtered.sort((a, b) => {
+      // Tracked repos come before discovered
+      if (!a.isDiscovered && b.isDiscovered) return -1;
+      if (a.isDiscovered && !b.isDiscovered) return 1;
+
       if (sortByOrg) {
         // Sort by org/owner first, then by repo name
         const aOrg = (a.github?.owner ?? '').toLowerCase();
@@ -217,7 +285,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
       // Sort by repo name
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
-  }, [repositories, normalizedFilter, sortByOrg]);
+  }, [allRepositories, normalizedFilter, sortByOrg]);
 
   const baseContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -306,7 +374,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
             >
               Local Projects
             </span>
-            {repositories.length > 0 && (
+            {allRepositories.length > 0 && (
               <span
                 style={{
                   fontSize: `${theme.fontSizes[1]}px`,
@@ -316,7 +384,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   backgroundColor: theme.colors.background,
                 }}
               >
-                {repositories.length}
+                {allRepositories.length}
               </span>
             )}
           </div>
@@ -366,6 +434,34 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
               }}
             >
               {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
+            </button>
+
+            {/* Scan for repos button */}
+            <button
+              onClick={handleScanForRepos}
+              disabled={isScanning}
+              title="Scan for repositories"
+              style={{
+                padding: '4px',
+                borderRadius: '4px',
+                border: `1px solid ${theme.colors.border}`,
+                backgroundColor: theme.colors.backgroundSecondary,
+                color: theme.colors.textSecondary,
+                cursor: isScanning ? 'default' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: isScanning ? 0.6 : 1,
+                transition: 'all 0.2s',
+                flexShrink: 0,
+              }}
+            >
+              <RefreshCw
+                size={16}
+                style={{
+                  animation: isScanning ? 'spin 1s linear infinite' : 'none',
+                }}
+              />
             </button>
 
             {/* Add project button */}
@@ -503,10 +599,12 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
           <LocalProjectCard
             key={entry.path}
             entry={entry}
+            actionMode={entry.isDiscovered ? 'discovered' : 'default'}
             isSelected={selectedEntry?.path === entry.path}
             onSelect={handleSelectRepository}
             onOpen={handleOpenRepository}
-            onRemove={handleRemoveRepository}
+            onRemove={entry.isDiscovered ? undefined : handleRemoveRepository}
+            onTrack={entry.isDiscovered ? handleTrackRepository : undefined}
             windowState={windowStates.get(entry.path) || 'closed'}
           />
         ))}

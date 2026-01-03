@@ -412,6 +412,7 @@ export type {
   LocalProjectsPanelActions,
   CardActionMode,
   RepositoryWindowState,
+  DiscoveredRepository,
 } from './panels/LocalProjectsPanel/types';
 
 export type {

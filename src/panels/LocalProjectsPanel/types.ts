@@ -8,12 +8,26 @@ import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/type
 import type { PanelActions } from '../../types';
 
 /**
+ * Discovered repository - a git repo found but not tracked in Alexandria
+ */
+export interface DiscoveredRepository {
+  /** Absolute path to the repository */
+  path: string;
+  /** Repository name (directory name) */
+  name: string;
+  /** Always false for discovered repos */
+  isTracked: false;
+}
+
+/**
  * Data slice for Alexandria repositories
  * Provided by the host application through panel context
  */
 export interface AlexandriaRepositoriesSlice {
   /** List of registered local repositories */
   repositories: AlexandriaEntry[];
+  /** List of discovered but untracked repositories */
+  discoveredRepositories?: DiscoveredRepository[];
   /** Whether repositories are currently loading */
   loading: boolean;
   /** Error message if loading failed */
@@ -68,6 +82,13 @@ export interface LocalProjectsPanelActions extends PanelActions {
    * @returns Window state
    */
   getRepositoryWindowState?: (entry: AlexandriaEntry) => Promise<RepositoryWindowState>;
+
+  /**
+   * Track a discovered repository (add to Alexandria)
+   * @param name - Repository name
+   * @param path - Local path to the repository
+   */
+  trackRepository?: (name: string, path: string) => Promise<void>;
 }
 
 /**
@@ -78,7 +99,8 @@ export type CardActionMode =
   | 'default'           // Show open and remove buttons
   | 'add-to-workspace'  // Show "Add to workspace" button only
   | 'minimal'           // Show only open button
-  | 'workspace';        // Show open, move, and remove-from-workspace buttons
+  | 'workspace'         // Show open, move, and remove-from-workspace buttons
+  | 'discovered';       // Show track and open buttons (for untracked repos)
 
 /**
  * Props for LocalProjectCard component
@@ -102,6 +124,8 @@ export interface LocalProjectCardProps {
   onRemoveFromWorkspace?: (entry: AlexandriaEntry) => void;
   /** Callback for move-to-workspace-directory action (workspace mode) */
   onMoveToWorkspace?: (entry: AlexandriaEntry) => void;
+  /** Callback for track action (discovered mode) */
+  onTrack?: (entry: AlexandriaEntry) => void;
   /** Whether an operation is in progress */
   isLoading?: boolean;
   /** Current window state for this repository */

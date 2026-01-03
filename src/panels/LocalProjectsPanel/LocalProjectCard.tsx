@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus, MoveUp, Lock } from 'lucide-react';
+import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus, MoveUp, Lock, GitBranch } from 'lucide-react';
 import { RepositoryAvatar } from './RepositoryAvatar';
 import type { LocalProjectCardProps } from './types';
 import './LocalProjectsPanel.css';
@@ -52,6 +52,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   onAddToWorkspace,
   onRemoveFromWorkspace,
   onMoveToWorkspace,
+  onTrack,
   isLoading = false,
   windowState = 'closed',
   compact: _compact = false,
@@ -130,6 +131,10 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     }
   };
 
+  const handleTrackClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onTrack?.(entry);
+  };
 
   const handleCopyPath = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -251,6 +256,44 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
               <span>Remove</span>
             </button>
           )}
+        </>
+      );
+    }
+
+    if (actionMode === 'discovered') {
+      return (
+        <>
+          <button
+            type="button"
+            onClick={handleTrackClick}
+            disabled={isLoading}
+            title="Track this repository"
+            style={{
+              ...actionButtonStyle,
+              backgroundColor: theme.colors.primary,
+              color: theme.colors.background,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.9';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
+            {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+            <span>Track</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleOpenClick}
+            title="Open repository"
+            style={actionButtonStyle}
+            onMouseEnter={(e) => handleButtonHover(e)}
+            onMouseLeave={(e) => handleButtonLeave(e)}
+          >
+            <FolderOpen size={14} />
+            <span>Open</span>
+          </button>
         </>
       );
     }
@@ -404,6 +447,27 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
                 size={12}
                 style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
               />
+            </span>
+          )}
+          {/* Untracked badge for discovered repos */}
+          {actionMode === 'discovered' && (
+            <span
+              title="Untracked repository"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                backgroundColor: `${theme.colors.warning || '#f59e0b'}20`,
+                color: theme.colors.warning || '#f59e0b',
+                fontSize: `${theme.fontSizes[0]}px`,
+                fontWeight: theme.fontWeights.medium,
+                flexShrink: 0,
+              }}
+            >
+              <GitBranch size={10} />
+              <span>Untracked</span>
             </span>
           )}
         </div>
