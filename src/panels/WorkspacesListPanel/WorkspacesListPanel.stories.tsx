@@ -155,6 +155,26 @@ export const ReadOnly: Story = {
 };
 
 /**
+ * Permanent search mode - search bar always visible with action buttons
+ */
+export const PermanentSearch: Story = {
+  render: () => {
+    const context = createMockContext();
+    const actions = createMockWorkspacesListActions();
+    const events = createMockEvents();
+
+    return (
+      <WorkspacesListPanel
+        context={context}
+        actions={actions}
+        events={events}
+        defaultShowSearch={true}
+      />
+    );
+  },
+};
+
+/**
  * Many workspaces (scrolling test)
  */
 export const ManyWorkspaces: Story = {

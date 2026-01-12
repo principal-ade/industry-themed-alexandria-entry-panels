@@ -141,6 +141,26 @@ export const ReadOnly: Story = {
 };
 
 /**
+ * Permanent search mode - search bar always visible with action buttons
+ */
+export const PermanentSearch: Story = {
+  render: () => {
+    const context = createMockContext();
+    const actions = createMockLocalProjectsActions();
+    const events = createMockEvents();
+
+    return (
+      <LocalProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+        defaultShowSearch={true}
+      />
+    );
+  },
+};
+
+/**
  * LocalProjectCard component stories
  */
 export const CardDefault: StoryObj<typeof LocalProjectCard> = {

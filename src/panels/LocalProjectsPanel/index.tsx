@@ -49,13 +49,16 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
+    // Don't allow toggling off if defaultShowSearch is true
+    if (defaultShowSearch) return;
+
     setShowSearch((prev) => {
       if (prev) {
         setFilter('');
       }
       return !prev;
     });
-  }, []);
+  }, [defaultShowSearch]);
 
   const handleClearFilter = useCallback(() => {
     setFilter('');
@@ -359,168 +362,24 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
           position: 'relative',
           height: '40px',
           minHeight: '40px',
-          padding: '0 16px',
+          padding: defaultShowSearch && showSearch ? '0 16px 0 8px' : '0 16px',
           borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
           boxSizing: 'border-box',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            visibility: showSearch ? 'hidden' : 'visible',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <FolderGit2 size={18} style={{ color: theme.colors.success || '#10b981' }} />
-            <span
-              style={{
-                fontSize: `${theme.fontSizes[2]}px`,
-                fontWeight: theme.fontWeights.medium,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.body,
-              }}
-            >
-              Local Projects
-            </span>
-            {allRepositories.length > 0 && (
-              <span
-                style={{
-                  fontSize: `${theme.fontSizes[1]}px`,
-                  color: theme.colors.textSecondary,
-                  padding: '2px 8px',
-                  borderRadius: '12px',
-                  backgroundColor: theme.colors.background,
-                }}
-              >
-                {allRepositories.length}
-              </span>
-            )}
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {/* Search toggle button */}
-            <button
-              className={`header-button ${showSearch ? 'active' : ''}`}
-              onClick={handleToggleSearch}
-              style={{
-                background: showSearch
-                  ? theme.colors.backgroundSecondary
-                  : 'none',
-                border: `1px solid ${showSearch ? theme.colors.border : 'transparent'}`,
-                borderRadius: '4px',
-                cursor: 'pointer',
-                padding: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: showSearch
-                  ? theme.colors.primary
-                  : theme.colors.textSecondary,
-                ['--theme-text' as string]: theme.colors.text,
-              }}
-              title={showSearch ? 'Close search' : 'Search projects'}
-            >
-              <Search size={16} />
-            </button>
-
-            {/* Sort toggle button */}
-            <button
-              onClick={() => setSortByOrg(!sortByOrg)}
-              title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
-              style={{
-                padding: '4px',
-                borderRadius: '4px',
-                border: `1px solid ${sortByOrg ? theme.colors.border : 'transparent'}`,
-                backgroundColor: sortByOrg ? theme.colors.backgroundSecondary : 'none',
-                color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.15s',
-                flexShrink: 0,
-              }}
-            >
-              {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
-            </button>
-
-            {/* Scan for repos button */}
-            <button
-              onClick={handleScanForRepos}
-              disabled={isScanning}
-              title="Scan for repositories"
-              style={{
-                padding: '4px',
-                borderRadius: '4px',
-                border: `1px solid ${theme.colors.border}`,
-                backgroundColor: theme.colors.backgroundSecondary,
-                color: theme.colors.textSecondary,
-                cursor: isScanning ? 'default' : 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: isScanning ? 0.6 : 1,
-                transition: 'all 0.2s',
-                flexShrink: 0,
-              }}
-            >
-              <RefreshCw
-                size={16}
-                style={{
-                  animation: isScanning ? 'spin 1s linear infinite' : 'none',
-                }}
-              />
-            </button>
-
-            {/* Add project button */}
-            {panelActions.selectDirectory && (
-              <button
-                onClick={handleAddProject}
-                disabled={isAdding}
-                title="Add existing project"
-                style={{
-                  padding: '4px',
-                  borderRadius: '4px',
-                  border: 'none',
-                  backgroundColor: theme.colors.primary,
-                  color: theme.colors.background,
-                  cursor: isAdding ? 'default' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: isAdding ? 0.6 : 1,
-                  transition: 'opacity 0.2s',
-                  flexShrink: 0,
-                }}
-              >
-                <Plus size={16} />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Search overlay */}
-        {showSearch && (
+        {/* Permanent search mode (when defaultShowSearch is true) */}
+        {defaultShowSearch && showSearch ? (
           <div
-            className="search-overlay"
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
               display: 'flex',
               alignItems: 'center',
-              padding: '0 16px',
-              backgroundColor: theme.colors.backgroundSecondary,
-              zIndex: 10,
+              gap: '8px',
+              width: '100%',
             }}
           >
+            {/* Search input */}
             <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
               <Search
                 size={16}
@@ -574,24 +433,321 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                 </button>
               )}
             </div>
-            <button
-              onClick={handleToggleSearch}
+
+            {/* Action buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {/* Sort toggle button */}
+              <button
+                onClick={() => setSortByOrg(!sortByOrg)}
+                title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
+                style={{
+                  padding: '4px 8px',
+                  height: '30px',
+                  borderRadius: '4px',
+                  border: `1px solid ${theme.colors.border}`,
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.15s',
+                  flexShrink: 0,
+                }}
+              >
+                {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
+              </button>
+
+              {/* Scan for repos button */}
+              <button
+                onClick={handleScanForRepos}
+                disabled={isScanning}
+                title="Scan for repositories"
+                style={{
+                  padding: '4px 8px',
+                  height: '30px',
+                  borderRadius: '4px',
+                  border: `1px solid ${theme.colors.border}`,
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  color: theme.colors.textSecondary,
+                  cursor: isScanning ? 'default' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: isScanning ? 0.6 : 1,
+                  transition: 'all 0.2s',
+                  flexShrink: 0,
+                }}
+              >
+                <RefreshCw
+                  size={16}
+                  style={{
+                    animation: isScanning ? 'spin 1s linear infinite' : 'none',
+                  }}
+                />
+              </button>
+
+              {/* Add project button */}
+              {panelActions.selectDirectory && (
+                <button
+                  onClick={handleAddProject}
+                  disabled={isAdding}
+                  title="Add existing project"
+                  style={{
+                    padding: '4px 8px',
+                    height: '30px',
+                    borderRadius: '4px',
+                    border: 'none',
+                    backgroundColor: theme.colors.primary,
+                    color: theme.colors.background,
+                    cursor: isAdding ? 'default' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: isAdding ? 0.6 : 1,
+                    transition: 'opacity 0.2s',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Plus size={16} />
+                </button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Normal mode */}
+            <div
               style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px',
-                marginLeft: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                color: theme.colors.textSecondary,
+                justifyContent: 'space-between',
+                width: '100%',
+                visibility: showSearch ? 'hidden' : 'visible',
               }}
-              title="Close search"
             >
-              <X size={16} />
-            </button>
-          </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FolderGit2 size={18} style={{ color: theme.colors.success || '#10b981' }} />
+                <span
+                  style={{
+                    fontSize: `${theme.fontSizes[2]}px`,
+                    fontWeight: theme.fontWeights.medium,
+                    color: theme.colors.text,
+                    fontFamily: theme.fonts.body,
+                  }}
+                >
+                  Local Projects
+                </span>
+                {allRepositories.length > 0 && (
+                  <span
+                    style={{
+                      fontSize: `${theme.fontSizes[1]}px`,
+                      color: theme.colors.textSecondary,
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                      backgroundColor: theme.colors.background,
+                    }}
+                  >
+                    {allRepositories.length}
+                  </span>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {/* Search toggle button */}
+                <button
+                  className={`header-button ${showSearch ? 'active' : ''}`}
+                  onClick={handleToggleSearch}
+                  style={{
+                    background: showSearch
+                      ? theme.colors.backgroundSecondary
+                      : 'none',
+                    border: `1px solid ${showSearch ? theme.colors.border : 'transparent'}`,
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: showSearch
+                      ? theme.colors.primary
+                      : theme.colors.textSecondary,
+                    ['--theme-text' as string]: theme.colors.text,
+                  }}
+                  title={showSearch ? 'Close search' : 'Search projects'}
+                >
+                  <Search size={16} />
+                </button>
+
+                {/* Sort toggle button */}
+                <button
+                  onClick={() => setSortByOrg(!sortByOrg)}
+                  title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
+                  style={{
+                    padding: '4px 8px',
+                    height: '30px',
+                    borderRadius: '4px',
+                    border: `1px solid ${theme.colors.border}`,
+                    backgroundColor: theme.colors.backgroundSecondary,
+                    color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.15s',
+                    flexShrink: 0,
+                  }}
+                >
+                  {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
+                </button>
+
+                {/* Scan for repos button */}
+                <button
+                  onClick={handleScanForRepos}
+                  disabled={isScanning}
+                  title="Scan for repositories"
+                  style={{
+                    padding: '4px 8px',
+                    height: '30px',
+                    borderRadius: '4px',
+                    border: `1px solid ${theme.colors.border}`,
+                    backgroundColor: theme.colors.backgroundSecondary,
+                    color: theme.colors.textSecondary,
+                    cursor: isScanning ? 'default' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: isScanning ? 0.6 : 1,
+                    transition: 'all 0.2s',
+                    flexShrink: 0,
+                  }}
+                >
+                  <RefreshCw
+                    size={16}
+                    style={{
+                      animation: isScanning ? 'spin 1s linear infinite' : 'none',
+                    }}
+                  />
+                </button>
+
+                {/* Add project button */}
+                {panelActions.selectDirectory && (
+                  <button
+                    onClick={handleAddProject}
+                    disabled={isAdding}
+                    title="Add existing project"
+                    style={{
+                      padding: '4px 8px',
+                      height: '30px',
+                      borderRadius: '4px',
+                      border: 'none',
+                      backgroundColor: theme.colors.primary,
+                      color: theme.colors.background,
+                      cursor: isAdding ? 'default' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      opacity: isAdding ? 0.6 : 1,
+                      transition: 'opacity 0.2s',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Plus size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Search overlay (for normal toggleable search) */}
+            {showSearch && !defaultShowSearch && (
+              <div
+                className="search-overlay"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0 16px',
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  zIndex: 10,
+                }}
+              >
+                <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                  <Search
+                    size={16}
+                    color={theme.colors.textSecondary}
+                    style={{
+                      position: 'absolute',
+                      left: '10px',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Filter local projects..."
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    autoFocus
+                    style={{
+                      width: '100%',
+                      padding: '6px 32px 6px 32px',
+                      fontSize: `${theme.fontSizes[1]}px`,
+                      color: theme.colors.text,
+                      backgroundColor: theme.colors.background,
+                      border: `1px solid ${theme.colors.border}`,
+                      borderRadius: '4px',
+                      outline: 'none',
+                      fontFamily: theme.fonts.body,
+                      transition: 'border-color 0.2s ease',
+                      ['--theme-primary' as string]: theme.colors.primary,
+                    }}
+                  />
+                  {filter && (
+                    <button
+                      className="clear-filter-button"
+                      onClick={handleClearFilter}
+                      style={{
+                        position: 'absolute',
+                        right: '8px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: theme.colors.textSecondary,
+                        ['--theme-text' as string]: theme.colors.text,
+                      }}
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
+                <button
+                  onClick={handleToggleSearch}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '4px',
+                    marginLeft: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: theme.colors.textSecondary,
+                  }}
+                  title="Close search"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 

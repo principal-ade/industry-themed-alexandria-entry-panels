@@ -352,3 +352,38 @@ export const ReadOnly: Story = {
     events: mockEvents,
   } as PanelComponentProps,
 };
+
+export const PermanentSearch: Story = {
+  args: {
+    context: createPanelContext(
+      {
+        type: 'workspace',
+        workspace: { name: mockWorkspace.name, path: '' },
+      },
+      [
+        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+          workspace: mockWorkspace,
+          loading: false,
+        }),
+        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
+          repositories: mockRepositories,
+          loading: false,
+        }),
+      ]
+    ),
+    actions: {
+      ...mockActions,
+      navigateToRepository: (owner: string, repo: string) => {
+        console.log('Navigate to repository:', `${owner}/${repo}`);
+      },
+      removeRepositoryFromWorkspace: async (repoKey: string, workspaceId: string) => {
+        console.log('Remove repository:', repoKey, 'from workspace:', workspaceId);
+      },
+      previewRepository: (repository: GitHubRepository) => {
+        console.log('Preview repository:', repository.full_name);
+      },
+    },
+    events: mockEvents,
+    defaultShowSearch: true,
+  } as PanelComponentProps,
+};
