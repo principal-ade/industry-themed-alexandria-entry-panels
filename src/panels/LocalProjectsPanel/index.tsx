@@ -269,12 +269,25 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
       return haystack.includes(normalizedFilter);
     });
 
-    // Sort alphabetically, with tracked repos first, then discovered
+    // Sort by last opened (most recent first), with tracked repos first, then discovered
     return filtered.sort((a, b) => {
       // Tracked repos come before discovered
       if (!a.isDiscovered && b.isDiscovered) return -1;
       if (a.isDiscovered && !b.isDiscovered) return 1;
 
+      // Sort by lastOpenedAt (most recent first)
+      // Projects with lastOpenedAt come before those without
+      if (a.lastOpenedAt && !b.lastOpenedAt) return -1;
+      if (!a.lastOpenedAt && b.lastOpenedAt) return 1;
+
+      // If both have lastOpenedAt, sort by timestamp (most recent first)
+      if (a.lastOpenedAt && b.lastOpenedAt) {
+        const aTime = new Date(a.lastOpenedAt).getTime();
+        const bTime = new Date(b.lastOpenedAt).getTime();
+        if (aTime !== bTime) return bTime - aTime;
+      }
+
+      // For projects without lastOpenedAt (or same timestamp), use secondary sort
       if (sortByOrg) {
         // Sort by org/owner first, then by repo name
         const aOrg = (a.github?.owner ?? '').toLowerCase();
@@ -418,7 +431,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
             {/* Sort toggle button */}
             <button
               onClick={() => setSortByOrg(!sortByOrg)}
-              title={sortByOrg ? 'Sorting by organization' : 'Sorting by repo name'}
+              title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
               style={{
                 padding: '4px',
                 borderRadius: '4px',
