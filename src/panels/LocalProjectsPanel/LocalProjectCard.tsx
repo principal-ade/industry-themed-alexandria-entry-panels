@@ -147,216 +147,6 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     }
   };
 
-  // Action button style - flex to share width
-  const actionButtonStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '4px',
-    flex: 1,
-    height: '24px',
-    padding: '0 8px',
-    border: 'none',
-    borderRadius: '4px',
-    backgroundColor: 'transparent',
-    color: theme.colors.textSecondary,
-    cursor: 'pointer',
-    fontSize: `${theme.fontSizes[1]}px`,
-    fontFamily: theme.fonts.body,
-    transition: 'all 0.15s ease',
-  };
-
-  // Button hover handlers for consistent styling with WorkspaceCard
-  const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>, isDestructive = false) => {
-    if (isDestructive) {
-      e.currentTarget.style.backgroundColor = `${theme.colors.error || '#ef4444'}15`;
-      e.currentTarget.style.color = theme.colors.error || '#ef4444';
-    } else {
-      e.currentTarget.style.backgroundColor = theme.colors.backgroundTertiary;
-      e.currentTarget.style.color = theme.colors.text;
-    }
-  };
-
-  const handleButtonLeave = (e: React.MouseEvent<HTMLButtonElement>, defaultColor?: string) => {
-    e.currentTarget.style.backgroundColor = 'transparent';
-    e.currentTarget.style.color = defaultColor || theme.colors.textSecondary;
-  };
-
-  const renderActionButtons = () => {
-    if (actionMode === 'add-to-workspace') {
-      return (
-        <button
-          type="button"
-          onClick={handleAddToWorkspaceClick}
-          disabled={isLoading}
-          title="Add to workspace"
-          style={actionButtonStyle}
-          onMouseEnter={(e) => handleButtonHover(e)}
-          onMouseLeave={(e) => handleButtonLeave(e)}
-        >
-          {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
-          <span>Add</span>
-        </button>
-      );
-    }
-
-    if (actionMode === 'workspace') {
-      return (
-        <>
-          {isInWorkspaceDirectory === false && onMoveToWorkspace && (
-            <button
-              type="button"
-              onClick={handleMoveToWorkspaceClick}
-              disabled={isMoving}
-              title="Move to workspace directory"
-              style={actionButtonStyle}
-              onMouseEnter={(e) => handleButtonHover(e)}
-              onMouseLeave={(e) => handleButtonLeave(e)}
-            >
-              {isMoving ? <Loader2 size={14} className="animate-spin" /> : <MoveUp size={14} />}
-              <span>Move</span>
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={handleCopyPath}
-            title={copiedPath ? 'Copied!' : `Copy path: ${entry.path}`}
-            style={{
-              ...actionButtonStyle,
-              color: copiedPath ? theme.colors.success || '#10b981' : theme.colors.textSecondary,
-            }}
-            onMouseEnter={(e) => handleButtonHover(e)}
-            onMouseLeave={(e) => handleButtonLeave(e, copiedPath ? theme.colors.success || '#10b981' : undefined)}
-          >
-            {copiedPath ? <Check size={14} /> : <Copy size={14} />}
-            <span>{copiedPath ? 'Copied' : 'Copy'}</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleOpenClick}
-            title="Open repository"
-            style={actionButtonStyle}
-            onMouseEnter={(e) => handleButtonHover(e)}
-            onMouseLeave={(e) => handleButtonLeave(e)}
-          >
-            <FolderOpen size={14} />
-            <span>Open</span>
-          </button>
-          {onRemoveFromWorkspace && (
-            <button
-              type="button"
-              onClick={handleRemoveFromWorkspaceClick}
-              disabled={isRemoving}
-              title="Remove from workspace"
-              style={actionButtonStyle}
-              onMouseEnter={(e) => handleButtonHover(e, true)}
-              onMouseLeave={(e) => handleButtonLeave(e)}
-            >
-              {isRemoving ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
-              <span>Remove</span>
-            </button>
-          )}
-        </>
-      );
-    }
-
-    if (actionMode === 'discovered') {
-      return (
-        <>
-          <button
-            type="button"
-            onClick={handleTrackClick}
-            disabled={isLoading}
-            title="Track this repository"
-            style={{
-              ...actionButtonStyle,
-              backgroundColor: theme.colors.primary,
-              color: theme.colors.background,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.9';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
-            }}
-          >
-            {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
-            <span>Track</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleOpenClick}
-            title="Open repository"
-            style={actionButtonStyle}
-            onMouseEnter={(e) => handleButtonHover(e)}
-            onMouseLeave={(e) => handleButtonLeave(e)}
-          >
-            <FolderOpen size={14} />
-            <span>Open</span>
-          </button>
-        </>
-      );
-    }
-
-    // Default and minimal modes
-    return (
-      <>
-        <button
-          type="button"
-          onClick={handleCopyPath}
-          title={copiedPath ? 'Copied!' : `Copy path: ${entry.path}`}
-          style={{
-            ...actionButtonStyle,
-            color: copiedPath ? theme.colors.success || '#10b981' : theme.colors.textSecondary,
-          }}
-          onMouseEnter={(e) => handleButtonHover(e)}
-          onMouseLeave={(e) => handleButtonLeave(e, copiedPath ? theme.colors.success || '#10b981' : undefined)}
-        >
-          {copiedPath ? <Check size={14} /> : <Copy size={14} />}
-          <span>{copiedPath ? 'Copied' : 'Copy'}</span>
-        </button>
-        <button
-          type="button"
-          onClick={handleOpenClick}
-          title={
-            windowState === 'ready'
-              ? 'Focus window'
-              : windowState === 'opening'
-                ? 'Window is opening...'
-                : 'Open locally'
-          }
-          disabled={windowState === 'opening'}
-          style={actionButtonStyle}
-          onMouseEnter={(e) => handleButtonHover(e)}
-          onMouseLeave={(e) => handleButtonLeave(e)}
-        >
-          {windowState === 'ready' ? (
-            <Focus size={14} />
-          ) : windowState === 'opening' ? (
-            <Loader2 size={14} className="animate-spin" />
-          ) : (
-            <FolderOpen size={14} />
-          )}
-          <span>{windowState === 'ready' ? 'Focus' : 'Open'}</span>
-        </button>
-        {actionMode === 'default' && onRemove && (
-          <button
-            type="button"
-            onClick={handleRemoveClick}
-            disabled={isLoading}
-            title="Remove from local projects"
-            style={actionButtonStyle}
-            onMouseEnter={(e) => handleButtonHover(e, true)}
-            onMouseLeave={(e) => handleButtonLeave(e)}
-          >
-            {isLoading ? <Loader2 size={14} className="animate-spin" /> : <X size={14} />}
-            <span>Remove</span>
-          </button>
-        )}
-      </>
-    );
-  };
-
   const cardStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
@@ -472,52 +262,54 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           )}
         </div>
 
-        {/* Description row with action buttons */}
+        {/* Path row - click to copy */}
         <div
+          onClick={handleCopyPath}
           style={{
             display: 'flex',
             alignItems: 'center',
+            gap: '6px',
             minHeight: '24px',
-            position: 'relative',
+            cursor: 'pointer',
+            padding: '2px 0',
           }}
+          title={copiedPath ? 'Copied!' : `Click to copy: ${entry.path}`}
         >
-          {/* Description - hidden when hovered */}
-          <div
+          <span
             style={{
               flex: 1,
               fontSize: `${theme.fontSizes[1]}px`,
-              color: theme.colors.textSecondary,
+              color: copiedPath ? theme.colors.success || '#10b981' : theme.colors.textSecondary,
               lineHeight: 1.4,
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               minWidth: 0,
-              opacity: isHovered ? 0 : 1,
-              transition: 'opacity 0.15s ease',
-            }}
-            title={entry.github?.description || displayPath}
-          >
-            {entry.github?.description || displayPath}
-          </div>
-
-          {/* Action buttons - cover full width when hovered */}
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              opacity: isHovered ? 1 : 0,
-              pointerEvents: isHovered ? 'auto' : 'none',
-              transition: 'opacity 0.15s ease',
+              transition: 'color 0.15s ease',
             }}
           >
-            {renderActionButtons()}
-          </div>
+            {copiedPath ? '✓ Copied!' : displayPath}
+          </span>
+          {!copiedPath && (
+            <Copy
+              size={12}
+              style={{
+                color: theme.colors.textSecondary,
+                flexShrink: 0,
+                opacity: isHovered ? 1 : 0,
+                transition: 'opacity 0.15s ease',
+              }}
+            />
+          )}
+          {copiedPath && (
+            <Check
+              size={12}
+              style={{
+                color: theme.colors.success || '#10b981',
+                flexShrink: 0,
+              }}
+            />
+          )}
         </div>
       </div>
     </div>
