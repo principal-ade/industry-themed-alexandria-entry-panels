@@ -27,6 +27,8 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
 export interface LocalProjectsPanelProps extends PanelComponentProps {
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
+  /** Whether to disable the copy paths functionality in list items */
+  disableCopyPaths?: boolean;
 }
 
 /**
@@ -37,6 +39,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   actions,
   events,
   defaultShowSearch = false,
+  disableCopyPaths = true,
 }) => {
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
@@ -362,11 +365,12 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
           position: 'relative',
           height: '40px',
           minHeight: '40px',
-          padding: defaultShowSearch && showSearch ? '0 16px 0 8px' : '0 16px',
+          padding: '0',
           borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
           boxSizing: 'border-box',
+          backgroundColor: theme.colors.background,
         }}
       >
         {/* Permanent search mode (when defaultShowSearch is true) */}
@@ -375,7 +379,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '0',
               width: '100%',
             }}
           >
@@ -399,12 +403,13 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                 autoFocus
                 style={{
                   width: '100%',
-                  padding: '6px 32px 6px 32px',
+                  padding: '0 32px',
+                  height: '40px',
                   fontSize: `${theme.fontSizes[1]}px`,
                   color: theme.colors.text,
                   backgroundColor: theme.colors.background,
-                  border: `1px solid ${theme.colors.border}`,
-                  borderRadius: '4px',
+                  border: 'none',
+                  borderRadius: '0',
                   outline: 'none',
                   fontFamily: theme.fonts.body,
                   transition: 'border-color 0.2s ease',
@@ -435,16 +440,16 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
             </div>
 
             {/* Action buttons */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
               {/* Sort toggle button */}
               <button
                 onClick={() => setSortByOrg(!sortByOrg)}
                 title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
                 style={{
-                  padding: '4px 8px',
-                  height: '30px',
-                  borderRadius: '4px',
-                  border: `1px solid ${theme.colors.border}`,
+                  padding: '0 12px',
+                  height: '40px',
+                  borderRadius: '0',
+                  border: 'none',
                   backgroundColor: theme.colors.backgroundSecondary,
                   color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
                   cursor: 'pointer',
@@ -464,10 +469,10 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                 disabled={isScanning}
                 title="Scan for repositories"
                 style={{
-                  padding: '4px 8px',
-                  height: '30px',
-                  borderRadius: '4px',
-                  border: `1px solid ${theme.colors.border}`,
+                  padding: '0 12px',
+                  height: '40px',
+                  borderRadius: '0',
+                  border: 'none',
                   backgroundColor: theme.colors.backgroundSecondary,
                   color: theme.colors.textSecondary,
                   cursor: isScanning ? 'default' : 'pointer',
@@ -494,9 +499,9 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   disabled={isAdding}
                   title="Add existing project"
                   style={{
-                    padding: '4px 8px',
-                    height: '30px',
-                    borderRadius: '4px',
+                    padding: '0 12px',
+                    height: '40px',
+                    borderRadius: '0',
                     border: 'none',
                     backgroundColor: theme.colors.primary,
                     color: theme.colors.background,
@@ -526,7 +531,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                 visibility: showSearch ? 'hidden' : 'visible',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
                 <FolderGit2 size={18} style={{ color: theme.colors.success || '#10b981' }} />
                 <span
                   style={{
@@ -553,7 +558,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                 )}
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
                 {/* Search toggle button */}
                 <button
                   className={`header-button ${showSearch ? 'active' : ''}`}
@@ -562,10 +567,11 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                     background: showSearch
                       ? theme.colors.backgroundSecondary
                       : 'none',
-                    border: `1px solid ${showSearch ? theme.colors.border : 'transparent'}`,
-                    borderRadius: '4px',
+                    border: 'none',
+                    borderRadius: '0',
                     cursor: 'pointer',
-                    padding: '4px',
+                    padding: '0 12px',
+                    height: '40px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -584,10 +590,10 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   onClick={() => setSortByOrg(!sortByOrg)}
                   title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
                   style={{
-                    padding: '4px 8px',
-                    height: '30px',
-                    borderRadius: '4px',
-                    border: `1px solid ${theme.colors.border}`,
+                    padding: '0 12px',
+                    height: '40px',
+                    borderRadius: '0',
+                    border: 'none',
                     backgroundColor: theme.colors.backgroundSecondary,
                     color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
                     cursor: 'pointer',
@@ -607,10 +613,10 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   disabled={isScanning}
                   title="Scan for repositories"
                   style={{
-                    padding: '4px 8px',
-                    height: '30px',
-                    borderRadius: '4px',
-                    border: `1px solid ${theme.colors.border}`,
+                    padding: '0 12px',
+                    height: '40px',
+                    borderRadius: '0',
+                    border: 'none',
                     backgroundColor: theme.colors.backgroundSecondary,
                     color: theme.colors.textSecondary,
                     cursor: isScanning ? 'default' : 'pointer',
@@ -637,9 +643,9 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                     disabled={isAdding}
                     title="Add existing project"
                     style={{
-                      padding: '4px 8px',
-                      height: '30px',
-                      borderRadius: '4px',
+                      padding: '0 12px',
+                      height: '40px',
+                      borderRadius: '0',
                       border: 'none',
                       backgroundColor: theme.colors.primary,
                       color: theme.colors.background,
@@ -670,7 +676,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   bottom: 0,
                   display: 'flex',
                   alignItems: 'center',
-                  padding: '0 16px',
+                  padding: '0',
                   backgroundColor: theme.colors.backgroundSecondary,
                   zIndex: 10,
                 }}
@@ -694,12 +700,13 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                     autoFocus
                     style={{
                       width: '100%',
-                      padding: '6px 32px 6px 32px',
+                      padding: '0 32px',
+                      height: '40px',
                       fontSize: `${theme.fontSizes[1]}px`,
                       color: theme.colors.text,
                       backgroundColor: theme.colors.background,
-                      border: `1px solid ${theme.colors.border}`,
-                      borderRadius: '4px',
+                      border: 'none',
+                      borderRadius: '0',
                       outline: 'none',
                       fontFamily: theme.fonts.body,
                       transition: 'border-color 0.2s ease',
@@ -734,8 +741,9 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    padding: '4px',
-                    marginLeft: '8px',
+                    padding: '0 12px',
+                    height: '40px',
+                    marginLeft: '0',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -759,8 +767,8 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          gap: '4px',
-          padding: '8px',
+          gap: '0',
+          padding: '0',
         }}
       >
         {/* Repository list */}
@@ -775,6 +783,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
             onRemove={entry.isDiscovered ? undefined : handleRemoveRepository}
             onTrack={entry.isDiscovered ? handleTrackRepository : undefined}
             windowState={windowStates.get(entry.path) || 'closed'}
+            disableCopyPaths={disableCopyPaths}
           />
         ))}
 

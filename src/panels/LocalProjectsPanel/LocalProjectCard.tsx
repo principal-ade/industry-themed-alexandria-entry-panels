@@ -59,6 +59,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   isInWorkspaceDirectory,
   workspacePath,
   userHomePath,
+  disableCopyPaths = true,
 }) => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
@@ -150,9 +151,9 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   const cardStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
-    gap: '12px',
-    padding: '12px',
-    borderRadius: '6px',
+    gap: '8px',
+    padding: '16px',
+    borderRadius: '0',
     backgroundColor: isSelected
       ? theme.colors.backgroundTertiary
       : isHovered
@@ -161,9 +162,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     border: `1px solid ${
       isSelected
         ? theme.colors.primary || theme.colors.border
-        : isHovered
-          ? theme.colors.border
-          : 'transparent'
+        : 'transparent'
     }`,
     cursor: 'pointer',
     transition: 'all 0.15s ease',
@@ -264,16 +263,14 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
 
         {/* Path row - click to copy */}
         <div
-          onClick={handleCopyPath}
+          onClick={disableCopyPaths ? undefined : handleCopyPath}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            minHeight: '24px',
-            cursor: 'pointer',
-            padding: '2px 0',
+            cursor: disableCopyPaths ? 'default' : 'pointer',
           }}
-          title={copiedPath ? 'Copied!' : `Click to copy: ${entry.path}`}
+          title={disableCopyPaths ? displayPath : (copiedPath ? 'Copied!' : `Click to copy: ${entry.path}`)}
         >
           <span
             style={{
@@ -290,7 +287,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           >
             {copiedPath ? '✓ Copied!' : displayPath}
           </span>
-          {!copiedPath && (
+          {!disableCopyPaths && !copiedPath && (
             <Copy
               size={12}
               style={{
@@ -301,7 +298,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
               }}
             />
           )}
-          {copiedPath && (
+          {!disableCopyPaths && copiedPath && (
             <Check
               size={12}
               style={{

@@ -138,6 +138,8 @@ export interface LocalProjectCardProps {
   workspacePath?: string;
   /** User home path to strip from displayed path (replaced with ~) */
   userHomePath?: string;
+  /** Whether to disable the copy paths functionality */
+  disableCopyPaths?: boolean;
 }
 
 /**
