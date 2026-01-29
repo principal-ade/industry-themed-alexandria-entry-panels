@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { Search, Plus, Building2, FolderGit2, X, RefreshCw } from 'lucide-react';
+import { Search, Plus, FolderGit2, X, RefreshCw } from 'lucide-react';
 import './LocalProjectsPanel.css';
 import '../shared/styles.css';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
@@ -49,7 +49,6 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   const [scanStatus, setScanStatus] = useState<string>('');
   const [selectedEntry, setSelectedEntry] = useState<AlexandriaEntry | null>(null);
   const [windowStates, setWindowStates] = useState<Map<string, RepositoryWindowState>>(new Map());
-  const [sortByOrg, setSortByOrg] = useState(false);
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
@@ -316,18 +315,10 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
         if (aTime !== bTime) return bTime - aTime;
       }
 
-      // For projects without lastOpenedAt (or same timestamp), use secondary sort
-      if (sortByOrg) {
-        // Sort by org/owner first, then by repo name
-        const aOrg = (a.github?.owner ?? '').toLowerCase();
-        const bOrg = (b.github?.owner ?? '').toLowerCase();
-        const orgCompare = aOrg.localeCompare(bOrg);
-        if (orgCompare !== 0) return orgCompare;
-      }
-      // Sort by repo name
+      // For projects without lastOpenedAt (or same timestamp), sort by repo name
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
-  }, [allRepositories, normalizedFilter, sortByOrg]);
+  }, [allRepositories, normalizedFilter]);
 
   const baseContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -480,28 +471,6 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
 
             {/* Action buttons */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
-              {/* Sort toggle button */}
-              <button
-                onClick={() => setSortByOrg(!sortByOrg)}
-                title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
-                style={{
-                  padding: '0 12px',
-                  height: '40px',
-                  borderRadius: '0',
-                  border: 'none',
-                  backgroundColor: theme.colors.backgroundSecondary,
-                  color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.15s',
-                  flexShrink: 0,
-                }}
-              >
-                {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
-              </button>
-
               {/* Scan for repos button */}
               <button
                 onClick={handleScanForRepos}
@@ -636,28 +605,6 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   title={showSearch ? 'Close search' : 'Search projects'}
                 >
                   <Search size={16} />
-                </button>
-
-                {/* Sort toggle button */}
-                <button
-                  onClick={() => setSortByOrg(!sortByOrg)}
-                  title={sortByOrg ? 'Sort by: Last opened, then organization' : 'Sort by: Last opened, then name'}
-                  style={{
-                    padding: '0 12px',
-                    height: '40px',
-                    borderRadius: '0',
-                    border: 'none',
-                    backgroundColor: theme.colors.backgroundSecondary,
-                    color: sortByOrg ? theme.colors.primary : theme.colors.textSecondary,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'all 0.15s',
-                    flexShrink: 0,
-                  }}
-                >
-                  {sortByOrg ? <Building2 size={16} /> : <FolderGit2 size={16} />}
                 </button>
 
                 {/* Scan for repos button */}
