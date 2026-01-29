@@ -46,6 +46,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   const [showSearch, setShowSearch] = useState(defaultShowSearch);
   const [isAdding, setIsAdding] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
+  const [scanStatus, setScanStatus] = useState<string>('');
   const [selectedEntry, setSelectedEntry] = useState<AlexandriaEntry | null>(null);
   const [windowStates, setWindowStates] = useState<Map<string, RepositoryWindowState>>(new Map());
   const [sortByOrg, setSortByOrg] = useState(false);
@@ -230,13 +231,35 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   // Handle scan for repositories
   const handleScanForRepos = async () => {
     setIsScanning(true);
+    setScanStatus('Scanning for repositories...');
+
+    const startTime = Date.now();
+    const minDuration = 800; // Minimum animation duration in ms
+
     try {
       await context.refresh('repository', 'alexandriaRepositories');
+
+      // Calculate remaining time to meet minimum duration
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minDuration - elapsed);
+
+      // Show completion status
+      const count = discoveredRepositories.length;
+      setScanStatus(count > 0 ? `Found ${count} ${count === 1 ? 'repository' : 'repositories'}` : 'Scan complete');
+
       events.emit(createPanelEvent(`${PANEL_ID}:scan-completed`, {
-        discoveredCount: discoveredRepositories.length
+        discoveredCount: count
       }));
+
+      // Wait for remaining time before clearing
+      await new Promise(resolve => setTimeout(resolve, remaining));
+
+      // Clear status after a brief display
+      setTimeout(() => setScanStatus(''), 1500);
     } catch (error) {
       console.error('Failed to scan for repositories:', error);
+      setScanStatus('Scan failed');
+      setTimeout(() => setScanStatus(''), 2000);
     } finally {
       setIsScanning(false);
     }
@@ -439,6 +462,22 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
               )}
             </div>
 
+            {/* Scan status indicator */}
+            {scanStatus && (
+              <div
+                style={{
+                  padding: '0 12px',
+                  fontSize: `${theme.fontSizes[1]}px`,
+                  color: theme.colors.textSecondary,
+                  fontFamily: theme.fonts.body,
+                  whiteSpace: 'nowrap',
+                  fontStyle: 'italic',
+                }}
+              >
+                {scanStatus}
+              </div>
+            )}
+
             {/* Action buttons */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
               {/* Sort toggle button */}
@@ -554,6 +593,20 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                     }}
                   >
                     {allRepositories.length}
+                  </span>
+                )}
+                {/* Scan status indicator */}
+                {scanStatus && (
+                  <span
+                    style={{
+                      fontSize: `${theme.fontSizes[1]}px`,
+                      color: theme.colors.textSecondary,
+                      paddingLeft: '12px',
+                      fontFamily: theme.fonts.body,
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    {scanStatus}
                   </span>
                 )}
               </div>
