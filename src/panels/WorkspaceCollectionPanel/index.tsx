@@ -10,7 +10,6 @@ import {
 import type { PanelComponentProps } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
 import type {
-  Workspace,
   WorkspaceCollectionSlice,
   WorkspaceRepositoriesSlice,
   WorkspaceCollectionPanelActions,
