@@ -12,6 +12,8 @@ import type {
   RepositoryWindowState,
   DiscoveredRepository,
 } from './types';
+import type { Collection, UserCollectionsSlice } from '../UserCollectionsPanel/types';
+import type { CollectionMembership } from '@principal-ai/alexandria-collections';
 
 // Panel event prefix
 const PANEL_ID = 'industry-theme.local-projects';
@@ -87,6 +89,30 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
     [repoSlice?.data?.discoveredRepositories]
   );
   const loading = repoSlice?.loading ?? false;
+
+  // Get selected collection info (for visual indicators)
+  // The context might have selectedCollection if used in WorldsView
+  const selectedCollection = 'selectedCollection' in context
+    ? (context.selectedCollection as Collection | null)
+    : null;
+
+  // Get collection memberships to check which repos are in the selected collection
+  const collectionSlice = context.getSlice<UserCollectionsSlice>('userCollections');
+  const collectionMemberships = useMemo(
+    () => collectionSlice?.data?.memberships || [],
+    [collectionSlice?.data]
+  );
+
+  // Build a Set of repository IDs that are in the selected collection
+  const repositoriesInCollection = useMemo(() => {
+    if (!selectedCollection) return new Set<string>();
+
+    return new Set(
+      collectionMemberships
+        .filter((m: CollectionMembership) => m.collectionId === selectedCollection.id)
+        .map((m: CollectionMembership) => m.repositoryId)
+    );
+  }, [selectedCollection, collectionMemberships]);
 
   // Convert discovered repos to AlexandriaEntry-like format for display
   const discoveredAsEntries = useMemo(() => {
@@ -819,20 +845,32 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
         }}
       >
         {/* Repository list */}
-        {filteredAndSortedRepositories.map((entry) => (
-          <LocalProjectCard
-            key={entry.path}
-            entry={entry}
-            actionMode={entry.isDiscovered ? 'discovered' : 'default'}
-            isSelected={selectedEntry?.path === entry.path}
-            onSelect={handleSelectRepository}
-            onOpen={handleOpenRepository}
-            onRemove={entry.isDiscovered ? undefined : handleRemoveRepository}
-            onTrack={entry.isDiscovered ? handleTrackRepository : undefined}
-            windowState={windowStates.get(entry.path) || 'closed'}
-            disableCopyPaths={disableCopyPaths}
-          />
-        ))}
+        {filteredAndSortedRepositories.map((entry) => {
+          // Determine repository ID (same logic as CollectionMapPanel)
+          const repositoryId =
+            entry.github?.owner && entry.name
+              ? `${entry.github.owner}/${entry.name}`
+              : entry.name;
+
+          const isInCollection = repositoriesInCollection.has(repositoryId);
+
+          return (
+            <LocalProjectCard
+              key={entry.path}
+              entry={entry}
+              actionMode={entry.isDiscovered ? 'discovered' : 'default'}
+              isSelected={selectedEntry?.path === entry.path}
+              onSelect={handleSelectRepository}
+              onOpen={handleOpenRepository}
+              onRemove={entry.isDiscovered ? undefined : handleRemoveRepository}
+              onTrack={entry.isDiscovered ? handleTrackRepository : undefined}
+              windowState={windowStates.get(entry.path) || 'closed'}
+              disableCopyPaths={disableCopyPaths}
+              isInSelectedCollection={isInCollection}
+              selectedCollectionName={selectedCollection?.name}
+            />
+          );
+        })}
 
         {/* No results message */}
         {filteredAndSortedRepositories.length === 0 && !loading && (

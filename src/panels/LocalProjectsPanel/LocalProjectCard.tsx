@@ -52,12 +52,15 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   workspacePath,
   userHomePath,
   disableCopyPaths = true,
+  isInSelectedCollection = false,
+  selectedCollectionName,
 }) => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [copiedPath, setCopiedPath] = useState(false);
 
   // Add drag-and-drop functionality
+  // Don't make draggable if already in the selected collection
   const { isDragging, ...dragProps } = useDraggable({
     dataType: 'repository-project', // Custom data type for repository projects
     primaryData: entry.path,
@@ -129,8 +132,12 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     border: `1px solid ${
       isSelected ? theme.colors.primary || theme.colors.border : 'transparent'
     }`,
-    cursor: isDragging ? 'grabbing' : 'grab',
-    opacity: isDragging ? 0.5 : 1,
+    cursor: isInSelectedCollection
+      ? 'not-allowed'
+      : isDragging
+        ? 'grabbing'
+        : 'grab',
+    opacity: isDragging ? 0.5 : isInSelectedCollection ? 0.7 : 1,
     transition: 'all 0.15s ease',
     fontFamily: theme.fonts.body,
   };
@@ -143,7 +150,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
       onDoubleClick={handleDoubleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      {...dragProps}
+      {...(isInSelectedCollection ? {} : dragProps)}
     >
       {/* Avatar */}
       <RepositoryAvatar
@@ -209,6 +216,29 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
                 size={12}
                 style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
               />
+            </span>
+          )}
+          {/* In Collection badge */}
+          {isInSelectedCollection && selectedCollectionName && (
+            <span
+              title={`Already in "${selectedCollectionName}"`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                backgroundColor: theme.colors.success
+                  ? `${theme.colors.success}20`
+                  : '#10b98120',
+                color: theme.colors.success || '#10b981',
+                fontSize: `${theme.fontSizes[0]}px`,
+                fontWeight: theme.fontWeights.medium,
+                flexShrink: 0,
+              }}
+            >
+              <Check size={12} />
+              <span>In Map</span>
             </span>
           )}
           {/* Untracked badge for discovered repos */}

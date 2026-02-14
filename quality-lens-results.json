@@ -1,0 +1,2381 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-14T15:33:27.458Z",
+    "version": "1.0.0",
+    "totalPackages": 1,
+    "totalLenses": 3
+  },
+  "results": [
+    {
+      "package": {
+        "name": "@industry-theme/alexandria-panels",
+        "path": ""
+      },
+      "lens": {
+        "id": "typescript",
+        "command": "npx tsc --noEmit --listFiles"
+      },
+      "execution": {
+        "success": true,
+        "exitCode": 0,
+        "duration": 1379,
+        "timestamp": 1771083205444
+      },
+      "issues": [],
+      "metrics": {
+        "filesAnalyzed": 39,
+        "totalIssues": 0,
+        "issuesBySeverity": {
+          "error": 0,
+          "warning": 0,
+          "info": 0,
+          "hint": 0
+        },
+        "executionTime": 0,
+        "custom": {
+          "filesWithErrors": 0,
+          "totalErrors": 0,
+          "totalWarnings": 0,
+          "totalSuggestions": 0,
+          "uniqueErrorCodes": 0,
+          "topErrors": []
+        }
+      },
+      "fileMetrics": [
+        {
+          "file": "src/types/index.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/RepositoryAvatar.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspaceCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/shared/github-types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/shared/GitHubRepositoryCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/mocks/panelContext.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/GitHubProjectsPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/GitHubStarredPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/tools/index.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        }
+      ],
+      "qualityContext": {}
+    },
+    {
+      "package": {
+        "name": "@industry-theme/alexandria-panels",
+        "path": ""
+      },
+      "lens": {
+        "id": "eslint",
+        "command": "npx eslint . --format json"
+      },
+      "execution": {
+        "success": true,
+        "exitCode": 0,
+        "duration": 1248,
+        "timestamp": 1771083206693
+      },
+      "issues": [
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 186,
+          "column": 30,
+          "endLine": 186,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 187,
+          "column": 28,
+          "endLine": 187,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 188,
+          "column": 30,
+          "endLine": 188,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 200,
+          "column": 30,
+          "endLine": 200,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 201,
+          "column": 28,
+          "endLine": 201,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 202,
+          "column": 30,
+          "endLine": 202,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 214,
+          "column": 30,
+          "endLine": 214,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 215,
+          "column": 28,
+          "endLine": 215,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 216,
+          "column": 30,
+          "endLine": 216,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 228,
+          "column": 30,
+          "endLine": 228,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 229,
+          "column": 28,
+          "endLine": 229,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 230,
+          "column": 30,
+          "endLine": 230,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 242,
+          "column": 30,
+          "endLine": 242,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 243,
+          "column": 28,
+          "endLine": 243,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 255,
+          "column": 30,
+          "endLine": 255,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 257,
+          "column": 11,
+          "endLine": 257,
+          "endColumn": 22,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 269,
+          "column": 30,
+          "endLine": 269,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 270,
+          "column": 28,
+          "endLine": 270,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 271,
+          "column": 30,
+          "endLine": 271,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 290,
+          "column": 30,
+          "endLine": 290,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 291,
+          "column": 28,
+          "endLine": 291,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 292,
+          "column": 30,
+          "endLine": 292,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 316,
+          "column": 28,
+          "endLine": 316,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 317,
+          "column": 26,
+          "endLine": 317,
+          "endColumn": 37,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 397,
+          "column": 58,
+          "endLine": 397,
+          "endColumn": 61,
+          "severity": "warning",
+          "message": "Unexpected any. Specify a different type.",
+          "rule": "@typescript-eslint/no-explicit-any",
+          "source": "eslint",
+          "category": "typescript"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 435,
+          "column": 32,
+          "endLine": 435,
+          "endColumn": 43,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "line": 436,
+          "column": 30,
+          "endLine": 436,
+          "endColumn": 41,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/UserProfilePanel/index.tsx",
+          "line": 310,
+          "column": 10,
+          "endLine": 310,
+          "endColumn": 23,
+          "severity": "warning",
+          "message": "'showSearchBox' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+          "rule": "@typescript-eslint/no-unused-vars",
+          "source": "eslint",
+          "category": "typescript"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 113,
+          "column": 5,
+          "endLine": 113,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 116,
+          "column": 5,
+          "endLine": 116,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 119,
+          "column": 5,
+          "endLine": 119,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 126,
+          "column": 5,
+          "endLine": 126,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 129,
+          "column": 5,
+          "endLine": 129,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 130,
+          "column": 18,
+          "endLine": 130,
+          "endColumn": 29,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 133,
+          "column": 5,
+          "endLine": 133,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 183,
+          "column": 9,
+          "endLine": 183,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 189,
+          "column": 9,
+          "endLine": 189,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 197,
+          "column": 9,
+          "endLine": 197,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 365,
+          "column": 9,
+          "endLine": 365,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 371,
+          "column": 9,
+          "endLine": 371,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 438,
+          "column": 9,
+          "endLine": 438,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 444,
+          "column": 9,
+          "endLine": 444,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "line": 452,
+          "column": 9,
+          "endLine": 452,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/index.tsx",
+          "line": 349,
+          "column": 9,
+          "endLine": 349,
+          "endColumn": 67,
+          "severity": "warning",
+          "message": "The 'repositories' logical expression could make the dependencies of useEffect Hook (at line 362) change on every render. To fix this, wrap the initialization of 'repositories' in its own useMemo() Hook.",
+          "rule": "react-hooks/exhaustive-deps",
+          "source": "eslint",
+          "category": "react"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/index.tsx",
+          "line": 349,
+          "column": 9,
+          "endLine": 349,
+          "endColumn": 67,
+          "severity": "warning",
+          "message": "The 'repositories' logical expression could make the dependencies of useEffect Hook (at line 381) change on every render. To fix this, wrap the initialization of 'repositories' in its own useMemo() Hook.",
+          "rule": "react-hooks/exhaustive-deps",
+          "source": "eslint",
+          "category": "react"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/index.tsx",
+          "line": 349,
+          "column": 9,
+          "endLine": 349,
+          "endColumn": 67,
+          "severity": "warning",
+          "message": "The 'repositories' logical expression could make the dependencies of useMemo Hook (at line 420) change on every render. To fix this, wrap the initialization of 'repositories' in its own useMemo() Hook.",
+          "rule": "react-hooks/exhaustive-deps",
+          "source": "eslint",
+          "category": "react"
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/index.tsx",
+          "line": 349,
+          "column": 9,
+          "endLine": 349,
+          "endColumn": 67,
+          "severity": "warning",
+          "message": "The 'repositories' logical expression could make the dependencies of useEffect Hook (at line 535) change on every render. To fix this, wrap the initialization of 'repositories' in its own useMemo() Hook.",
+          "rule": "react-hooks/exhaustive-deps",
+          "source": "eslint",
+          "category": "react"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 90,
+          "column": 5,
+          "endLine": 90,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 93,
+          "column": 5,
+          "endLine": 93,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 96,
+          "column": 5,
+          "endLine": 96,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 103,
+          "column": 5,
+          "endLine": 103,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 106,
+          "column": 5,
+          "endLine": 106,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 107,
+          "column": 18,
+          "endLine": 107,
+          "endColumn": 29,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 110,
+          "column": 5,
+          "endLine": 110,
+          "endColumn": 16,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 304,
+          "column": 9,
+          "endLine": 304,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "line": 316,
+          "column": 9,
+          "endLine": 316,
+          "endColumn": 20,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 259,
+          "column": 26,
+          "endLine": 259,
+          "endColumn": 37,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 260,
+          "column": 25,
+          "endLine": 260,
+          "endColumn": 36,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 261,
+          "column": 27,
+          "endLine": 261,
+          "endColumn": 38,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 262,
+          "column": 43,
+          "endLine": 262,
+          "endColumn": 54,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 276,
+          "column": 26,
+          "endLine": 276,
+          "endColumn": 37,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 277,
+          "column": 25,
+          "endLine": 277,
+          "endColumn": 36,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 278,
+          "column": 27,
+          "endLine": 278,
+          "endColumn": 38,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 279,
+          "column": 43,
+          "endLine": 279,
+          "endColumn": 54,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 293,
+          "column": 26,
+          "endLine": 293,
+          "endColumn": 37,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 294,
+          "column": 25,
+          "endLine": 294,
+          "endColumn": 36,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 295,
+          "column": 27,
+          "endLine": 295,
+          "endColumn": 38,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 296,
+          "column": 43,
+          "endLine": 296,
+          "endColumn": 54,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 309,
+          "column": 26,
+          "endLine": 309,
+          "endColumn": 37,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 310,
+          "column": 25,
+          "endLine": 310,
+          "endColumn": 36,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 323,
+          "column": 26,
+          "endLine": 323,
+          "endColumn": 37,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 346,
+          "column": 28,
+          "endLine": 346,
+          "endColumn": 39,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 347,
+          "column": 27,
+          "endLine": 347,
+          "endColumn": 38,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 348,
+          "column": 29,
+          "endLine": 348,
+          "endColumn": 40,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "line": 350,
+          "column": 13,
+          "endLine": 350,
+          "endColumn": 24,
+          "severity": "warning",
+          "message": "Unexpected console statement. Only these console methods are allowed: warn, error.",
+          "rule": "no-console",
+          "source": "eslint",
+          "category": "best-practices"
+        }
+      ],
+      "metrics": {
+        "filesAnalyzed": 42,
+        "totalIssues": 75,
+        "issuesBySeverity": {
+          "error": 0,
+          "warning": 75,
+          "info": 0,
+          "hint": 0
+        },
+        "executionTime": 0,
+        "custom": {
+          "filesWithIssues": 6,
+          "fixableErrors": 0,
+          "fixableWarnings": 0,
+          "totalFixable": 0
+        }
+      },
+      "fileMetrics": [
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "score": 19,
+          "issueCount": 27,
+          "errorCount": 0,
+          "warningCount": 27,
+          "infoCount": 0,
+          "hintCount": 0,
+          "categories": {
+            "best-practices": 26,
+            "typescript": 1
+          }
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "score": 43,
+          "issueCount": 19,
+          "errorCount": 0,
+          "warningCount": 19,
+          "infoCount": 0,
+          "hintCount": 0,
+          "categories": {
+            "best-practices": 19
+          }
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "score": 55,
+          "issueCount": 15,
+          "errorCount": 0,
+          "warningCount": 15,
+          "infoCount": 0,
+          "hintCount": 0,
+          "categories": {
+            "best-practices": 15
+          }
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "score": 73,
+          "issueCount": 9,
+          "errorCount": 0,
+          "warningCount": 9,
+          "infoCount": 0,
+          "hintCount": 0,
+          "categories": {
+            "best-practices": 9
+          }
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/index.tsx",
+          "score": 88,
+          "issueCount": 4,
+          "errorCount": 0,
+          "warningCount": 4,
+          "infoCount": 0,
+          "hintCount": 0,
+          "categories": {
+            "react": 4
+          }
+        },
+        {
+          "file": "src/panels/UserProfilePanel/index.tsx",
+          "score": 97,
+          "issueCount": 1,
+          "errorCount": 0,
+          "warningCount": 1,
+          "infoCount": 0,
+          "hintCount": 0,
+          "categories": {
+            "typescript": 1
+          }
+        },
+        {
+          "file": ".storybook/main.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".storybook/preview.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/mocks/panelContext.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/GitHubProjectsPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/GitHubStarredPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/RepositoryAvatar.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspaceCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/shared/GitHubRepositoryCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/shared/github-types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/tools/index.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/types/index.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "vite.config.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        }
+      ],
+      "qualityContext": {}
+    },
+    {
+      "package": {
+        "name": "@industry-theme/alexandria-panels",
+        "path": ""
+      },
+      "lens": {
+        "id": "prettier",
+        "command": "npx prettier --check . --no-error-on-unmatched-pattern --log-level debug"
+      },
+      "execution": {
+        "success": true,
+        "exitCode": 1,
+        "duration": 763,
+        "timestamp": 1771083207457
+      },
+      "issues": [
+        {
+          "file": "quality-lens-results.json",
+          "line": 1,
+          "column": 1,
+          "severity": "error",
+          "message": "File is not formatted according to Prettier rules",
+          "rule": "prettier",
+          "source": "prettier",
+          "category": "formatting"
+        }
+      ],
+      "metrics": {
+        "filesAnalyzed": 64,
+        "totalIssues": 1,
+        "issuesBySeverity": {
+          "error": 1,
+          "warning": 0,
+          "info": 0,
+          "hint": 0
+        },
+        "executionTime": 0,
+        "custom": {
+          "filesNeedingFormatting": 1,
+          "formattingCompliance": 98.44
+        }
+      },
+      "fileMetrics": [
+        {
+          "file": "quality-lens-results.json",
+          "score": 90,
+          "issueCount": 1,
+          "errorCount": 1,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0,
+          "categories": {
+            "formatting": 1
+          }
+        },
+        {
+          "file": ".claude/settings.local.json",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".github/workflows/quality-lens.yml",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".gitignore",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".npmignore",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".prettierignore",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".prettierrc",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".storybook/main.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": ".storybook/preview.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "CONTRIBUTING.md",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "eslint.config.js",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "KANBAN_PANEL_DESIGN.md",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "LICENSE",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "package.json",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "PROJECT_STRUCTURE.md",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "quality-lens.yaml",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "QUICKSTART.md",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "README.md",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/Introduction.mdx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/mocks/panelContext.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/GitHubProjectsPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubProjectsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/GitHubStarredPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/GitHubStarredPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.css",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/LocalProjectsPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/RepositoryAvatar.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/LocalProjectsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/shared/github-types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/shared/GitHubRepositoryCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/shared/styles.css",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserCollectionsPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/UserProfilePanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceCollectionPanel/WorkspaceCollectionPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspaceRepositoriesPanel/WorkspaceRepositoriesPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/index.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/tools.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/types.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspaceCard.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/panels/WorkspacesListPanel/WorkspacesListPanel.stories.tsx",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/tools/index.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "src/types/index.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "tsconfig.build.json",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "tsconfig.json",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "tsconfig.node.json",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        },
+        {
+          "file": "vite.config.ts",
+          "score": 100,
+          "issueCount": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "hintCount": 0
+        }
+      ],
+      "qualityContext": {}
+    }
+  ],
+  "qualityMetrics": {
+    "packages": [
+      {
+        "name": "@industry-theme/alexandria-panels",
+        "path": "",
+        "hexagon": {
+          "tests": 0,
+          "deadCode": 0,
+          "formatting": 98.44,
+          "linting": 96.43,
+          "types": 100,
+          "documentation": 0
+        },
+        "lensesRan": [
+          "typescript",
+          "eslint",
+          "prettier"
+        ]
+      }
+    ]
+  }
+}

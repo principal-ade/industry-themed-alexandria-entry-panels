@@ -142,6 +142,10 @@ export interface LocalProjectCardProps {
   userHomePath?: string;
   /** Whether to disable the copy paths functionality */
   disableCopyPaths?: boolean;
+  /** Whether this repository is in the selected collection */
+  isInSelectedCollection?: boolean;
+  /** Name of the selected collection (for tooltip) */
+  selectedCollectionName?: string;
 }
 
 /**
