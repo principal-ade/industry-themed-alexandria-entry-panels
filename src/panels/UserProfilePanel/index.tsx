@@ -5,7 +5,6 @@ import {
   Building2,
   Star,
   MapPin,
-  Link as LinkIcon,
   Mail,
   Calendar,
   GitFork,
@@ -17,7 +16,6 @@ import {
 } from 'lucide-react';
 import type { PanelComponentProps } from '../../types';
 import type {
-  GitHubUserProfile,
   GitHubOrganization,
   GitHubRepository,
   UserProfileSlice,

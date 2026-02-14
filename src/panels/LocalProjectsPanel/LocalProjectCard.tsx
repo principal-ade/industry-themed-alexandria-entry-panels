@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { FolderOpen, Focus, Loader2, X, Copy, Check, Plus, MoveUp, Lock, GitBranch } from 'lucide-react';
+import { Copy, Check, Lock, GitBranch } from 'lucide-react';
+import { useDraggable } from '@principal-ade/panel-framework-core';
 import { RepositoryAvatar } from './RepositoryAvatar';
 import type { LocalProjectCardProps } from './types';
 import './LocalProjectsPanel.css';
@@ -48,15 +49,6 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   isSelected = false,
   onSelect,
   onOpen,
-  onRemove,
-  onAddToWorkspace,
-  onRemoveFromWorkspace,
-  onMoveToWorkspace,
-  onTrack,
-  isLoading = false,
-  windowState = 'closed',
-  compact: _compact = false,
-  isInWorkspaceDirectory,
   workspacePath,
   userHomePath,
   disableCopyPaths = true,
@@ -64,8 +56,21 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [copiedPath, setCopiedPath] = useState(false);
-  const [isMoving, setIsMoving] = useState(false);
-  const [isRemoving, setIsRemoving] = useState(false);
+
+  // Add drag-and-drop functionality
+  const { isDragging, ...dragProps } = useDraggable({
+    dataType: 'repository-project', // Custom data type for repository projects
+    primaryData: entry.path,
+    metadata: {
+      name: entry.name,
+      github: entry.github,
+      hasViews: entry.hasViews,
+      remoteUrl: entry.remoteUrl,
+    },
+    suggestedActions: ['add-to-collection'], // Custom action for collection map
+    sourcePanel: 'local-projects',
+    dragPreview: entry.name,
+  });
 
   // Get avatar URL from GitHub owner
   const avatarUrl = entry.github?.owner
@@ -97,46 +102,6 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     onOpen?.(entry);
   };
 
-  const handleOpenClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onOpen?.(entry);
-  };
-
-  const handleRemoveClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onRemove?.(entry);
-  };
-
-  const handleAddToWorkspaceClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onAddToWorkspace?.(entry);
-  };
-
-  const handleRemoveFromWorkspaceClick = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    try {
-      setIsRemoving(true);
-      onRemoveFromWorkspace?.(entry);
-    } finally {
-      setIsRemoving(false);
-    }
-  };
-
-  const handleMoveToWorkspaceClick = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    try {
-      setIsMoving(true);
-      onMoveToWorkspace?.(entry);
-    } finally {
-      setIsMoving(false);
-    }
-  };
-
-  const handleTrackClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onTrack?.(entry);
-  };
-
   const handleCopyPath = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
@@ -164,7 +129,8 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
         ? theme.colors.primary || theme.colors.border
         : 'transparent'
     }`,
-    cursor: 'pointer',
+    cursor: isDragging ? 'grabbing' : 'grab',
+    opacity: isDragging ? 0.5 : 1,
     transition: 'all 0.15s ease',
     fontFamily: theme.fonts.body,
   };
@@ -177,6 +143,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
       onDoubleClick={handleDoubleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      {...dragProps}
     >
       {/* Avatar */}
       <RepositoryAvatar

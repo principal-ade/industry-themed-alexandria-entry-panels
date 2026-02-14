@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import { LocalProjectsPanel } from './index';
 import { LocalProjectCard } from './LocalProjectCard';
 import { RepositoryAvatar } from './RepositoryAvatar';
@@ -324,4 +325,106 @@ export const AvatarFallback: StoryObj<typeof RepositoryAvatar> = {
       />
     </div>
   ),
+};
+
+/**
+ * Drag-and-Drop Demo
+ *
+ * Tests dragging project cards to an external drop zone.
+ * This demonstrates the drag-drop integration for adding projects to collections.
+ */
+const DragDropDemoComponent = () => {
+  const [droppedData, setDroppedData] = useState<string | null>(null);
+  const [droppedMetadata, setDroppedMetadata] = useState<any>(null);
+
+  return (
+    <div style={{ display: 'flex', gap: '20px', padding: '16px', height: '400px', backgroundColor: '#1a1a2e' }}>
+      {/* Source: Draggable project cards */}
+      <div style={{ flex: 1, border: '1px solid #444', borderRadius: '8px', padding: '16px', overflow: 'auto' }}>
+        <h3 style={{ color: '#fff', marginTop: 0, marginBottom: '16px', fontSize: '14px', fontWeight: 600 }}>
+          Drag Source (Project Cards)
+        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {mockAlexandriaRepositories.slice(0, 3).map((entry) => (
+            <LocalProjectCard
+              key={entry.path}
+              entry={entry}
+              onSelect={(e) => console.log('Selected:', e.name)}
+              onOpen={(e) => console.log('Open:', e.name)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Target: Drop zone to test */}
+      <div
+        style={{
+          flex: 1,
+          border: '2px dashed #3b82f6',
+          borderRadius: '8px',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(59, 130, 246, 0.05)',
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.15)';
+          e.currentTarget.style.borderColor = '#60a5fa';
+        }}
+        onDragLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
+          e.currentTarget.style.borderColor = '#3b82f6';
+        }}
+        onDrop={(e) => {
+          e.preventDefault();
+          e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
+          e.currentTarget.style.borderColor = '#3b82f6';
+
+          const data = e.dataTransfer.getData('application/x-panel-data');
+          if (data) {
+            const panelData = JSON.parse(data);
+            setDroppedData(panelData.primaryData);
+            setDroppedMetadata(panelData.metadata);
+          }
+        }}
+      >
+        <h3 style={{ color: '#3b82f6', marginTop: 0, marginBottom: '16px', fontSize: '14px', fontWeight: 600 }}>
+          Drop Zone (Test Area)
+        </h3>
+        {droppedData ? (
+          <div style={{ width: '100%' }}>
+            <div style={{ color: '#10b981', marginBottom: '12px', fontSize: '12px', fontWeight: 600 }}>
+              ✓ Project Dropped!
+            </div>
+            <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '4px', fontSize: '12px', fontFamily: 'monospace' }}>
+              <div style={{ color: '#888', marginBottom: '8px' }}>Path:</div>
+              <div style={{ color: '#fff', marginBottom: '12px', wordBreak: 'break-all' }}>{droppedData}</div>
+              {droppedMetadata && (
+                <>
+                  <div style={{ color: '#888', marginBottom: '8px' }}>Metadata:</div>
+                  <pre style={{ color: '#fff', margin: 0, overflow: 'auto' }}>
+                    {JSON.stringify(droppedMetadata, null, 2)}
+                  </pre>
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', marginBottom: '8px' }}>📦</div>
+            <p style={{ color: '#888', fontSize: '12px', margin: 0 }}>
+              Drag project cards here to test
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export const DragDropDemo: StoryObj<typeof LocalProjectCard> = {
+  render: () => <DragDropDemoComponent />,
 };

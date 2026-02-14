@@ -118,22 +118,22 @@ export interface LocalProjectCardProps {
   onOpen?: (entry: AlexandriaEntry) => void;
   /** Callback when remove button is clicked */
   onRemove?: (entry: AlexandriaEntry) => void;
-  /** Callback for add-to-workspace action */
+  /** Callback when add to workspace button is clicked */
   onAddToWorkspace?: (entry: AlexandriaEntry) => void;
-  /** Callback for remove-from-workspace action (workspace mode) */
+  /** Callback when remove from workspace button is clicked */
   onRemoveFromWorkspace?: (entry: AlexandriaEntry) => void;
-  /** Callback for move-to-workspace-directory action (workspace mode) */
+  /** Callback when move to workspace button is clicked */
   onMoveToWorkspace?: (entry: AlexandriaEntry) => void;
-  /** Callback for track action (discovered mode) */
+  /** Callback when track button is clicked (for discovered repos) */
   onTrack?: (entry: AlexandriaEntry) => void;
-  /** Whether an operation is in progress */
+  /** Whether the card is in a loading state */
   isLoading?: boolean;
-  /** Current window state for this repository */
+  /** Window state for the repository */
   windowState?: RepositoryWindowState;
-  /** Compact mode - hides path/info, stacks buttons under name */
+  /** Whether to show the compact version of the card */
   compact?: boolean;
-  /** Whether repository is in workspace directory (workspace mode) */
-  isInWorkspaceDirectory?: boolean | null;
+  /** Whether the repository is in the workspace directory */
+  isInWorkspaceDirectory?: boolean;
   /** Workspace path to strip from displayed path */
   workspacePath?: string;
   /** User home path to strip from displayed path (replaced with ~) */
