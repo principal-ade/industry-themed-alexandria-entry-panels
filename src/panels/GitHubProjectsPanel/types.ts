@@ -3,7 +3,10 @@
  */
 
 import type { PanelActions } from '../../types';
-import type { GitHubRepository, GitHubOrganization } from '../shared/github-types';
+import type {
+  GitHubRepository,
+  GitHubOrganization,
+} from '../shared/github-types';
 
 /**
  * Data slice for GitHub projects (user repos + org repos)

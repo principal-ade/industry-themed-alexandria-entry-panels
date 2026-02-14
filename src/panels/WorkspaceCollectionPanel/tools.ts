@@ -4,7 +4,10 @@
  * UTCP-compatible tools for the browser-based Workspace Collection panel.
  */
 
-import type { PanelTool, PanelToolsMetadata } from '@principal-ade/panel-framework-core';
+import type {
+  PanelTool,
+  PanelToolsMetadata,
+} from '@principal-ade/panel-framework-core';
 
 const PANEL_ID = 'industry-theme.workspace-collection';
 
@@ -13,13 +16,15 @@ const PANEL_ID = 'industry-theme.workspace-collection';
  */
 export const filterRepositoriesTool: PanelTool = {
   name: 'filter_workspace_collection',
-  description: 'Filters repositories in the workspace collection by search term',
+  description:
+    'Filters repositories in the workspace collection by search term',
   inputs: {
     type: 'object',
     properties: {
       filter: {
         type: 'string',
-        description: 'Search term to filter repositories by name, owner, or description',
+        description:
+          'Search term to filter repositories by name, owner, or description',
       },
     },
     required: ['filter'],
@@ -49,7 +54,8 @@ export const selectRepositoryTool: PanelTool = {
     properties: {
       repositoryKey: {
         type: 'string',
-        description: 'Repository identifier in "owner/repo" format or just the repository name',
+        description:
+          'Repository identifier in "owner/repo" format or just the repository name',
       },
     },
     required: ['repositoryKey'],
@@ -73,13 +79,15 @@ export const selectRepositoryTool: PanelTool = {
  */
 export const navigateRepositoryTool: PanelTool = {
   name: 'navigate_collection_repository',
-  description: 'Navigates to the full repository page for a repository in the workspace',
+  description:
+    'Navigates to the full repository page for a repository in the workspace',
   inputs: {
     type: 'object',
     properties: {
       repositoryKey: {
         type: 'string',
-        description: 'Repository identifier in "owner/repo" format or just the repository name',
+        description:
+          'Repository identifier in "owner/repo" format or just the repository name',
       },
     },
     required: ['repositoryKey'],
@@ -109,7 +117,8 @@ export const removeRepositoryTool: PanelTool = {
     properties: {
       repositoryKey: {
         type: 'string',
-        description: 'Repository identifier in "owner/repo" format or just the repository name',
+        description:
+          'Repository identifier in "owner/repo" format or just the repository name',
       },
     },
     required: ['repositoryKey'],

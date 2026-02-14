@@ -47,8 +47,12 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   const [isAdding, setIsAdding] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [scanStatus, setScanStatus] = useState<string>('');
-  const [selectedEntry, setSelectedEntry] = useState<AlexandriaEntry | null>(null);
-  const [windowStates, setWindowStates] = useState<Map<string, RepositoryWindowState>>(new Map());
+  const [selectedEntry, setSelectedEntry] = useState<AlexandriaEntry | null>(
+    null
+  );
+  const [windowStates, setWindowStates] = useState<
+    Map<string, RepositoryWindowState>
+  >(new Map());
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
@@ -71,7 +75,9 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   const panelActions = actions as LocalProjectsPanelActions;
 
   // Get repositories from context slice
-  const repoSlice = context.getSlice<AlexandriaRepositoriesSlice>('alexandriaRepositories');
+  const repoSlice = context.getSlice<AlexandriaRepositoriesSlice>(
+    'alexandriaRepositories'
+  );
   const repositories = useMemo(
     () => repoSlice?.data?.repositories || [],
     [repoSlice?.data?.repositories]
@@ -84,13 +90,16 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
 
   // Convert discovered repos to AlexandriaEntry-like format for display
   const discoveredAsEntries = useMemo(() => {
-    return discoveredRepositories.map((repo: DiscoveredRepository): AlexandriaEntry & { isDiscovered: true } => ({
-      name: repo.name,
-      path: repo.path,
-      registeredAt: new Date().toISOString(),
-      hasViews: false,
-      isDiscovered: true,
-    } as AlexandriaEntry & { isDiscovered: true }));
+    return discoveredRepositories.map(
+      (repo: DiscoveredRepository): AlexandriaEntry & { isDiscovered: true } =>
+        ({
+          name: repo.name,
+          path: repo.path,
+          registeredAt: new Date().toISOString(),
+          hasViews: false,
+          isDiscovered: true,
+        }) as AlexandriaEntry & { isDiscovered: true }
+    );
   }, [discoveredRepositories]);
 
   // Handle open repository
@@ -111,7 +120,9 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
         setWindowStates((prev) => new Map(prev).set(entry.path, 'ready'));
 
         // Emit event
-        events.emit(createPanelEvent(`${PANEL_ID}:repository-opened`, { entry }));
+        events.emit(
+          createPanelEvent(`${PANEL_ID}:repository-opened`, { entry })
+        );
       } catch (error) {
         console.error('Error opening repository:', error);
         setWindowStates((prev) => new Map(prev).set(entry.path, 'closed'));
@@ -131,31 +142,39 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
       }),
 
       // Select repository event from tools
-      events.on<{ identifier: string }>(`${PANEL_ID}:select-repository`, (event) => {
-        const identifier = event.payload?.identifier;
-        if (identifier) {
-          const entry = repositories.find(
-            (r) => r.name === identifier || r.path === identifier
-          );
-          if (entry) {
-            setSelectedEntry(entry);
-            events.emit(createPanelEvent(`${PANEL_ID}:repository-selected`, { entry }));
+      events.on<{ identifier: string }>(
+        `${PANEL_ID}:select-repository`,
+        (event) => {
+          const identifier = event.payload?.identifier;
+          if (identifier) {
+            const entry = repositories.find(
+              (r) => r.name === identifier || r.path === identifier
+            );
+            if (entry) {
+              setSelectedEntry(entry);
+              events.emit(
+                createPanelEvent(`${PANEL_ID}:repository-selected`, { entry })
+              );
+            }
           }
         }
-      }),
+      ),
 
       // Open repository event from tools
-      events.on<{ identifier: string }>(`${PANEL_ID}:open-repository`, (event) => {
-        const identifier = event.payload?.identifier;
-        if (identifier) {
-          const entry = repositories.find(
-            (r) => r.name === identifier || r.path === identifier
-          );
-          if (entry) {
-            handleOpenRepository(entry);
+      events.on<{ identifier: string }>(
+        `${PANEL_ID}:open-repository`,
+        (event) => {
+          const identifier = event.payload?.identifier;
+          if (identifier) {
+            const entry = repositories.find(
+              (r) => r.name === identifier || r.path === identifier
+            );
+            if (entry) {
+              handleOpenRepository(entry);
+            }
           }
         }
-      }),
+      ),
     ];
 
     return () => unsubscribers.forEach((unsub) => unsub());
@@ -244,14 +263,20 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
 
       // Show completion status
       const count = discoveredRepositories.length;
-      setScanStatus(count > 0 ? `Found ${count} ${count === 1 ? 'repository' : 'repositories'}` : 'Scan complete');
+      setScanStatus(
+        count > 0
+          ? `Found ${count} ${count === 1 ? 'repository' : 'repositories'}`
+          : 'Scan complete'
+      );
 
-      events.emit(createPanelEvent(`${PANEL_ID}:scan-completed`, {
-        discoveredCount: count
-      }));
+      events.emit(
+        createPanelEvent(`${PANEL_ID}:scan-completed`, {
+          discoveredCount: count,
+        })
+      );
 
       // Wait for remaining time before clearing
-      await new Promise(resolve => setTimeout(resolve, remaining));
+      await new Promise((resolve) => setTimeout(resolve, remaining));
 
       // Clear status after a brief display
       setTimeout(() => setScanStatus(''), 1500);
@@ -276,7 +301,10 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   // Combine tracked and discovered repositories
   const allRepositories = useMemo(() => {
     // Mark tracked repos with isDiscovered: false for type consistency
-    const tracked = repositories.map(entry => ({ ...entry, isDiscovered: false as const }));
+    const tracked = repositories.map((entry) => ({
+      ...entry,
+      isDiscovered: false as const,
+    }));
     return [...tracked, ...discoveredAsEntries];
   }, [repositories, discoveredAsEntries]);
 
@@ -398,7 +426,14 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
             }}
           >
             {/* Search input */}
-            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                position: 'relative',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
               <Search
                 size={16}
                 color={theme.colors.textSecondary}
@@ -540,7 +575,10 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
-                <FolderGit2 size={18} style={{ color: theme.colors.success || '#10b981' }} />
+                <FolderGit2
+                  size={18}
+                  style={{ color: theme.colors.success || '#10b981' }}
+                />
                 <span
                   style={{
                     fontSize: `${theme.fontSizes[2]}px`,
@@ -631,7 +669,9 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   <RefreshCw
                     size={16}
                     style={{
-                      animation: isScanning ? 'spin 1s linear infinite' : 'none',
+                      animation: isScanning
+                        ? 'spin 1s linear infinite'
+                        : 'none',
                     }}
                   />
                 </button>
@@ -681,7 +721,14 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   zIndex: 10,
                 }}
               >
-                <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
                   <Search
                     size={16}
                     color={theme.colors.textSecondary}
@@ -830,7 +877,9 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
  * - industry-theme.local-projects:select-repository
  * - industry-theme.local-projects:open-repository
  */
-export const LocalProjectsPanel: React.FC<LocalProjectsPanelProps> = (props) => {
+export const LocalProjectsPanel: React.FC<LocalProjectsPanelProps> = (
+  props
+) => {
   return <LocalProjectsPanelContent {...props} />;
 };
 

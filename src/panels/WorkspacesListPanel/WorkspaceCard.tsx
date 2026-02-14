@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { DoorClosed, Edit2, Check, X, ExternalLink, Trash2, Lock } from 'lucide-react';
+import {
+  DoorClosed,
+  Edit2,
+  Check,
+  X,
+  ExternalLink,
+  Trash2,
+  Lock,
+} from 'lucide-react';
 import type { WorkspaceCardProps } from './types';
 
 /**
@@ -169,7 +177,9 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
         }}
       >
         {workspace.icon ? (
-          <span style={{ fontSize: `${theme.fontSizes[4]}px` }}>{workspace.icon}</span>
+          <span style={{ fontSize: `${theme.fontSizes[4]}px` }}>
+            {workspace.icon}
+          </span>
         ) : (
           <DoorClosed size={28} />
         )}
@@ -345,7 +355,8 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
                   title="Open workspace"
                   style={actionButtonStyle}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme.colors.backgroundTertiary;
+                    e.currentTarget.style.backgroundColor =
+                      theme.colors.backgroundTertiary;
                     e.currentTarget.style.color = theme.colors.text;
                   }}
                   onMouseLeave={(e) => {
@@ -363,7 +374,8 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
                   title="Edit workspace name"
                   style={actionButtonStyle}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme.colors.backgroundTertiary;
+                    e.currentTarget.style.backgroundColor =
+                      theme.colors.backgroundTertiary;
                     e.currentTarget.style.color = theme.colors.text;
                   }}
                   onMouseLeave={(e) => {

@@ -70,7 +70,13 @@ export const Default: Story = {
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
-    return <WorkspacesListPanel context={context} actions={actions} events={events} />;
+    return (
+      <WorkspacesListPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
+    );
   },
 };
 
@@ -101,7 +107,13 @@ export const Empty: Story = {
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
-    return <WorkspacesListPanel context={context} actions={actions} events={events} />;
+    return (
+      <WorkspacesListPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
+    );
   },
 };
 
@@ -132,7 +144,13 @@ export const Loading: Story = {
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
-    return <WorkspacesListPanel context={context} actions={actions} events={events} />;
+    return (
+      <WorkspacesListPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
+    );
   },
 };
 
@@ -150,7 +168,13 @@ export const ReadOnly: Story = {
     };
     const events = createMockEvents();
 
-    return <WorkspacesListPanel context={context} actions={actions} events={events} />;
+    return (
+      <WorkspacesListPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
+    );
   },
 };
 
@@ -212,7 +236,13 @@ export const ManyWorkspaces: Story = {
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
-    return <WorkspacesListPanel context={context} actions={actions} events={events} />;
+    return (
+      <WorkspacesListPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
+    );
   },
 };
 
@@ -221,7 +251,9 @@ export const ManyWorkspaces: Story = {
  */
 export const CardDefault: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+    <div
+      style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}
+    >
       <WorkspaceCard
         workspace={mockWorkspaces[0]}
         onClick={(ws) => console.log('Clicked:', ws.name)}
@@ -235,7 +267,9 @@ export const CardDefault: StoryObj<typeof WorkspaceCard> = {
 
 export const CardSelected: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+    <div
+      style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}
+    >
       <WorkspaceCard
         workspace={mockWorkspaces[0]}
         isSelected={true}
@@ -250,7 +284,9 @@ export const CardSelected: StoryObj<typeof WorkspaceCard> = {
 
 export const CardDefault_IsDefault: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+    <div
+      style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}
+    >
       <WorkspaceCard
         workspace={mockWorkspaces[0]}
         isDefault={true}
@@ -265,7 +301,9 @@ export const CardDefault_IsDefault: StoryObj<typeof WorkspaceCard> = {
 
 export const CardWithoutDescription: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+    <div
+      style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}
+    >
       <WorkspaceCard
         workspace={mockWorkspaces[3]} // Open Source - no description
         onClick={(ws) => console.log('Clicked:', ws.name)}
@@ -277,7 +315,9 @@ export const CardWithoutDescription: StoryObj<typeof WorkspaceCard> = {
 
 export const CardMinimal: StoryObj<typeof WorkspaceCard> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}>
+    <div
+      style={{ padding: '16px', backgroundColor: '#1a1a2e', maxWidth: '400px' }}
+    >
       <WorkspaceCard
         workspace={mockWorkspaces[1]}
         onClick={(ws) => console.log('Clicked:', ws.name)}
@@ -306,7 +346,9 @@ export const CardList: StoryObj<typeof WorkspaceCard> = {
           onClick={(ws) => console.log('Clicked:', ws.name)}
           onOpen={(ws) => console.log('Open:', ws.name)}
           onDelete={(ws) => console.log('Delete:', ws.name)}
-          onUpdateName={async (id, name) => console.log('Update name:', id, name)}
+          onUpdateName={async (id, name) =>
+            console.log('Update name:', id, name)
+          }
         />
       ))}
     </div>

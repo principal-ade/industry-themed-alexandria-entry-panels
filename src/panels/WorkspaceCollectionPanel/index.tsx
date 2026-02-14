@@ -1,12 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import {
-  Folder,
-  Loader2,
-  Search,
-  Trash2,
-  X,
-} from 'lucide-react';
+import { Folder, Loader2, Search, Trash2, X } from 'lucide-react';
 import type { PanelComponentProps } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
 import type {
@@ -47,13 +41,9 @@ interface WorkspaceCollectionRepositoryCardProps {
   onRemove?: (repo: GitHubRepository) => void;
 }
 
-const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryCardProps> = ({
-  repository,
-  isSelected = false,
-  onSelect,
-  onNavigate,
-  onRemove,
-}) => {
+const WorkspaceCollectionRepositoryCard: React.FC<
+  WorkspaceCollectionRepositoryCardProps
+> = ({ repository, isSelected = false, onSelect, onNavigate, onRemove }) => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -117,8 +107,16 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
     >
       {/* Avatar - show original owner for forks */}
       <RepositoryAvatar
-        owner={repository.fork && repository.parent ? repository.parent.owner.login : repository.owner.login}
-        customAvatarUrl={repository.fork && repository.parent ? repository.parent.owner.avatar_url : repository.owner.avatar_url}
+        owner={
+          repository.fork && repository.parent
+            ? repository.parent.owner.login
+            : repository.owner.login
+        }
+        customAvatarUrl={
+          repository.fork && repository.parent
+            ? repository.parent.owner.avatar_url
+            : repository.owner.avatar_url
+        }
         size={40}
       />
 
@@ -216,7 +214,10 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
           )}
 
           {/* Updated time */}
-          <span>Updated {getRelativeTime(repository.pushed_at || repository.updated_at)}</span>
+          <span>
+            Updated{' '}
+            {getRelativeTime(repository.pushed_at || repository.updated_at)}
+          </span>
         </div>
       </div>
 
@@ -253,7 +254,8 @@ const WorkspaceCollectionRepositoryCard: React.FC<WorkspaceCollectionRepositoryC
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = `${theme.colors.error || '#ef4444'}20`;
               e.currentTarget.style.color = theme.colors.error || '#ef4444';
-              e.currentTarget.style.borderColor = theme.colors.error || '#ef4444';
+              e.currentTarget.style.borderColor =
+                theme.colors.error || '#ef4444';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = 'transparent';
@@ -299,7 +301,9 @@ function getLanguageColor(language: string): string {
 /**
  * WorkspaceCollectionPanelContent - Internal component that uses theme
  */
-const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> = ({
+const WorkspaceCollectionPanelContent: React.FC<
+  WorkspaceCollectionPanelProps
+> = ({
   context,
   actions,
   events,
@@ -307,7 +311,9 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
   defaultShowSearch = false,
 }) => {
   const { theme } = useTheme();
-  const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
+  const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(
+    null
+  );
   const [sortField, setSortField] = useState<SortField>('name');
   const [filter, setFilter] = useState('');
   const [showSearch, setShowSearch] = useState(defaultShowSearch);
@@ -333,18 +339,22 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
   const panelActions = actions as WorkspaceCollectionPanelActions;
 
   // Get data from context using framework's getSlice pattern
-  const workspaceSlice = context.getSlice<WorkspaceCollectionSlice>('workspace');
-  const repositoriesSlice = context.getSlice<WorkspaceRepositoriesSlice>('workspaceRepositories');
+  const workspaceSlice =
+    context.getSlice<WorkspaceCollectionSlice>('workspace');
+  const repositoriesSlice = context.getSlice<WorkspaceRepositoriesSlice>(
+    'workspaceRepositories'
+  );
 
   const workspace = workspaceSlice?.data?.workspace ?? null;
   const repositories = repositoriesSlice?.data?.repositories ?? [];
-  const isLoading = workspaceSlice?.loading || repositoriesSlice?.loading || false;
+  const isLoading =
+    workspaceSlice?.loading || repositoriesSlice?.loading || false;
   const error = workspaceSlice?.data?.error || repositoriesSlice?.data?.error;
 
   // Sync selectedRepository prop with internal state
   useEffect(() => {
     if (selectedRepository && repositories.length > 0) {
-      const repo = repositories.find(r => r.full_name === selectedRepository);
+      const repo = repositories.find((r) => r.full_name === selectedRepository);
       if (repo) {
         setSelectedRepo(repo);
       }
@@ -354,9 +364,13 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
   // Listen for repository:selected events to sync selection
   useEffect(() => {
     const unsubscribe = events.on('repository:selected', (event) => {
-      const payload = event.payload as { repository?: { id?: number; full_name?: string } };
+      const payload = event.payload as {
+        repository?: { id?: number; full_name?: string };
+      };
       if (payload?.repository?.full_name && repositories.length > 0) {
-        const repo = repositories.find(r => r.full_name === payload.repository?.full_name);
+        const repo = repositories.find(
+          (r) => r.full_name === payload.repository?.full_name
+        );
         if (repo) {
           setSelectedRepo(repo);
         }
@@ -433,7 +447,10 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
         })
       );
       if (panelActions.navigateToRepository) {
-        panelActions.navigateToRepository(repository.owner.login, repository.name);
+        panelActions.navigateToRepository(
+          repository.owner.login,
+          repository.name
+        );
       }
     },
     [events, panelActions]
@@ -444,7 +461,10 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
       if (!workspace?.id || !panelActions.removeRepositoryFromWorkspace) return;
 
       try {
-        await panelActions.removeRepositoryFromWorkspace(repository.full_name, workspace.id);
+        await panelActions.removeRepositoryFromWorkspace(
+          repository.full_name,
+          workspace.id
+        );
         events.emit(
           createPanelEvent('repository:removed', {
             repositoryKey: repository.full_name,
@@ -465,45 +485,60 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
   // Subscribe to panel events
   useEffect(() => {
     const unsubscribers = [
-      events.on<{ repositoryKey: string }>(`${PANEL_ID}:select-repository`, (event) => {
-        const key = event.payload?.repositoryKey;
-        if (key) {
-          const repository = repositories.find(
-            (r) => r.full_name === key || r.name === key
-          );
-          if (repository) {
-            handleSelectRepository(repository);
+      events.on<{ repositoryKey: string }>(
+        `${PANEL_ID}:select-repository`,
+        (event) => {
+          const key = event.payload?.repositoryKey;
+          if (key) {
+            const repository = repositories.find(
+              (r) => r.full_name === key || r.name === key
+            );
+            if (repository) {
+              handleSelectRepository(repository);
+            }
           }
         }
-      }),
+      ),
 
-      events.on<{ repositoryKey: string }>(`${PANEL_ID}:navigate-repository`, (event) => {
-        const key = event.payload?.repositoryKey;
-        if (key) {
-          const repository = repositories.find(
-            (r) => r.full_name === key || r.name === key
-          );
-          if (repository) {
-            handleNavigateRepository(repository);
+      events.on<{ repositoryKey: string }>(
+        `${PANEL_ID}:navigate-repository`,
+        (event) => {
+          const key = event.payload?.repositoryKey;
+          if (key) {
+            const repository = repositories.find(
+              (r) => r.full_name === key || r.name === key
+            );
+            if (repository) {
+              handleNavigateRepository(repository);
+            }
           }
         }
-      }),
+      ),
 
-      events.on<{ repositoryKey: string }>(`${PANEL_ID}:remove-repository`, (event) => {
-        const key = event.payload?.repositoryKey;
-        if (key) {
-          const repository = repositories.find(
-            (r) => r.full_name === key || r.name === key
-          );
-          if (repository) {
-            void handleRemoveRepository(repository);
+      events.on<{ repositoryKey: string }>(
+        `${PANEL_ID}:remove-repository`,
+        (event) => {
+          const key = event.payload?.repositoryKey;
+          if (key) {
+            const repository = repositories.find(
+              (r) => r.full_name === key || r.name === key
+            );
+            if (repository) {
+              void handleRemoveRepository(repository);
+            }
           }
         }
-      }),
+      ),
     ];
 
     return () => unsubscribers.forEach((unsub) => unsub());
-  }, [events, repositories, handleSelectRepository, handleNavigateRepository, handleRemoveRepository]);
+  }, [
+    events,
+    repositories,
+    handleSelectRepository,
+    handleNavigateRepository,
+    handleRemoveRepository,
+  ]);
 
   const baseContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -645,7 +680,14 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
             }}
           >
             {/* Search input */}
-            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                position: 'relative',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
               <Search
                 size={16}
                 color={theme.colors.textSecondary}
@@ -735,7 +777,9 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
                 visibility: showSearch ? 'hidden' : 'visible',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
                 <Folder size={18} color={theme.colors.primary} />
                 <span
                   style={{
@@ -763,7 +807,9 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
               </div>
 
               {repositories.length > 0 && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                >
                   {/* Search toggle button */}
                   <button
                     className={`header-button ${showSearch ? 'active' : ''}`}
@@ -831,7 +877,14 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
                   zIndex: 10,
                 }}
               >
-                <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
                   <Search
                     size={16}
                     color={theme.colors.textSecondary}
@@ -945,10 +998,7 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
               color: theme.colors.textSecondary,
             }}
           >
-            <Folder
-              size={32}
-              style={{ marginBottom: '12px', opacity: 0.5 }}
-            />
+            <Folder size={32} style={{ marginBottom: '12px', opacity: 0.5 }} />
             <p style={{ margin: 0 }}>No repositories in this workspace.</p>
             <p
               style={{
@@ -962,17 +1012,18 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
         )}
 
         {/* No filter results */}
-        {filteredAndSortedRepositories.length === 0 && repositories.length > 0 && (
-          <div
-            style={{
-              padding: '32px',
-              textAlign: 'center',
-              color: theme.colors.textSecondary,
-            }}
-          >
-            <p style={{ margin: 0 }}>No repositories match your filter.</p>
-          </div>
-        )}
+        {filteredAndSortedRepositories.length === 0 &&
+          repositories.length > 0 && (
+            <div
+              style={{
+                padding: '32px',
+                textAlign: 'center',
+                color: theme.colors.textSecondary,
+              }}
+            >
+              <p style={{ margin: 0 }}>No repositories match your filter.</p>
+            </div>
+          )}
 
         {/* Repository list */}
         {filteredAndSortedRepositories.map((repository) => (
@@ -981,8 +1032,16 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
             repository={repository}
             isSelected={selectedRepo?.id === repository.id}
             onSelect={handleSelectRepository}
-            onNavigate={panelActions.navigateToRepository ? handleNavigateRepository : undefined}
-            onRemove={panelActions.removeRepositoryFromWorkspace ? handleRemoveRepository : undefined}
+            onNavigate={
+              panelActions.navigateToRepository
+                ? handleNavigateRepository
+                : undefined
+            }
+            onRemove={
+              panelActions.removeRepositoryFromWorkspace
+                ? handleRemoveRepository
+                : undefined
+            }
           />
         ))}
       </div>
@@ -1012,7 +1071,9 @@ const WorkspaceCollectionPanelContent: React.FC<WorkspaceCollectionPanelProps> =
  * - repository:navigate
  * - repository:removed
  */
-export const WorkspaceCollectionPanel: React.FC<WorkspaceCollectionPanelProps> = (props) => {
+export const WorkspaceCollectionPanel: React.FC<
+  WorkspaceCollectionPanelProps
+> = (props) => {
   return <WorkspaceCollectionPanelContent {...props} />;
 };
 

@@ -37,10 +37,12 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchBox, setShowSearchBox] = useState(defaultShowSearch);
-  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string | null>(null);
-  const [workspaceRepositories, setWorkspaceRepositories] = useState<Map<string, string[]>>(
-    new Map()
+  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string | null>(
+    null
   );
+  const [workspaceRepositories, setWorkspaceRepositories] = useState<
+    Map<string, string[]>
+  >(new Map());
 
   // Toggle search handler
   const handleToggleSearch = useCallback(() => {
@@ -78,10 +80,18 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
       await Promise.all(
         workspaces.map(async (workspace) => {
           try {
-            const repos = await panelActions.getWorkspaceRepositories!(workspace.id);
-            repoMap.set(workspace.id, repos.map((r) => r.name));
+            const repos = await panelActions.getWorkspaceRepositories!(
+              workspace.id
+            );
+            repoMap.set(
+              workspace.id,
+              repos.map((r) => r.name)
+            );
           } catch (error) {
-            console.error(`Failed to load repos for workspace ${workspace.id}:`, error);
+            console.error(
+              `Failed to load repos for workspace ${workspace.id}:`,
+              error
+            );
             repoMap.set(workspace.id, []);
           }
         })
@@ -215,35 +225,39 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
   // Handle create workspace - emits event for host app to show modal
   const handleCreateWorkspace = useCallback(() => {
     // Emit event for host app to handle (e.g., show a modal)
-    events.emit(
-      createPanelEvent(`${PANEL_ID}:create-workspace-requested`, {})
-    );
+    events.emit(createPanelEvent(`${PANEL_ID}:create-workspace-requested`, {}));
   }, [events]);
 
   // Subscribe to panel events
   useEffect(() => {
     const unsubscribers = [
       // Select workspace event from tools
-      events.on<{ workspaceId: string }>(`${PANEL_ID}:select-workspace`, (event) => {
-        const workspaceId = event.payload?.workspaceId;
-        if (workspaceId) {
-          const workspace = workspaces.find((w) => w.id === workspaceId);
-          if (workspace) {
-            handleWorkspaceSelect(workspace);
+      events.on<{ workspaceId: string }>(
+        `${PANEL_ID}:select-workspace`,
+        (event) => {
+          const workspaceId = event.payload?.workspaceId;
+          if (workspaceId) {
+            const workspace = workspaces.find((w) => w.id === workspaceId);
+            if (workspace) {
+              handleWorkspaceSelect(workspace);
+            }
           }
         }
-      }),
+      ),
 
       // Open workspace event from tools
-      events.on<{ workspaceId: string }>(`${PANEL_ID}:open-workspace`, (event) => {
-        const workspaceId = event.payload?.workspaceId;
-        if (workspaceId) {
-          const workspace = workspaces.find((w) => w.id === workspaceId);
-          if (workspace) {
-            handleOpenWorkspace(workspace);
+      events.on<{ workspaceId: string }>(
+        `${PANEL_ID}:open-workspace`,
+        (event) => {
+          const workspaceId = event.payload?.workspaceId;
+          if (workspaceId) {
+            const workspace = workspaces.find((w) => w.id === workspaceId);
+            if (workspace) {
+              handleOpenWorkspace(workspace);
+            }
           }
         }
-      }),
+      ),
 
       // Create workspace event from tools
       events.on<{ name: string; description?: string }>(
@@ -252,7 +266,9 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
           const { name, description } = event.payload || {};
           if (name && panelActions.createWorkspace) {
             try {
-              const workspace = await panelActions.createWorkspace(name, { description });
+              const workspace = await panelActions.createWorkspace(name, {
+                description,
+              });
               events.emit(
                 createPanelEvent(`${PANEL_ID}:workspace:created`, {
                   workspaceId: workspace.id,
@@ -269,7 +285,14 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
     ];
 
     return () => unsubscribers.forEach((unsub) => unsub());
-  }, [events, workspaces, handleWorkspaceSelect, handleOpenWorkspace, panelActions, context]);
+  }, [
+    events,
+    workspaces,
+    handleWorkspaceSelect,
+    handleOpenWorkspace,
+    panelActions,
+    context,
+  ]);
 
   const baseContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -330,7 +353,8 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
           position: 'relative',
           height: '40px',
           minHeight: '40px',
-          padding: defaultShowSearch && showSearchBox ? '0 16px 0 8px' : '0 16px',
+          padding:
+            defaultShowSearch && showSearchBox ? '0 16px 0 8px' : '0 16px',
           borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
@@ -348,7 +372,14 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
             }}
           >
             {/* Search input */}
-            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                position: 'relative',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
               <Search
                 size={16}
                 color={theme.colors.textSecondary}
@@ -434,7 +465,9 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
                 visibility: showSearchBox ? 'hidden' : 'visible',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
                 <Layers size={18} color={theme.colors.primary} />
                 <span
                   style={{
@@ -460,7 +493,9 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
                   </span>
                 )}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
                 <button
                   onClick={handleToggleSearch}
                   style={{
@@ -520,7 +555,14 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
                   zIndex: 10,
                 }}
               >
-                <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
                   <Search
                     size={16}
                     color={theme.colors.textSecondary}
@@ -611,9 +653,17 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
             isSelected={workspace.id === selectedWorkspaceId}
             isDefault={workspace.id === defaultWorkspaceId}
             onClick={handleWorkspaceSelect}
-            onOpen={panelActions.openWorkspace ? handleOpenWorkspace : undefined}
-            onDelete={panelActions.deleteWorkspace ? handleDeleteWorkspace : undefined}
-            onUpdateName={panelActions.updateWorkspace ? handleUpdateWorkspaceName : undefined}
+            onOpen={
+              panelActions.openWorkspace ? handleOpenWorkspace : undefined
+            }
+            onDelete={
+              panelActions.deleteWorkspace ? handleDeleteWorkspace : undefined
+            }
+            onUpdateName={
+              panelActions.updateWorkspace
+                ? handleUpdateWorkspaceName
+                : undefined
+            }
           />
         ))}
 
@@ -663,7 +713,9 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
  * - industry-theme.workspaces-list:open-workspace
  * - industry-theme.workspaces-list:create-workspace
  */
-export const WorkspacesListPanel: React.FC<WorkspacesListPanelProps> = (props) => {
+export const WorkspacesListPanel: React.FC<WorkspacesListPanelProps> = (
+  props
+) => {
   return <WorkspacesListPanelContent {...props} />;
 };
 

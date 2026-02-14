@@ -157,7 +157,8 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           fontFamily: theme.fonts.body,
         }}
       >
-        {repositoryCount} {repositoryCount === 1 ? 'repository' : 'repositories'}
+        {repositoryCount}{' '}
+        {repositoryCount === 1 ? 'repository' : 'repositories'}
       </div>
     </div>
   );
@@ -166,7 +167,9 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
 /**
  * CreateCollectionCard - Card for creating a new collection
  */
-const CreateCollectionCard: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+const CreateCollectionCard: React.FC<{ onClick: () => void }> = ({
+  onClick,
+}) => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -223,13 +226,16 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchBox, setShowSearchBox] = useState(defaultShowSearch);
-  const [selectedCollectionId, setSelectedCollectionId] = useState<string | null>(null);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<
+    string | null
+  >(null);
 
   // Get extended actions
   const panelActions = actions as UserCollectionsPanelActions;
 
   // Get collections from context slice
-  const collectionsSlice = context.getSlice<UserCollectionsSlice>('userCollections');
+  const collectionsSlice =
+    context.getSlice<UserCollectionsSlice>('userCollections');
   const collections = useMemo(
     () => collectionsSlice?.data?.collections || [],
     [collectionsSlice?.data?.collections]
@@ -308,7 +314,9 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
 
   // Handle create collection - emits event for host app to show modal
   const handleCreateCollection = useCallback(() => {
-    events.emit(createPanelEvent(`${PANEL_ID}:create-collection-requested`, {}));
+    events.emit(
+      createPanelEvent(`${PANEL_ID}:create-collection-requested`, {})
+    );
   }, [events]);
 
   // Handle enable GitHub sync
@@ -336,15 +344,18 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
   useEffect(() => {
     const unsubscribers = [
       // Select collection event from tools
-      events.on<{ collectionId: string }>(`${PANEL_ID}:select-collection`, (event) => {
-        const collectionId = event.payload?.collectionId;
-        if (collectionId) {
-          const collection = collections.find((c) => c.id === collectionId);
-          if (collection) {
-            handleCollectionSelect(collection);
+      events.on<{ collectionId: string }>(
+        `${PANEL_ID}:select-collection`,
+        (event) => {
+          const collectionId = event.payload?.collectionId;
+          if (collectionId) {
+            const collection = collections.find((c) => c.id === collectionId);
+            if (collection) {
+              handleCollectionSelect(collection);
+            }
           }
         }
-      }),
+      ),
 
       // Create collection event from tools
       events.on<{ name: string; description?: string }>(
@@ -353,7 +364,10 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
           const { name, description } = event.payload || {};
           if (name && panelActions.createCollection) {
             try {
-              const collection = await panelActions.createCollection(name, description);
+              const collection = await panelActions.createCollection(
+                name,
+                description
+              );
               if (collection) {
                 events.emit(
                   createPanelEvent(`${PANEL_ID}:collection:created`, {
@@ -758,7 +772,12 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
               fontFamily: theme.fonts.body,
             }}
           >
-            <p style={{ margin: '0 0 8px 0', fontSize: `${theme.fontSizes[2]}px` }}>
+            <p
+              style={{
+                margin: '0 0 8px 0',
+                fontSize: `${theme.fontSizes[2]}px`,
+              }}
+            >
               No collections yet
             </p>
             <p style={{ margin: 0, fontSize: `${theme.fontSizes[1]}px` }}>
@@ -799,7 +818,9 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
  * - industry-theme.user-collections:enable-github-sync
  * - industry-theme.user-collections:refresh-collections
  */
-export const UserCollectionsPanel: React.FC<UserCollectionsPanelProps> = (props) => {
+export const UserCollectionsPanel: React.FC<UserCollectionsPanelProps> = (
+  props
+) => {
   return <UserCollectionsPanelContent {...props} />;
 };
 

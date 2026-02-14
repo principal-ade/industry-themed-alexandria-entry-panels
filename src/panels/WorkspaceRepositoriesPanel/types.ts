@@ -24,7 +24,10 @@ export interface Workspace {
  */
 export interface WorkspaceRepositoriesPanelActions extends PanelActions {
   /** Remove a repository from a workspace */
-  removeRepositoryFromWorkspace?: (repositoryId: string, workspaceId: string) => Promise<void>;
+  removeRepositoryFromWorkspace?: (
+    repositoryId: string,
+    workspaceId: string
+  ) => Promise<void>;
   /** Copy text to clipboard */
   copyToClipboard?: (text: string) => Promise<void>;
   /** Check if repository is in workspace directory */

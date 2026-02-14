@@ -4,7 +4,10 @@
  * UTCP-compatible tools for the Workspace Repositories panel.
  */
 
-import type { PanelTool, PanelToolsMetadata } from '@principal-ade/panel-framework-core';
+import type {
+  PanelTool,
+  PanelToolsMetadata,
+} from '@principal-ade/panel-framework-core';
 
 const PANEL_ID = 'industry-theme.workspace-repositories';
 

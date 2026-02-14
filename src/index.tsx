@@ -200,7 +200,8 @@ export const panels: PanelDefinition[] = [
       icon: 'User',
       version: '0.1.0',
       author: 'Industry Theme',
-      description: 'View user profiles, organizations, and starred repositories',
+      description:
+        'View user profiles, organizations, and starred repositories',
       slices: ['userProfile'],
       tools: userProfilePanelTools,
     },

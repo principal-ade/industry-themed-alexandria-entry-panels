@@ -15,8 +15,14 @@ import {
 import type { PanelComponentProps } from '../../types';
 import type { AlexandriaRepositoriesSlice } from '../LocalProjectsPanel/types';
 import type { GitHubProjectsSlice, GitHubProjectsPanelActions } from './types';
-import type { GitHubRepository, LocalRepositoryReference } from '../shared/github-types';
-import type { WorkspaceCollectionSlice, WorkspaceRepositoriesSlice } from '../WorkspaceCollectionPanel/types';
+import type {
+  GitHubRepository,
+  LocalRepositoryReference,
+} from '../shared/github-types';
+import type {
+  WorkspaceCollectionSlice,
+  WorkspaceRepositoriesSlice,
+} from '../WorkspaceCollectionPanel/types';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
 import '../shared/styles.css';
 
@@ -38,7 +44,9 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
 /**
  * GitHubProjectsPanel - Browse user's repositories and organization repositories
  */
-export const GitHubProjectsPanel: React.FC<GitHubProjectsPanelProps> = (props) => {
+export const GitHubProjectsPanel: React.FC<GitHubProjectsPanelProps> = (
+  props
+) => {
   return <GitHubProjectsPanelContent {...props} />;
 };
 
@@ -51,8 +59,12 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
   const [showSearch, setShowSearch] = useState(defaultShowSearch);
-  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
-  const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(
+    new Set()
+  );
+  const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(
+    null
+  );
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
@@ -70,11 +82,16 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
 
   // Get data from slices
   const projectsSlice = context.getSlice<GitHubProjectsSlice>('githubProjects');
-  const localReposSlice = context.getSlice<AlexandriaRepositoriesSlice>('alexandriaRepositories');
+  const localReposSlice = context.getSlice<AlexandriaRepositoriesSlice>(
+    'alexandriaRepositories'
+  );
 
   // Get workspace/collection context for "Add to Collection" functionality
-  const workspaceSlice = context.getSlice<WorkspaceCollectionSlice>('workspace');
-  const workspaceReposSlice = context.getSlice<WorkspaceRepositoriesSlice>('workspaceRepositories');
+  const workspaceSlice =
+    context.getSlice<WorkspaceCollectionSlice>('workspace');
+  const workspaceReposSlice = context.getSlice<WorkspaceRepositoriesSlice>(
+    'workspaceRepositories'
+  );
 
   const userRepositories = useMemo(
     () => projectsSlice?.data?.userRepositories || [],
@@ -231,7 +248,9 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
     (repo: GitHubRepository) => {
       setSelectedRepo(repo);
       events.emit(
-        createPanelEvent(`${PANEL_ID}:repository-selected`, { repository: repo })
+        createPanelEvent(`${PANEL_ID}:repository-selected`, {
+          repository: repo,
+        })
       );
     },
     [events]
@@ -281,34 +300,40 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
           toggleSection(owner);
         }
       }),
-      events.on<{ identifier: string }>(`${PANEL_ID}:select-repository`, (event) => {
-        const identifier = event.payload?.identifier;
-        if (identifier) {
-          const repo = allRepositories.find(
-            (r) =>
-              r.name === identifier ||
-              r.full_name === identifier ||
-              r.full_name.toLowerCase() === identifier.toLowerCase()
-          );
-          if (repo) {
-            handleSelect(repo);
+      events.on<{ identifier: string }>(
+        `${PANEL_ID}:select-repository`,
+        (event) => {
+          const identifier = event.payload?.identifier;
+          if (identifier) {
+            const repo = allRepositories.find(
+              (r) =>
+                r.name === identifier ||
+                r.full_name === identifier ||
+                r.full_name.toLowerCase() === identifier.toLowerCase()
+            );
+            if (repo) {
+              handleSelect(repo);
+            }
           }
         }
-      }),
-      events.on<{ identifier: string }>(`${PANEL_ID}:clone-repository`, (event) => {
-        const identifier = event.payload?.identifier;
-        if (identifier) {
-          const repo = allRepositories.find(
-            (r) =>
-              r.name === identifier ||
-              r.full_name === identifier ||
-              r.full_name.toLowerCase() === identifier.toLowerCase()
-          );
-          if (repo) {
-            void handleClone(repo);
+      ),
+      events.on<{ identifier: string }>(
+        `${PANEL_ID}:clone-repository`,
+        (event) => {
+          const identifier = event.payload?.identifier;
+          if (identifier) {
+            const repo = allRepositories.find(
+              (r) =>
+                r.name === identifier ||
+                r.full_name === identifier ||
+                r.full_name.toLowerCase() === identifier.toLowerCase()
+            );
+            if (repo) {
+              void handleClone(repo);
+            }
           }
         }
-      }),
+      ),
     ];
 
     return () => {
@@ -473,7 +498,8 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
           marginBottom: isCollapsed ? '0' : '8px',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = theme.colors.backgroundTertiary;
+          e.currentTarget.style.backgroundColor =
+            theme.colors.backgroundTertiary;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.backgroundColor = theme.colors.background;
@@ -605,7 +631,14 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
               zIndex: 10,
             }}
           >
-            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                position: 'relative',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
               <Search
                 size={16}
                 color={theme.colors.textSecondary}
@@ -720,21 +753,29 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
               <User size={16} color={theme.colors.textSecondary} />
             )}
             {!collapsedSections.has(currentUser || 'Your Repositories') && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div
+                style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+              >
                 {filteredUserRepos
                   .sort((a, b) =>
-                    a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+                    a.name.localeCompare(b.name, undefined, {
+                      sensitivity: 'base',
+                    })
                   )
                   .map((repo) => (
                     <GitHubRepositoryCard
                       key={repo.id}
                       repository={repo}
                       localRepo={localRepoMap.get(repo.full_name)}
-                      onClone={panelActions.cloneRepository ? handleClone : undefined}
+                      onClone={
+                        panelActions.cloneRepository ? handleClone : undefined
+                      }
                       onOpen={handleOpen}
                       onSelect={handleSelect}
                       isSelected={selectedRepo?.id === repo.id}
-                      onAddToCollection={currentWorkspace ? handleAddToCollection : undefined}
+                      onAddToCollection={
+                        currentWorkspace ? handleAddToCollection : undefined
+                      }
                       isInCollection={collectionRepoSet.has(repo.full_name)}
                       collectionName={collectionName}
                     />
@@ -758,21 +799,33 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
                 true
               )}
               {!collapsedSections.has(org.login) && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                  }}
+                >
                   {repos
                     .sort((a, b) =>
-                      a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+                      a.name.localeCompare(b.name, undefined, {
+                        sensitivity: 'base',
+                      })
                     )
                     .map((repo) => (
                       <GitHubRepositoryCard
                         key={repo.id}
                         repository={repo}
                         localRepo={localRepoMap.get(repo.full_name)}
-                        onClone={panelActions.cloneRepository ? handleClone : undefined}
+                        onClone={
+                          panelActions.cloneRepository ? handleClone : undefined
+                        }
                         onOpen={handleOpen}
                         onSelect={handleSelect}
                         isSelected={selectedRepo?.id === repo.id}
-                        onAddToCollection={currentWorkspace ? handleAddToCollection : undefined}
+                        onAddToCollection={
+                          currentWorkspace ? handleAddToCollection : undefined
+                        }
                         isInCollection={collectionRepoSet.has(repo.full_name)}
                         collectionName={collectionName}
                       />

@@ -139,7 +139,8 @@ export const Error: Story = {
             data: {
               repositories: [],
               loading: false,
-              error: 'Failed to fetch starred repositories. Please check your network connection.',
+              error:
+                'Failed to fetch starred repositories. Please check your network connection.',
             } as GitHubStarredSlice,
             loading: false,
             error: null,

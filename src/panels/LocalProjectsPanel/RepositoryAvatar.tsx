@@ -22,7 +22,8 @@ export const RepositoryAvatar: React.FC<RepositoryAvatarProps> = ({
   const borderRadius = `${Math.min(8, size / 4)}px`;
 
   // Determine avatar URL
-  const avatarUrl = customAvatarUrl || (owner ? `https://github.com/${owner}.png` : null);
+  const avatarUrl =
+    customAvatarUrl || (owner ? `https://github.com/${owner}.png` : null);
 
   const getContent = () => {
     if (avatarUrl) {

@@ -15,7 +15,8 @@ const PANEL_ID = 'industry-theme.user-profile';
  */
 export const viewOrganizationsTool: PanelTool = {
   name: 'view_user_organizations',
-  description: "Switch to the organizations tab to view the user's GitHub organizations",
+  description:
+    "Switch to the organizations tab to view the user's GitHub organizations",
   inputs: {
     type: 'object',
     properties: {},
@@ -41,7 +42,8 @@ export const viewOrganizationsTool: PanelTool = {
  */
 export const viewStarredTool: PanelTool = {
   name: 'view_user_starred',
-  description: "Switch to the starred tab to view the user's starred GitHub repositories",
+  description:
+    "Switch to the starred tab to view the user's starred GitHub repositories",
   inputs: {
     type: 'object',
     properties: {},
@@ -67,7 +69,8 @@ export const viewStarredTool: PanelTool = {
  */
 export const selectOrganizationTool: PanelTool = {
   name: 'select_organization',
-  description: 'Select a GitHub organization to view its details and repositories',
+  description:
+    'Select a GitHub organization to view its details and repositories',
   inputs: {
     type: 'object',
     properties: {
@@ -133,7 +136,8 @@ export const selectRepositoryTool: PanelTool = {
  */
 export const cloneRepositoryTool: PanelTool = {
   name: 'clone_starred_repository',
-  description: "Clone one of the user's starred repositories to your local machine",
+  description:
+    "Clone one of the user's starred repositories to your local machine",
   inputs: {
     type: 'object',
     properties: {
@@ -168,7 +172,8 @@ export const cloneRepositoryTool: PanelTool = {
  */
 export const filterStarredTool: PanelTool = {
   name: 'filter_starred_repositories',
-  description: 'Filter the starred repositories list by name, description, or language',
+  description:
+    'Filter the starred repositories list by name, description, or language',
   inputs: {
     type: 'object',
     properties: {
@@ -211,6 +216,7 @@ export const userProfilePanelTools: PanelTool[] = [
 export const userProfilePanelToolsMetadata: PanelToolsMetadata = {
   id: PANEL_ID,
   name: 'User Profile Panel',
-  description: "Tools for viewing user profiles, their organizations, and starred repositories",
+  description:
+    'Tools for viewing user profiles, their organizations, and starred repositories',
   tools: userProfilePanelTools,
 };

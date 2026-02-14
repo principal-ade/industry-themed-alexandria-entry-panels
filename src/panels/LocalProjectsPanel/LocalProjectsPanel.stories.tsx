@@ -67,7 +67,9 @@ export const Default: Story = {
     const actions = createMockLocalProjectsActions();
     const events = createMockEvents();
 
-    return <LocalProjectsPanel context={context} actions={actions} events={events} />;
+    return (
+      <LocalProjectsPanel context={context} actions={actions} events={events} />
+    );
   },
 };
 
@@ -83,7 +85,10 @@ export const Empty: Story = {
           {
             scope: 'global',
             name: 'alexandriaRepositories',
-            data: { repositories: [], loading: false } as AlexandriaRepositoriesSlice,
+            data: {
+              repositories: [],
+              loading: false,
+            } as AlexandriaRepositoriesSlice,
             loading: false,
             error: null,
             refresh: async () => {},
@@ -94,7 +99,9 @@ export const Empty: Story = {
     const actions = createMockLocalProjectsActions();
     const events = createMockEvents();
 
-    return <LocalProjectsPanel context={context} actions={actions} events={events} />;
+    return (
+      <LocalProjectsPanel context={context} actions={actions} events={events} />
+    );
   },
 };
 
@@ -110,7 +117,10 @@ export const Loading: Story = {
           {
             scope: 'global',
             name: 'alexandriaRepositories',
-            data: { repositories: [], loading: true } as AlexandriaRepositoriesSlice,
+            data: {
+              repositories: [],
+              loading: true,
+            } as AlexandriaRepositoriesSlice,
             loading: true,
             error: null,
             refresh: async () => {},
@@ -121,7 +131,9 @@ export const Loading: Story = {
     const actions = createMockLocalProjectsActions();
     const events = createMockEvents();
 
-    return <LocalProjectsPanel context={context} actions={actions} events={events} />;
+    return (
+      <LocalProjectsPanel context={context} actions={actions} events={events} />
+    );
   },
 };
 
@@ -137,7 +149,9 @@ export const ReadOnly: Story = {
     };
     const events = createMockEvents();
 
-    return <LocalProjectsPanel context={context} actions={actions} events={events} />;
+    return (
+      <LocalProjectsPanel context={context} actions={actions} events={events} />
+    );
   },
 };
 
@@ -239,7 +253,9 @@ export const CardAddToWorkspaceMode: StoryObj<typeof LocalProjectCard> = {
         entry={mockAlexandriaRepositories[0]}
         actionMode="add-to-workspace"
         onSelect={(entry) => console.log('Selected:', entry.name)}
-        onAddToWorkspace={(entry) => console.log('Add to workspace:', entry.name)}
+        onAddToWorkspace={(entry) =>
+          console.log('Add to workspace:', entry.name)
+        }
       />
     </div>
   ),
@@ -260,7 +276,14 @@ export const CardLocalOnly: StoryObj<typeof LocalProjectCard> = {
 
 export const CardCompact: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', width: '100%', maxWidth: '400px' }}>
+    <div
+      style={{
+        padding: '16px',
+        backgroundColor: '#1a1a2e',
+        width: '100%',
+        maxWidth: '400px',
+      }}
+    >
       <LocalProjectCard
         entry={mockAlexandriaRepositories[0]}
         compact={true}
@@ -274,7 +297,17 @@ export const CardCompact: StoryObj<typeof LocalProjectCard> = {
 
 export const CardCompactList: StoryObj<typeof LocalProjectCard> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+    <div
+      style={{
+        padding: '16px',
+        backgroundColor: '#1a1a2e',
+        width: '100%',
+        maxWidth: '400px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+      }}
+    >
       {mockAlexandriaRepositories.slice(0, 3).map((entry) => (
         <LocalProjectCard
           key={entry.path}
@@ -293,7 +326,14 @@ export const CardCompactList: StoryObj<typeof LocalProjectCard> = {
  */
 export const AvatarWithOwner: StoryObj<typeof RepositoryAvatar> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px' }}>
+    <div
+      style={{
+        padding: '16px',
+        backgroundColor: '#1a1a2e',
+        display: 'flex',
+        gap: '16px',
+      }}
+    >
       <RepositoryAvatar owner="principal-ade" size={32} />
       <RepositoryAvatar owner="principal-ai" size={32} />
       <RepositoryAvatar owner="facebook" size={32} />
@@ -303,7 +343,15 @@ export const AvatarWithOwner: StoryObj<typeof RepositoryAvatar> = {
 
 export const AvatarSizes: StoryObj<typeof RepositoryAvatar> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px', alignItems: 'center' }}>
+    <div
+      style={{
+        padding: '16px',
+        backgroundColor: '#1a1a2e',
+        display: 'flex',
+        gap: '16px',
+        alignItems: 'center',
+      }}
+    >
       <RepositoryAvatar owner="principal-ade" size={24} />
       <RepositoryAvatar owner="principal-ade" size={32} />
       <RepositoryAvatar owner="principal-ade" size={48} />
@@ -314,14 +362,25 @@ export const AvatarSizes: StoryObj<typeof RepositoryAvatar> = {
 
 export const AvatarFallback: StoryObj<typeof RepositoryAvatar> = {
   render: () => (
-    <div style={{ padding: '16px', backgroundColor: '#1a1a2e', display: 'flex', gap: '16px' }}>
+    <div
+      style={{
+        padding: '16px',
+        backgroundColor: '#1a1a2e',
+        display: 'flex',
+        gap: '16px',
+      }}
+    >
       <RepositoryAvatar
         size={32}
-        fallbackIcon={<span style={{ color: '#888', fontWeight: 'bold' }}>P</span>}
+        fallbackIcon={
+          <span style={{ color: '#888', fontWeight: 'bold' }}>P</span>
+        }
       />
       <RepositoryAvatar
         size={32}
-        fallbackIcon={<span style={{ color: '#888', fontWeight: 'bold' }}>A</span>}
+        fallbackIcon={
+          <span style={{ color: '#888', fontWeight: 'bold' }}>A</span>
+        }
       />
     </div>
   ),
@@ -338,10 +397,34 @@ const DragDropDemoComponent = () => {
   const [droppedMetadata, setDroppedMetadata] = useState<any>(null);
 
   return (
-    <div style={{ display: 'flex', gap: '20px', padding: '16px', height: '400px', backgroundColor: '#1a1a2e' }}>
+    <div
+      style={{
+        display: 'flex',
+        gap: '20px',
+        padding: '16px',
+        height: '400px',
+        backgroundColor: '#1a1a2e',
+      }}
+    >
       {/* Source: Draggable project cards */}
-      <div style={{ flex: 1, border: '1px solid #444', borderRadius: '8px', padding: '16px', overflow: 'auto' }}>
-        <h3 style={{ color: '#fff', marginTop: 0, marginBottom: '16px', fontSize: '14px', fontWeight: 600 }}>
+      <div
+        style={{
+          flex: 1,
+          border: '1px solid #444',
+          borderRadius: '8px',
+          padding: '16px',
+          overflow: 'auto',
+        }}
+      >
+        <h3
+          style={{
+            color: '#fff',
+            marginTop: 0,
+            marginBottom: '16px',
+            fontSize: '14px',
+            fontWeight: 600,
+          }}
+        >
           Drag Source (Project Cards)
         </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -391,20 +474,53 @@ const DragDropDemoComponent = () => {
           }
         }}
       >
-        <h3 style={{ color: '#3b82f6', marginTop: 0, marginBottom: '16px', fontSize: '14px', fontWeight: 600 }}>
+        <h3
+          style={{
+            color: '#3b82f6',
+            marginTop: 0,
+            marginBottom: '16px',
+            fontSize: '14px',
+            fontWeight: 600,
+          }}
+        >
           Drop Zone (Test Area)
         </h3>
         {droppedData ? (
           <div style={{ width: '100%' }}>
-            <div style={{ color: '#10b981', marginBottom: '12px', fontSize: '12px', fontWeight: 600 }}>
+            <div
+              style={{
+                color: '#10b981',
+                marginBottom: '12px',
+                fontSize: '12px',
+                fontWeight: 600,
+              }}
+            >
               ✓ Project Dropped!
             </div>
-            <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', padding: '12px', borderRadius: '4px', fontSize: '12px', fontFamily: 'monospace' }}>
+            <div
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                padding: '12px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                fontFamily: 'monospace',
+              }}
+            >
               <div style={{ color: '#888', marginBottom: '8px' }}>Path:</div>
-              <div style={{ color: '#fff', marginBottom: '12px', wordBreak: 'break-all' }}>{droppedData}</div>
+              <div
+                style={{
+                  color: '#fff',
+                  marginBottom: '12px',
+                  wordBreak: 'break-all',
+                }}
+              >
+                {droppedData}
+              </div>
               {droppedMetadata && (
                 <>
-                  <div style={{ color: '#888', marginBottom: '8px' }}>Metadata:</div>
+                  <div style={{ color: '#888', marginBottom: '8px' }}>
+                    Metadata:
+                  </div>
                   <pre style={{ color: '#fff', margin: 0, overflow: 'auto' }}>
                     {JSON.stringify(droppedMetadata, null, 2)}
                   </pre>

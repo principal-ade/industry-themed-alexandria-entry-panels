@@ -11,7 +11,10 @@ import {
   FolderPlus,
   Check,
 } from 'lucide-react';
-import type { GitHubRepository, LocalRepositoryReference } from './github-types';
+import type {
+  GitHubRepository,
+  LocalRepositoryReference,
+} from './github-types';
 import { RepositoryAvatar } from '../LocalProjectsPanel/RepositoryAvatar';
 
 export interface GitHubRepositoryCardProps {
@@ -253,7 +256,9 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
           {/* Stars */}
           {repository.stargazers_count !== undefined &&
             repository.stargazers_count > 0 && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span
+                style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+              >
                 <Star size={12} />
                 {formatNumber(repository.stargazers_count)}
               </span>
@@ -268,7 +273,10 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
           )}
 
           {/* Updated time */}
-          <span>Updated {getRelativeTime(repository.pushed_at || repository.updated_at)}</span>
+          <span>
+            Updated{' '}
+            {getRelativeTime(repository.pushed_at || repository.updated_at)}
+          </span>
         </div>
       </div>
 
@@ -300,7 +308,8 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
           }}
           title="Open on GitHub"
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = theme.colors.backgroundTertiary;
+            e.currentTarget.style.backgroundColor =
+              theme.colors.backgroundTertiary;
             e.currentTarget.style.color = theme.colors.text;
           }}
           onMouseLeave={(e) => {
@@ -324,7 +333,9 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
               padding: '6px 12px',
               borderRadius: '6px',
               border: 'none',
-              backgroundColor: isInCollection ? '#10b981' : theme.colors.secondary,
+              backgroundColor: isInCollection
+                ? '#10b981'
+                : theme.colors.secondary,
               color: isInCollection ? '#ffffff' : theme.colors.text,
               fontSize: `${theme.fontSizes[1]}px`,
               fontWeight: theme.fontWeights.medium,

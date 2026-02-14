@@ -10,8 +10,14 @@ import type {
   DataSlice,
 } from '../types';
 import type { AlexandriaRepositoriesSlice } from '../panels/LocalProjectsPanel/types';
-import type { Workspace, WorkspacesSlice } from '../panels/WorkspacesListPanel/types';
-import type { GitHubRepository, GitHubOrganization } from '../panels/shared/github-types';
+import type {
+  Workspace,
+  WorkspacesSlice,
+} from '../panels/WorkspacesListPanel/types';
+import type {
+  GitHubRepository,
+  GitHubOrganization,
+} from '../panels/shared/github-types';
 import type { GitHubStarredSlice } from '../panels/GitHubStarredPanel/types';
 import type { GitHubProjectsSlice } from '../panels/GitHubProjectsPanel/types';
 
@@ -82,10 +88,14 @@ export const mockGitHubStarredRepositories: GitHubRepository[] = [
     id: 1002,
     name: 'typescript',
     full_name: 'microsoft/typescript',
-    owner: { login: 'microsoft', avatar_url: 'https://github.com/microsoft.png' },
+    owner: {
+      login: 'microsoft',
+      avatar_url: 'https://github.com/microsoft.png',
+    },
     private: false,
     html_url: 'https://github.com/microsoft/typescript',
-    description: 'TypeScript is a superset of JavaScript that compiles to clean JavaScript output.',
+    description:
+      'TypeScript is a superset of JavaScript that compiles to clean JavaScript output.',
     clone_url: 'https://github.com/microsoft/typescript.git',
     updated_at: '2024-11-28T15:30:00Z',
     pushed_at: '2024-11-28T15:30:00Z',
@@ -98,7 +108,10 @@ export const mockGitHubStarredRepositories: GitHubRepository[] = [
     id: 1003,
     name: 'vscode',
     full_name: 'microsoft/vscode',
-    owner: { login: 'microsoft', avatar_url: 'https://github.com/microsoft.png' },
+    owner: {
+      login: 'microsoft',
+      avatar_url: 'https://github.com/microsoft.png',
+    },
     private: false,
     html_url: 'https://github.com/microsoft/vscode',
     description: 'Visual Studio Code',
@@ -114,10 +127,14 @@ export const mockGitHubStarredRepositories: GitHubRepository[] = [
     id: 1004,
     name: 'tauri',
     full_name: 'tauri-apps/tauri',
-    owner: { login: 'tauri-apps', avatar_url: 'https://github.com/tauri-apps.png' },
+    owner: {
+      login: 'tauri-apps',
+      avatar_url: 'https://github.com/tauri-apps.png',
+    },
     private: false,
     html_url: 'https://github.com/tauri-apps/tauri',
-    description: 'Build smaller, faster, and more secure desktop and mobile applications with a web frontend.',
+    description:
+      'Build smaller, faster, and more secure desktop and mobile applications with a web frontend.',
     clone_url: 'https://github.com/tauri-apps/tauri.git',
     updated_at: '2024-11-30T12:00:00Z',
     pushed_at: '2024-11-30T12:00:00Z',
@@ -133,7 +150,8 @@ export const mockGitHubStarredRepositories: GitHubRepository[] = [
     owner: { login: 'electron', avatar_url: 'https://github.com/electron.png' },
     private: false,
     html_url: 'https://github.com/electron/electron',
-    description: 'Build cross-platform desktop apps with JavaScript, HTML, and CSS',
+    description:
+      'Build cross-platform desktop apps with JavaScript, HTML, and CSS',
     clone_url: 'https://github.com/electron/electron.git',
     updated_at: '2024-12-01T14:00:00Z',
     pushed_at: '2024-12-01T14:00:00Z',
@@ -152,7 +170,10 @@ export const mockGitHubUserRepositories: GitHubRepository[] = [
     id: 2001,
     name: 'my-awesome-project',
     full_name: 'developer/my-awesome-project',
-    owner: { login: 'developer', avatar_url: 'https://github.com/developer.png' },
+    owner: {
+      login: 'developer',
+      avatar_url: 'https://github.com/developer.png',
+    },
     private: false,
     html_url: 'https://github.com/developer/my-awesome-project',
     description: 'A showcase of my best work',
@@ -169,7 +190,10 @@ export const mockGitHubUserRepositories: GitHubRepository[] = [
     id: 2002,
     name: 'dotfiles',
     full_name: 'developer/dotfiles',
-    owner: { login: 'developer', avatar_url: 'https://github.com/developer.png' },
+    owner: {
+      login: 'developer',
+      avatar_url: 'https://github.com/developer.png',
+    },
     private: false,
     html_url: 'https://github.com/developer/dotfiles',
     description: 'My personal configuration files',
@@ -186,7 +210,10 @@ export const mockGitHubUserRepositories: GitHubRepository[] = [
     id: 2003,
     name: 'private-notes',
     full_name: 'developer/private-notes',
-    owner: { login: 'developer', avatar_url: 'https://github.com/developer.png' },
+    owner: {
+      login: 'developer',
+      avatar_url: 'https://github.com/developer.png',
+    },
     private: true,
     html_url: 'https://github.com/developer/private-notes',
     description: 'Personal notes and documentation',
@@ -228,7 +255,10 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       id: 4001,
       name: 'panel-framework-core',
       full_name: 'principal-ade/panel-framework-core',
-      owner: { login: 'principal-ade', avatar_url: 'https://github.com/principal-ade.png' },
+      owner: {
+        login: 'principal-ade',
+        avatar_url: 'https://github.com/principal-ade.png',
+      },
       private: false,
       html_url: 'https://github.com/principal-ade/panel-framework-core',
       description: 'Core framework for building extensible panels',
@@ -245,7 +275,10 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       id: 4002,
       name: 'industry-theme',
       full_name: 'principal-ade/industry-theme',
-      owner: { login: 'principal-ade', avatar_url: 'https://github.com/principal-ade.png' },
+      owner: {
+        login: 'principal-ade',
+        avatar_url: 'https://github.com/principal-ade.png',
+      },
       private: false,
       html_url: 'https://github.com/principal-ade/industry-theme',
       description: 'Industry-standard theming system for React applications',
@@ -264,7 +297,10 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       id: 5001,
       name: 'internal-tools',
       full_name: 'acme-corp/internal-tools',
-      owner: { login: 'acme-corp', avatar_url: 'https://github.com/acme-corp.png' },
+      owner: {
+        login: 'acme-corp',
+        avatar_url: 'https://github.com/acme-corp.png',
+      },
       private: true,
       html_url: 'https://github.com/acme-corp/internal-tools',
       description: 'Internal tooling and utilities',
@@ -281,7 +317,10 @@ export const mockGitHubOrgRepositories: Record<string, GitHubRepository[]> = {
       id: 5002,
       name: 'product-api',
       full_name: 'acme-corp/product-api',
-      owner: { login: 'acme-corp', avatar_url: 'https://github.com/acme-corp.png' },
+      owner: {
+        login: 'acme-corp',
+        avatar_url: 'https://github.com/acme-corp.png',
+      },
       private: true,
       html_url: 'https://github.com/acme-corp/product-api',
       description: 'Main product API service',
@@ -482,35 +521,51 @@ export const createMockContext = (
     ],
     [
       'alexandriaRepositories',
-      createMockSlice<AlexandriaRepositoriesSlice>('alexandriaRepositories', {
-        repositories: mockAlexandriaRepositories,
-        loading: false,
-      }, 'global'),
+      createMockSlice<AlexandriaRepositoriesSlice>(
+        'alexandriaRepositories',
+        {
+          repositories: mockAlexandriaRepositories,
+          loading: false,
+        },
+        'global'
+      ),
     ],
     [
       'workspaces',
-      createMockSlice<WorkspacesSlice>('workspaces', {
-        workspaces: mockWorkspaces,
-        defaultWorkspaceId: 'workspace-1',
-        loading: false,
-      }, 'global'),
+      createMockSlice<WorkspacesSlice>(
+        'workspaces',
+        {
+          workspaces: mockWorkspaces,
+          defaultWorkspaceId: 'workspace-1',
+          loading: false,
+        },
+        'global'
+      ),
     ],
     [
       'githubStarred',
-      createMockSlice<GitHubStarredSlice>('githubStarred', {
-        repositories: mockGitHubStarredRepositories,
-        loading: false,
-      }, 'global'),
+      createMockSlice<GitHubStarredSlice>(
+        'githubStarred',
+        {
+          repositories: mockGitHubStarredRepositories,
+          loading: false,
+        },
+        'global'
+      ),
     ],
     [
       'githubProjects',
-      createMockSlice<GitHubProjectsSlice>('githubProjects', {
-        userRepositories: mockGitHubUserRepositories,
-        organizations: mockGitHubOrganizations,
-        orgRepositories: mockGitHubOrgRepositories,
-        loading: false,
-        currentUser: 'developer',
-      }, 'global'),
+      createMockSlice<GitHubProjectsSlice>(
+        'githubProjects',
+        {
+          userRepositories: mockGitHubUserRepositories,
+          organizations: mockGitHubOrganizations,
+          orgRepositories: mockGitHubOrgRepositories,
+          loading: false,
+          currentUser: 'developer',
+        },
+        'global'
+      ),
     ],
   ]);
 
@@ -532,9 +587,7 @@ export const createMockContext = (
     },
     getWorkspaceSlice: <T,>(name: string): DataSlice<T> | undefined => {
       const slice = mockSlices.get(name);
-      return slice?.scope === 'workspace'
-        ? (slice as DataSlice<T>)
-        : undefined;
+      return slice?.scope === 'workspace' ? (slice as DataSlice<T>) : undefined;
     },
     getRepositorySlice: <T,>(name: string): DataSlice<T> | undefined => {
       const slice = mockSlices.get(name);

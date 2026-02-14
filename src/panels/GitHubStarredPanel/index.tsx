@@ -4,8 +4,14 @@ import { AlertCircle, Loader2, RotateCcw, Search, Star, X } from 'lucide-react';
 import type { PanelComponentProps } from '../../types';
 import type { AlexandriaRepositoriesSlice } from '../LocalProjectsPanel/types';
 import type { GitHubStarredSlice, GitHubStarredPanelActions } from './types';
-import type { GitHubRepository, LocalRepositoryReference } from '../shared/github-types';
-import type { WorkspaceCollectionSlice, WorkspaceRepositoriesSlice } from '../WorkspaceCollectionPanel/types';
+import type {
+  GitHubRepository,
+  LocalRepositoryReference,
+} from '../shared/github-types';
+import type {
+  WorkspaceCollectionSlice,
+  WorkspaceRepositoriesSlice,
+} from '../WorkspaceCollectionPanel/types';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
 import '../shared/styles.css';
 
@@ -27,7 +33,9 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
 /**
  * GitHubStarredPanel - Browse and manage starred GitHub repositories
  */
-export const GitHubStarredPanel: React.FC<GitHubStarredPanelProps> = (props) => {
+export const GitHubStarredPanel: React.FC<GitHubStarredPanelProps> = (
+  props
+) => {
   return <GitHubStarredPanelContent {...props} />;
 };
 
@@ -40,7 +48,9 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
   const [showSearch, setShowSearch] = useState(defaultShowSearch);
-  const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(null);
+  const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(
+    null
+  );
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
@@ -58,11 +68,16 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
 
   // Get data from slices
   const starredSlice = context.getSlice<GitHubStarredSlice>('githubStarred');
-  const localReposSlice = context.getSlice<AlexandriaRepositoriesSlice>('alexandriaRepositories');
+  const localReposSlice = context.getSlice<AlexandriaRepositoriesSlice>(
+    'alexandriaRepositories'
+  );
 
   // Get workspace/collection context for "Add to Collection" functionality
-  const workspaceSlice = context.getSlice<WorkspaceCollectionSlice>('workspace');
-  const workspaceReposSlice = context.getSlice<WorkspaceRepositoriesSlice>('workspaceRepositories');
+  const workspaceSlice =
+    context.getSlice<WorkspaceCollectionSlice>('workspace');
+  const workspaceReposSlice = context.getSlice<WorkspaceRepositoriesSlice>(
+    'workspaceRepositories'
+  );
 
   const repositories = useMemo(
     () => starredSlice?.data?.repositories || [],
@@ -185,7 +200,9 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
     (repo: GitHubRepository) => {
       setSelectedRepo(repo);
       events.emit(
-        createPanelEvent(`${PANEL_ID}:repository-selected`, { repository: repo })
+        createPanelEvent(`${PANEL_ID}:repository-selected`, {
+          repository: repo,
+        })
       );
     },
     [events]
@@ -217,34 +234,40 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
       events.on<{ filter: string }>(`${PANEL_ID}:filter`, (event) => {
         setFilter(event.payload?.filter || '');
       }),
-      events.on<{ identifier: string }>(`${PANEL_ID}:select-repository`, (event) => {
-        const identifier = event.payload?.identifier;
-        if (identifier) {
-          const repo = repositories.find(
-            (r) =>
-              r.name === identifier ||
-              r.full_name === identifier ||
-              r.full_name.toLowerCase() === identifier.toLowerCase()
-          );
-          if (repo) {
-            handleSelect(repo);
+      events.on<{ identifier: string }>(
+        `${PANEL_ID}:select-repository`,
+        (event) => {
+          const identifier = event.payload?.identifier;
+          if (identifier) {
+            const repo = repositories.find(
+              (r) =>
+                r.name === identifier ||
+                r.full_name === identifier ||
+                r.full_name.toLowerCase() === identifier.toLowerCase()
+            );
+            if (repo) {
+              handleSelect(repo);
+            }
           }
         }
-      }),
-      events.on<{ identifier: string }>(`${PANEL_ID}:clone-repository`, (event) => {
-        const identifier = event.payload?.identifier;
-        if (identifier) {
-          const repo = repositories.find(
-            (r) =>
-              r.name === identifier ||
-              r.full_name === identifier ||
-              r.full_name.toLowerCase() === identifier.toLowerCase()
-          );
-          if (repo) {
-            void handleClone(repo);
+      ),
+      events.on<{ identifier: string }>(
+        `${PANEL_ID}:clone-repository`,
+        (event) => {
+          const identifier = event.payload?.identifier;
+          if (identifier) {
+            const repo = repositories.find(
+              (r) =>
+                r.name === identifier ||
+                r.full_name === identifier ||
+                r.full_name.toLowerCase() === identifier.toLowerCase()
+            );
+            if (repo) {
+              void handleClone(repo);
+            }
           }
         }
-      }),
+      ),
     ];
 
     return () => {
@@ -476,7 +499,14 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
               zIndex: 10,
             }}
           >
-            <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                position: 'relative',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
               <Search
                 size={16}
                 color={theme.colors.textSecondary}
@@ -591,7 +621,9 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
             onOpen={handleOpen}
             onSelect={handleSelect}
             isSelected={selectedRepo?.id === repo.id}
-            onAddToCollection={currentWorkspace ? handleAddToCollection : undefined}
+            onAddToCollection={
+              currentWorkspace ? handleAddToCollection : undefined
+            }
             isInCollection={collectionRepoSet.has(repo.full_name)}
             collectionName={collectionName}
           />
@@ -619,10 +651,7 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
               color: theme.colors.textSecondary,
             }}
           >
-            <Star
-              size={32}
-              style={{ marginBottom: '12px', opacity: 0.5 }}
-            />
+            <Star size={32} style={{ marginBottom: '12px', opacity: 0.5 }} />
             <p style={{ margin: 0 }}>
               You haven&apos;t starred any repositories yet.
             </p>

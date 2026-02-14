@@ -15,8 +15,7 @@ const PANEL_ID = 'industry-theme.user-collections';
  */
 export const filterCollectionsTool: PanelTool = {
   name: 'filter_collections',
-  description:
-    'Filter the collections list by collection name or description',
+  description: 'Filter the collections list by collection name or description',
   inputs: {
     type: 'object',
     properties: {
@@ -79,7 +78,8 @@ export const selectCollectionTool: PanelTool = {
  */
 export const createCollectionTool: PanelTool = {
   name: 'create_collection',
-  description: 'Create a new collection with the specified name and optional description',
+  description:
+    'Create a new collection with the specified name and optional description',
   inputs: {
     type: 'object',
     properties: {
@@ -146,7 +146,8 @@ export const deleteCollectionTool: PanelTool = {
  */
 export const addRepositoryTool: PanelTool = {
   name: 'add_repository_to_collection',
-  description: 'Add a repository to a collection by specifying the collection ID and repository identifier (owner/repo format)',
+  description:
+    'Add a repository to a collection by specifying the collection ID and repository identifier (owner/repo format)',
   inputs: {
     type: 'object',
     properties: {
@@ -156,7 +157,8 @@ export const addRepositoryTool: PanelTool = {
       },
       repositoryId: {
         type: 'string',
-        description: 'The repository identifier in owner/repo format (e.g., "facebook/react")',
+        description:
+          'The repository identifier in owner/repo format (e.g., "facebook/react")',
       },
     },
     required: ['collectionId', 'repositoryId'],
@@ -216,7 +218,8 @@ export const removeRepositoryTool: PanelTool = {
  */
 export const enableGitHubSyncTool: PanelTool = {
   name: 'enable_github_sync',
-  description: 'Enable GitHub sync to persist collections to a web-ade-collections repository',
+  description:
+    'Enable GitHub sync to persist collections to a web-ade-collections repository',
   inputs: {
     type: 'object',
     properties: {},

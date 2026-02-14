@@ -83,7 +83,9 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
     if (workspacePath && path.startsWith(workspacePath)) {
       const relativePath = path.slice(workspacePath.length);
       // Remove leading slash if present
-      return relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
+      return relativePath.startsWith('/')
+        ? relativePath.slice(1)
+        : relativePath;
     }
     // Then try to replace home path with ~
     if (userHomePath && path.startsWith(userHomePath)) {
@@ -125,9 +127,7 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
         ? theme.colors.backgroundTertiary
         : 'transparent',
     border: `1px solid ${
-      isSelected
-        ? theme.colors.primary || theme.colors.border
-        : 'transparent'
+      isSelected ? theme.colors.primary || theme.colors.border : 'transparent'
     }`,
     cursor: isDragging ? 'grabbing' : 'grab',
     opacity: isDragging ? 0.5 : 1,
@@ -181,18 +181,24 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
           }}
         >
           <span
-            className={entry.github?.primaryLanguage ? 'project-name-underline' : undefined}
-            style={{
-              fontSize: `${theme.fontSizes[2]}px`,
-              fontWeight: theme.fontWeights.semibold,
-              color: theme.colors.text,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              '--underline-color': entry.github?.primaryLanguage
-                ? getLanguageColor(entry.github.primaryLanguage)
-                : theme.colors.textSecondary,
-            } as React.CSSProperties}
+            className={
+              entry.github?.primaryLanguage
+                ? 'project-name-underline'
+                : undefined
+            }
+            style={
+              {
+                fontSize: `${theme.fontSizes[2]}px`,
+                fontWeight: theme.fontWeights.semibold,
+                color: theme.colors.text,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                '--underline-color': entry.github?.primaryLanguage
+                  ? getLanguageColor(entry.github.primaryLanguage)
+                  : theme.colors.textSecondary,
+              } as React.CSSProperties
+            }
           >
             {entry.name}
           </span>
@@ -237,13 +243,21 @@ export const LocalProjectCard: React.FC<LocalProjectCardProps> = ({
             gap: '6px',
             cursor: disableCopyPaths ? 'default' : 'pointer',
           }}
-          title={disableCopyPaths ? displayPath : (copiedPath ? 'Copied!' : `Click to copy: ${entry.path}`)}
+          title={
+            disableCopyPaths
+              ? displayPath
+              : copiedPath
+                ? 'Copied!'
+                : `Click to copy: ${entry.path}`
+          }
         >
           <span
             style={{
               flex: 1,
               fontSize: `${theme.fontSizes[1]}px`,
-              color: copiedPath ? theme.colors.success || '#10b981' : theme.colors.textSecondary,
+              color: copiedPath
+                ? theme.colors.success || '#10b981'
+                : theme.colors.textSecondary,
               lineHeight: 1.4,
               whiteSpace: 'nowrap',
               overflow: 'hidden',

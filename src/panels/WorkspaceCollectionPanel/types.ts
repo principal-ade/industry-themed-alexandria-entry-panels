@@ -58,7 +58,10 @@ export interface WorkspaceCollectionPanelActions extends PanelActions {
    * @param repoKey - Repository identifier in "owner/repo" format
    * @param workspaceId - Workspace ID
    */
-  removeRepositoryFromWorkspace?: (repoKey: string, workspaceId: string) => Promise<void>;
+  removeRepositoryFromWorkspace?: (
+    repoKey: string,
+    workspaceId: string
+  ) => Promise<void>;
 
   /**
    * Navigate to a repository page

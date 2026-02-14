@@ -21,7 +21,8 @@ export const filterProjectsTool: PanelTool = {
     properties: {
       filter: {
         type: 'string',
-        description: 'Search term to filter projects (matches name, owner, or path)',
+        description:
+          'Search term to filter projects (matches name, owner, or path)',
       },
     },
     required: ['filter'],

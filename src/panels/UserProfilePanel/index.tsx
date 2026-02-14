@@ -175,11 +175,20 @@ const RepositoryCard: React.FC<{
               fontFamily: theme.fonts.body,
             }}
           >
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <span
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               {repository.full_name}
             </span>
             {repository.fork && (
-              <GitFork size={12} style={{ color: theme.colors.textSecondary, flexShrink: 0 }} />
+              <GitFork
+                size={12}
+                style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
+              />
             )}
           </div>
           {repository.description && (
@@ -295,7 +304,8 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
   events,
 }) => {
   const { theme } = useTheme();
-  const [activeView, setActiveView] = useState<UserProfileView>('organizations');
+  const [activeView, setActiveView] =
+    useState<UserProfileView>('organizations');
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchBox, setShowSearchBox] = useState(false);
 
@@ -398,37 +408,46 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
           handleViewChange(event.payload.view);
         }
       }),
-      events.on<{ orgLogin: string }>(`${PANEL_ID}:select-organization`, (event) => {
-        const orgLogin = event.payload?.orgLogin;
-        if (orgLogin) {
-          const org = organizations.find((o) => o.login === orgLogin);
-          if (org) {
-            handleOrganizationSelect(org);
+      events.on<{ orgLogin: string }>(
+        `${PANEL_ID}:select-organization`,
+        (event) => {
+          const orgLogin = event.payload?.orgLogin;
+          if (orgLogin) {
+            const org = organizations.find((o) => o.login === orgLogin);
+            if (org) {
+              handleOrganizationSelect(org);
+            }
           }
         }
-      }),
-      events.on<{ owner: string; repo: string }>(`${PANEL_ID}:select-repository`, (event) => {
-        const { owner, repo } = event.payload || {};
-        if (owner && repo) {
-          const repository = starredRepositories.find(
-            (r) => r.owner.login === owner && r.name === repo
-          );
-          if (repository) {
-            handleRepositorySelect(repository);
+      ),
+      events.on<{ owner: string; repo: string }>(
+        `${PANEL_ID}:select-repository`,
+        (event) => {
+          const { owner, repo } = event.payload || {};
+          if (owner && repo) {
+            const repository = starredRepositories.find(
+              (r) => r.owner.login === owner && r.name === repo
+            );
+            if (repository) {
+              handleRepositorySelect(repository);
+            }
           }
         }
-      }),
-      events.on<{ owner: string; repo: string }>(`${PANEL_ID}:clone-repository`, (event) => {
-        const { owner, repo } = event.payload || {};
-        if (owner && repo) {
-          const repository = starredRepositories.find(
-            (r) => r.owner.login === owner && r.name === repo
-          );
-          if (repository) {
-            handleCloneRepository(repository);
+      ),
+      events.on<{ owner: string; repo: string }>(
+        `${PANEL_ID}:clone-repository`,
+        (event) => {
+          const { owner, repo } = event.payload || {};
+          if (owner && repo) {
+            const repository = starredRepositories.find(
+              (r) => r.owner.login === owner && r.name === repo
+            );
+            if (repository) {
+              handleCloneRepository(repository);
+            }
           }
         }
-      }),
+      ),
       events.on<{ filter: string }>(`${PANEL_ID}:filter-starred`, (event) => {
         if (event.payload?.filter !== undefined) {
           setSearchQuery(event.payload.filter);
@@ -688,15 +707,21 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
           }}
         >
           <span>
-            <strong style={{ color: theme.colors.text }}>{user.followers}</strong>{' '}
+            <strong style={{ color: theme.colors.text }}>
+              {user.followers}
+            </strong>{' '}
             <span style={{ color: theme.colors.textSecondary }}>followers</span>
           </span>
           <span>
-            <strong style={{ color: theme.colors.text }}>{user.following}</strong>{' '}
+            <strong style={{ color: theme.colors.text }}>
+              {user.following}
+            </strong>{' '}
             <span style={{ color: theme.colors.textSecondary }}>following</span>
           </span>
           <span>
-            <strong style={{ color: theme.colors.text }}>{user.public_repos}</strong>{' '}
+            <strong style={{ color: theme.colors.text }}>
+              {user.public_repos}
+            </strong>{' '}
             <span style={{ color: theme.colors.textSecondary }}>repos</span>
           </span>
         </div>
@@ -885,7 +910,10 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
                   color: theme.colors.textSecondary,
                 }}
               >
-                <Star size={32} style={{ marginBottom: '12px', opacity: 0.5 }} />
+                <Star
+                  size={32}
+                  style={{ marginBottom: '12px', opacity: 0.5 }}
+                />
                 <p style={{ margin: 0 }}>
                   {searchQuery
                     ? `No repositories matching "${searchQuery}"`
@@ -898,7 +926,11 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
                   key={repo.id}
                   repository={repo}
                   onClick={handleRepositorySelect}
-                  onClone={panelActions.cloneRepository ? handleCloneRepository : undefined}
+                  onClone={
+                    panelActions.cloneRepository
+                      ? handleCloneRepository
+                      : undefined
+                  }
                   onOpenInBrowser={
                     panelActions.openInBrowser ? handleOpenInBrowser : undefined
                   }

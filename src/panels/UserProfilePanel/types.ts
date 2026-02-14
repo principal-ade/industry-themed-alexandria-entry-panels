@@ -133,7 +133,9 @@ export interface UserProfilePanelActions extends PanelActions {
    * Fetch user's starred repositories
    * @param username - GitHub username
    */
-  fetchUserStarredRepositories?: (username: string) => Promise<GitHubRepository[]>;
+  fetchUserStarredRepositories?: (
+    username: string
+  ) => Promise<GitHubRepository[]>;
 }
 
 /**

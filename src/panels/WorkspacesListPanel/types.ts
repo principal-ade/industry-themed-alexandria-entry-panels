@@ -87,7 +87,9 @@ export interface WorkspacesListPanelActions extends PanelActions {
    * Get repositories in a workspace (for search)
    * @param workspaceId - Workspace ID
    */
-  getWorkspaceRepositories?: (workspaceId: string) => Promise<{ name: string }[]>;
+  getWorkspaceRepositories?: (
+    workspaceId: string
+  ) => Promise<{ name: string }[]>;
 }
 
 /**

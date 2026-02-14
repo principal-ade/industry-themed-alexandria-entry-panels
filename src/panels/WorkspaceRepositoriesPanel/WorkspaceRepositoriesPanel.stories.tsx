@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { WorkspaceRepositoriesPanel } from './index';
-import { createPanelContext, createDataSlice } from '@principal-ade/panel-framework-core';
+import {
+  createPanelContext,
+  createDataSlice,
+} from '@principal-ade/panel-framework-core';
 import type {
   PanelComponentProps,
   PanelActions,
@@ -116,7 +119,9 @@ const meta: Meta<typeof WorkspaceRepositoriesPanel> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div
+        style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+      >
         <Story />
       </div>
     ),
@@ -132,11 +137,18 @@ export const Default: Story = {
     context: createPanelContext(
       {
         type: 'workspace',
-        workspace: { name: mockWorkspace.name, path: mockWorkspace.suggestedClonePath || '' },
+        workspace: {
+          name: mockWorkspace.name,
+          path: mockWorkspace.suggestedClonePath || '',
+        },
       },
       [
         createDataSlice<Workspace>('workspace', 'workspace', mockWorkspace),
-        createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', mockRepositories),
+        createDataSlice<AlexandriaEntry[]>(
+          'workspaceRepositories',
+          'workspace',
+          mockRepositories
+        ),
         createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
@@ -153,7 +165,11 @@ export const NoWorkspaceSelected: Story = {
       },
       [
         createDataSlice<Workspace | null>('workspace', 'workspace', null),
-        createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', []),
+        createDataSlice<AlexandriaEntry[]>(
+          'workspaceRepositories',
+          'workspace',
+          []
+        ),
         createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
@@ -167,11 +183,18 @@ export const EmptyWorkspace: Story = {
     context: createPanelContext(
       {
         type: 'workspace',
-        workspace: { name: mockWorkspace.name, path: mockWorkspace.suggestedClonePath || '' },
+        workspace: {
+          name: mockWorkspace.name,
+          path: mockWorkspace.suggestedClonePath || '',
+        },
       },
       [
         createDataSlice<Workspace>('workspace', 'workspace', mockWorkspace),
-        createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', []),
+        createDataSlice<AlexandriaEntry[]>(
+          'workspaceRepositories',
+          'workspace',
+          []
+        ),
         createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
@@ -185,13 +208,23 @@ export const Loading: Story = {
     context: createPanelContext(
       {
         type: 'workspace',
-        workspace: { name: mockWorkspace.name, path: mockWorkspace.suggestedClonePath || '' },
+        workspace: {
+          name: mockWorkspace.name,
+          path: mockWorkspace.suggestedClonePath || '',
+        },
       },
       [
-        createDataSlice<Workspace>('workspace', 'workspace', mockWorkspace, { loading: true }),
-        createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', [], {
+        createDataSlice<Workspace>('workspace', 'workspace', mockWorkspace, {
           loading: true,
         }),
+        createDataSlice<AlexandriaEntry[]>(
+          'workspaceRepositories',
+          'workspace',
+          [],
+          {
+            loading: true,
+          }
+        ),
         createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
@@ -205,50 +238,57 @@ export const MixedLocations: Story = {
     context: createPanelContext(
       {
         type: 'workspace',
-        workspace: { name: mockWorkspace.name, path: mockWorkspace.suggestedClonePath || '' },
+        workspace: {
+          name: mockWorkspace.name,
+          path: mockWorkspace.suggestedClonePath || '',
+        },
       },
       [
         createDataSlice<Workspace>('workspace', 'workspace', mockWorkspace),
-        createDataSlice<AlexandriaEntry[]>('workspaceRepositories', 'workspace', [
-          {
-            name: 'project-in-workspace',
-            path: '/Users/developer/workspaces/active/project-in-workspace' as AlexandriaEntry['path'],
-            remoteUrl: 'https://github.com/company/project-in-workspace',
-            registeredAt: new Date().toISOString(),
-            hasViews: true,
-            viewCount: 2,
-            views: [],
-            github: {
-              id: 'company/project-in-workspace',
-              owner: 'company',
+        createDataSlice<AlexandriaEntry[]>(
+          'workspaceRepositories',
+          'workspace',
+          [
+            {
               name: 'project-in-workspace',
-              description: 'Main application frontend',
-              stars: 45,
-              primaryLanguage: 'TypeScript',
-              lastUpdated: new Date().toISOString(),
-              isPublic: true,
+              path: '/Users/developer/workspaces/active/project-in-workspace' as AlexandriaEntry['path'],
+              remoteUrl: 'https://github.com/company/project-in-workspace',
+              registeredAt: new Date().toISOString(),
+              hasViews: true,
+              viewCount: 2,
+              views: [],
+              github: {
+                id: 'company/project-in-workspace',
+                owner: 'company',
+                name: 'project-in-workspace',
+                description: 'Main application frontend',
+                stars: 45,
+                primaryLanguage: 'TypeScript',
+                lastUpdated: new Date().toISOString(),
+                isPublic: true,
+              },
             },
-          },
-          {
-            name: 'legacy-api',
-            path: '/Users/developer/other-projects/legacy-api' as AlexandriaEntry['path'],
-            remoteUrl: 'https://github.com/company/legacy-api',
-            registeredAt: new Date().toISOString(),
-            hasViews: false,
-            viewCount: 0,
-            views: [],
-            github: {
-              id: 'company/legacy-api',
-              owner: 'company',
+            {
               name: 'legacy-api',
-              description: 'Legacy REST API service',
-              stars: 23,
-              primaryLanguage: 'Python',
-              lastUpdated: new Date().toISOString(),
-              isPublic: false,
+              path: '/Users/developer/other-projects/legacy-api' as AlexandriaEntry['path'],
+              remoteUrl: 'https://github.com/company/legacy-api',
+              registeredAt: new Date().toISOString(),
+              hasViews: false,
+              viewCount: 0,
+              views: [],
+              github: {
+                id: 'company/legacy-api',
+                owner: 'company',
+                name: 'legacy-api',
+                description: 'Legacy REST API service',
+                stars: 23,
+                primaryLanguage: 'Python',
+                lastUpdated: new Date().toISOString(),
+                isPublic: false,
+              },
             },
-          },
-        ]),
+          ]
+        ),
         createDataSlice<string>('userHomePath', 'global', '/Users/developer'),
       ]
     ),
@@ -257,12 +297,28 @@ export const MixedLocations: Story = {
       isRepositoryInWorkspaceDirectory: async (repo: AlexandriaEntry) => {
         return repo.path.startsWith('/Users/developer/workspaces/active');
       },
-      moveRepositoryToWorkspaceDirectory: async (repo: AlexandriaEntry, workspaceId: string) => {
-        console.log('Move repository:', repo.name, 'to workspace:', workspaceId);
+      moveRepositoryToWorkspaceDirectory: async (
+        repo: AlexandriaEntry,
+        workspaceId: string
+      ) => {
+        console.log(
+          'Move repository:',
+          repo.name,
+          'to workspace:',
+          workspaceId
+        );
         return '';
       },
-      removeRepositoryFromWorkspace: async (repoId: string, workspaceId: string) => {
-        console.log('Remove repository:', repoId, 'from workspace:', workspaceId);
+      removeRepositoryFromWorkspace: async (
+        repoId: string,
+        workspaceId: string
+      ) => {
+        console.log(
+          'Remove repository:',
+          repoId,
+          'from workspace:',
+          workspaceId
+        );
       },
     },
     events: mockEvents,

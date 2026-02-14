@@ -53,7 +53,8 @@ export const toggleOwnerSectionTool: PanelTool = {
     properties: {
       owner: {
         type: 'string',
-        description: 'The owner name (username or organization login) to toggle',
+        description:
+          'The owner name (username or organization login) to toggle',
       },
     },
     required: ['owner'],
@@ -78,7 +79,8 @@ export const toggleOwnerSectionTool: PanelTool = {
  */
 export const selectProjectRepositoryTool: PanelTool = {
   name: 'select_project_repository',
-  description: 'Select a project repository by its name or full name (owner/repo)',
+  description:
+    'Select a project repository by its name or full name (owner/repo)',
   inputs: {
     type: 'object',
     properties: {

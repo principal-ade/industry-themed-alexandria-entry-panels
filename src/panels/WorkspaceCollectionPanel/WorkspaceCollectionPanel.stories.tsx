@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { WorkspaceCollectionPanel } from './index';
-import { createPanelContext, createDataSlice } from '@principal-ade/panel-framework-core';
+import {
+  createPanelContext,
+  createDataSlice,
+} from '@principal-ade/panel-framework-core';
 import type {
   PanelComponentProps,
   PanelActions,
@@ -8,7 +11,11 @@ import type {
   PanelEvent,
 } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
-import type { Workspace, WorkspaceCollectionSlice, WorkspaceRepositoriesSlice } from './types';
+import type {
+  Workspace,
+  WorkspaceCollectionSlice,
+  WorkspaceRepositoriesSlice,
+} from './types';
 
 // Mock workspace
 const mockWorkspace: Workspace = {
@@ -88,7 +95,8 @@ const mockRepositories: GitHubRepository[] = [
     },
     private: false,
     html_url: 'https://github.com/design-system/react-components',
-    description: 'Reusable React components for the design system with TypeScript support and comprehensive documentation',
+    description:
+      'Reusable React components for the design system with TypeScript support and comprehensive documentation',
     clone_url: 'https://github.com/design-system/react-components.git',
     updated_at: new Date(Date.now() - 86400000 * 2).toISOString(),
     pushed_at: new Date(Date.now() - 86400000 * 2).toISOString(),
@@ -134,7 +142,9 @@ const meta: Meta<typeof WorkspaceCollectionPanel> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div
+        style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+      >
         <Story />
       </div>
     ),
@@ -157,10 +167,14 @@ export const Default: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: mockRepositories,
-          loading: false,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: mockRepositories,
+            loading: false,
+          }
+        ),
       ]
     ),
     actions: {
@@ -168,8 +182,16 @@ export const Default: Story = {
       navigateToRepository: (owner: string, repo: string) => {
         console.log('Navigate to repository:', `${owner}/${repo}`);
       },
-      removeRepositoryFromWorkspace: async (repoKey: string, workspaceId: string) => {
-        console.log('Remove repository:', repoKey, 'from workspace:', workspaceId);
+      removeRepositoryFromWorkspace: async (
+        repoKey: string,
+        workspaceId: string
+      ) => {
+        console.log(
+          'Remove repository:',
+          repoKey,
+          'from workspace:',
+          workspaceId
+        );
       },
       previewRepository: (repository: GitHubRepository) => {
         console.log('Preview repository:', repository.full_name);
@@ -190,10 +212,14 @@ export const NoWorkspaceSelected: Story = {
           workspace: null,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: [],
-          loading: false,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: [],
+            loading: false,
+          }
+        ),
       ]
     ),
     actions: mockActions,
@@ -213,10 +239,14 @@ export const EmptyWorkspace: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: [],
-          loading: false,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: [],
+            loading: false,
+          }
+        ),
       ]
     ),
     actions: mockActions,
@@ -236,10 +266,14 @@ export const Loading: Story = {
           workspace: mockWorkspace,
           loading: true,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: [],
-          loading: true,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: [],
+            loading: true,
+          }
+        ),
       ]
     ),
     actions: mockActions,
@@ -260,10 +294,14 @@ export const WithError: Story = {
           loading: false,
           error: 'Failed to load repositories. Please try again.',
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: mockRepositories.slice(0, 2),
-          loading: false,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: mockRepositories.slice(0, 2),
+            loading: false,
+          }
+        ),
       ]
     ),
     actions: mockActions,
@@ -283,35 +321,42 @@ export const ManyRepositories: Story = {
           workspace: {
             ...mockWorkspace,
             name: 'Large Collection',
-            description: 'A workspace with many repositories to test scrolling and filtering',
+            description:
+              'A workspace with many repositories to test scrolling and filtering',
           },
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: [
-            ...mockRepositories,
-            ...Array.from({ length: 20 }, (_, i) => ({
-              id: 500000 + i,
-              name: `project-${i + 1}`,
-              full_name: `org/project-${i + 1}`,
-              owner: {
-                login: 'org',
-                avatar_url: `https://avatars.githubusercontent.com/u/${500000 + i}?v=4`,
-              },
-              private: i % 3 === 0,
-              html_url: `https://github.com/org/project-${i + 1}`,
-              description: `Project ${i + 1} description - a sample repository for testing`,
-              clone_url: `https://github.com/org/project-${i + 1}.git`,
-              updated_at: new Date(Date.now() - 86400000 * i).toISOString(),
-              pushed_at: new Date(Date.now() - 86400000 * i).toISOString(),
-              language: ['TypeScript', 'Python', 'Go', 'Rust', 'JavaScript'][i % 5],
-              stargazers_count: Math.floor(Math.random() * 1000),
-              default_branch: 'main',
-              fork: false,
-            })),
-          ],
-          loading: false,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: [
+              ...mockRepositories,
+              ...Array.from({ length: 20 }, (_, i) => ({
+                id: 500000 + i,
+                name: `project-${i + 1}`,
+                full_name: `org/project-${i + 1}`,
+                owner: {
+                  login: 'org',
+                  avatar_url: `https://avatars.githubusercontent.com/u/${500000 + i}?v=4`,
+                },
+                private: i % 3 === 0,
+                html_url: `https://github.com/org/project-${i + 1}`,
+                description: `Project ${i + 1} description - a sample repository for testing`,
+                clone_url: `https://github.com/org/project-${i + 1}.git`,
+                updated_at: new Date(Date.now() - 86400000 * i).toISOString(),
+                pushed_at: new Date(Date.now() - 86400000 * i).toISOString(),
+                language: ['TypeScript', 'Python', 'Go', 'Rust', 'JavaScript'][
+                  i % 5
+                ],
+                stargazers_count: Math.floor(Math.random() * 1000),
+                default_branch: 'main',
+                fork: false,
+              })),
+            ],
+            loading: false,
+          }
+        ),
       ]
     ),
     actions: {
@@ -319,8 +364,16 @@ export const ManyRepositories: Story = {
       navigateToRepository: (owner: string, repo: string) => {
         console.log('Navigate to repository:', `${owner}/${repo}`);
       },
-      removeRepositoryFromWorkspace: async (repoKey: string, workspaceId: string) => {
-        console.log('Remove repository:', repoKey, 'from workspace:', workspaceId);
+      removeRepositoryFromWorkspace: async (
+        repoKey: string,
+        workspaceId: string
+      ) => {
+        console.log(
+          'Remove repository:',
+          repoKey,
+          'from workspace:',
+          workspaceId
+        );
       },
     },
     events: mockEvents,
@@ -339,10 +392,14 @@ export const ReadOnly: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: mockRepositories,
-          loading: false,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: mockRepositories,
+            loading: false,
+          }
+        ),
       ]
     ),
     actions: {
@@ -365,10 +422,14 @@ export const PermanentSearch: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>('workspaceRepositories', 'workspace', {
-          repositories: mockRepositories,
-          loading: false,
-        }),
+        createDataSlice<WorkspaceRepositoriesSlice>(
+          'workspaceRepositories',
+          'workspace',
+          {
+            repositories: mockRepositories,
+            loading: false,
+          }
+        ),
       ]
     ),
     actions: {
@@ -376,8 +437,16 @@ export const PermanentSearch: Story = {
       navigateToRepository: (owner: string, repo: string) => {
         console.log('Navigate to repository:', `${owner}/${repo}`);
       },
-      removeRepositoryFromWorkspace: async (repoKey: string, workspaceId: string) => {
-        console.log('Remove repository:', repoKey, 'from workspace:', workspaceId);
+      removeRepositoryFromWorkspace: async (
+        repoKey: string,
+        workspaceId: string
+      ) => {
+        console.log(
+          'Remove repository:',
+          repoKey,
+          'from workspace:',
+          workspaceId
+        );
       },
       previewRepository: (repository: GitHubRepository) => {
         console.log('Preview repository:', repository.full_name);

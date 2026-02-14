@@ -48,7 +48,8 @@ export const filterWorkspacesTool: PanelTool = {
  */
 export const selectWorkspaceTool: PanelTool = {
   name: 'select_workspace',
-  description: 'Select a workspace by its ID to view its details and repositories',
+  description:
+    'Select a workspace by its ID to view its details and repositories',
   inputs: {
     type: 'object',
     properties: {
@@ -79,7 +80,8 @@ export const selectWorkspaceTool: PanelTool = {
  */
 export const openWorkspaceTool: PanelTool = {
   name: 'open_workspace',
-  description: 'Open a workspace in a dedicated window for full workspace management',
+  description:
+    'Open a workspace in a dedicated window for full workspace management',
   inputs: {
     type: 'object',
     properties: {
@@ -110,7 +112,8 @@ export const openWorkspaceTool: PanelTool = {
  */
 export const createWorkspaceTool: PanelTool = {
   name: 'create_workspace',
-  description: 'Create a new workspace with the specified name and optional description',
+  description:
+    'Create a new workspace with the specified name and optional description',
   inputs: {
     type: 'object',
     properties: {

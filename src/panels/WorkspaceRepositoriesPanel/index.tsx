@@ -27,9 +27,9 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
   events,
 }) => {
   const { theme } = useTheme();
-  const [repositoryLocations, setRepositoryLocations] = React.useState<Map<string, boolean>>(
-    new Map()
-  );
+  const [repositoryLocations, setRepositoryLocations] = React.useState<
+    Map<string, boolean>
+  >(new Map());
   const [copiedPath, setCopiedPath] = useState(false);
   const [isPathHovered, setIsPathHovered] = useState(false);
 
@@ -38,12 +38,15 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
 
   // Get data from context using framework's getSlice pattern
   const workspaceSlice = context.getSlice<Workspace>('workspace');
-  const repositoriesSlice = context.getSlice<AlexandriaEntry[]>('workspaceRepositories');
+  const repositoriesSlice = context.getSlice<AlexandriaEntry[]>(
+    'workspaceRepositories'
+  );
   const userHomePathSlice = context.getSlice<string>('userHomePath');
 
   const workspace = workspaceSlice?.data ?? null;
   const userHomePath = userHomePathSlice?.data ?? undefined;
-  const isLoading = workspaceSlice?.loading || repositoriesSlice?.loading || false;
+  const isLoading =
+    workspaceSlice?.loading || repositoriesSlice?.loading || false;
 
   // Sort repositories alphabetically by name
   const sortedRepositories = useMemo(() => {
@@ -54,7 +57,11 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
   // Check locations for all repositories
   useEffect(() => {
     const checkLocations = async () => {
-      if (!workspace?.id || !panelActions.isRepositoryInWorkspaceDirectory || !sortedRepositories.length) {
+      if (
+        !workspace?.id ||
+        !panelActions.isRepositoryInWorkspaceDirectory ||
+        !sortedRepositories.length
+      ) {
         return;
       }
 
@@ -62,7 +69,11 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
       await Promise.all(
         sortedRepositories.map(async (repo) => {
           try {
-            const isInWorkspace = await panelActions.isRepositoryInWorkspaceDirectory!(repo, workspace.id);
+            const isInWorkspace =
+              await panelActions.isRepositoryInWorkspaceDirectory!(
+                repo,
+                workspace.id
+              );
             if (isInWorkspace !== null) {
               locationMap.set(repo.path, isInWorkspace);
             }
@@ -78,21 +89,25 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
   }, [workspace, sortedRepositories, panelActions]);
 
   // Group repositories by location
-  const { repositoriesInWorkspace, repositoriesOutsideWorkspace } = useMemo(() => {
-    const inWorkspace: AlexandriaEntry[] = [];
-    const outsideWorkspace: AlexandriaEntry[] = [];
+  const { repositoriesInWorkspace, repositoriesOutsideWorkspace } =
+    useMemo(() => {
+      const inWorkspace: AlexandriaEntry[] = [];
+      const outsideWorkspace: AlexandriaEntry[] = [];
 
-    sortedRepositories.forEach((repo) => {
-      const isInWorkspace = repositoryLocations.get(repo.path);
-      if (isInWorkspace === true) {
-        inWorkspace.push(repo);
-      } else if (isInWorkspace === false) {
-        outsideWorkspace.push(repo);
-      }
-    });
+      sortedRepositories.forEach((repo) => {
+        const isInWorkspace = repositoryLocations.get(repo.path);
+        if (isInWorkspace === true) {
+          inWorkspace.push(repo);
+        } else if (isInWorkspace === false) {
+          outsideWorkspace.push(repo);
+        }
+      });
 
-    return { repositoriesInWorkspace: inWorkspace, repositoriesOutsideWorkspace: outsideWorkspace };
-  }, [sortedRepositories, repositoryLocations]);
+      return {
+        repositoriesInWorkspace: inWorkspace,
+        repositoriesOutsideWorkspace: outsideWorkspace,
+      };
+    }, [sortedRepositories, repositoryLocations]);
 
   // Event handlers
   const handleSelectRepository = useCallback(
@@ -124,7 +139,10 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
     async (repository: AlexandriaEntry) => {
       if (!workspace?.id || !panelActions.removeRepositoryFromWorkspace) return;
       try {
-        await panelActions.removeRepositoryFromWorkspace(repository.name, workspace.id);
+        await panelActions.removeRepositoryFromWorkspace(
+          repository.name,
+          workspace.id
+        );
       } catch (error) {
         console.error('Failed to remove repository from workspace:', error);
         alert(
@@ -137,10 +155,16 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
 
   const handleMoveToWorkspace = useCallback(
     async (repository: AlexandriaEntry) => {
-      if (!workspace?.id || !panelActions.moveRepositoryToWorkspaceDirectory) return;
+      if (!workspace?.id || !panelActions.moveRepositoryToWorkspaceDirectory)
+        return;
       try {
-        await panelActions.moveRepositoryToWorkspaceDirectory(repository, workspace.id);
-        setRepositoryLocations((prev) => new Map(prev).set(repository.path, true));
+        await panelActions.moveRepositoryToWorkspaceDirectory(
+          repository,
+          workspace.id
+        );
+        setRepositoryLocations((prev) =>
+          new Map(prev).set(repository.path, true)
+        );
       } catch (error) {
         console.error('Failed to move repository:', error);
         alert(
@@ -154,29 +178,40 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
   // Subscribe to panel events
   useEffect(() => {
     const unsubscribers = [
-      events.on<{ repositoryPath: string }>(`${PANEL_ID}:select-repository`, (event) => {
-        const path = event.payload?.repositoryPath;
-        if (path) {
-          const repository = sortedRepositories.find((r) => r.path === path);
-          if (repository) {
-            handleSelectRepository(repository);
+      events.on<{ repositoryPath: string }>(
+        `${PANEL_ID}:select-repository`,
+        (event) => {
+          const path = event.payload?.repositoryPath;
+          if (path) {
+            const repository = sortedRepositories.find((r) => r.path === path);
+            if (repository) {
+              handleSelectRepository(repository);
+            }
           }
         }
-      }),
+      ),
 
-      events.on<{ repositoryPath: string }>(`${PANEL_ID}:open-repository`, (event) => {
-        const path = event.payload?.repositoryPath;
-        if (path) {
-          const repository = sortedRepositories.find((r) => r.path === path);
-          if (repository) {
-            handleOpenRepository(repository);
+      events.on<{ repositoryPath: string }>(
+        `${PANEL_ID}:open-repository`,
+        (event) => {
+          const path = event.payload?.repositoryPath;
+          if (path) {
+            const repository = sortedRepositories.find((r) => r.path === path);
+            if (repository) {
+              handleOpenRepository(repository);
+            }
           }
         }
-      }),
+      ),
     ];
 
     return () => unsubscribers.forEach((unsub) => unsub());
-  }, [events, sortedRepositories, handleSelectRepository, handleOpenRepository]);
+  }, [
+    events,
+    sortedRepositories,
+    handleSelectRepository,
+    handleOpenRepository,
+  ]);
 
   const baseContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -336,7 +371,9 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
             type="button"
             onClick={async () => {
               try {
-                await navigator.clipboard.writeText(workspace.suggestedClonePath!);
+                await navigator.clipboard.writeText(
+                  workspace.suggestedClonePath!
+                );
                 setCopiedPath(true);
                 setTimeout(() => setCopiedPath(false), 2000);
               } catch (err) {
@@ -345,7 +382,11 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
             }}
             onMouseEnter={() => setIsPathHovered(true)}
             onMouseLeave={() => setIsPathHovered(false)}
-            title={copiedPath ? 'Copied!' : `Click to copy: ${workspace.suggestedClonePath}`}
+            title={
+              copiedPath
+                ? 'Copied!'
+                : `Click to copy: ${workspace.suggestedClonePath}`
+            }
             style={{
               marginLeft: 'auto',
               display: 'flex',
@@ -368,7 +409,11 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
               flexShrink: 0,
             }}
           >
-            {copiedPath ? <Check size={14} style={{ flexShrink: 0 }} /> : <Home size={14} style={{ flexShrink: 0 }} />}
+            {copiedPath ? (
+              <Check size={14} style={{ flexShrink: 0 }} />
+            ) : (
+              <Home size={14} style={{ flexShrink: 0 }} />
+            )}
             <span
               style={{
                 fontSize: `${theme.fontSizes[0]}px`,
@@ -444,7 +489,9 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
             >
               In Workspace Directory
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+            >
               {repositoriesInWorkspace.map((repository) => (
                 <LocalProjectCard
                   key={repository.path}
@@ -480,7 +527,9 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
             >
               Outside Workspace Directory
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+            >
               {repositoriesOutsideWorkspace.map((repository) => (
                 <LocalProjectCard
                   key={repository.path}
@@ -520,7 +569,9 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
  * - repository:selected
  * - repository:opened
  */
-export const WorkspaceRepositoriesPanel: React.FC<PanelComponentProps> = (props) => {
+export const WorkspaceRepositoriesPanel: React.FC<PanelComponentProps> = (
+  props
+) => {
   return <WorkspaceRepositoriesPanelContent {...props} />;
 };
 

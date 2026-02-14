@@ -81,7 +81,9 @@ export interface LocalProjectsPanelActions extends PanelActions {
    * @param entry - Alexandria entry to check
    * @returns Window state
    */
-  getRepositoryWindowState?: (entry: AlexandriaEntry) => Promise<RepositoryWindowState>;
+  getRepositoryWindowState?: (
+    entry: AlexandriaEntry
+  ) => Promise<RepositoryWindowState>;
 
   /**
    * Track a discovered repository (add to Alexandria)
@@ -96,11 +98,11 @@ export interface LocalProjectsPanelActions extends PanelActions {
  * Controls which action buttons are displayed
  */
 export type CardActionMode =
-  | 'default'           // Show open and remove buttons
-  | 'add-to-workspace'  // Show "Add to workspace" button only
-  | 'minimal'           // Show only open button
-  | 'workspace'         // Show open, move, and remove-from-workspace buttons
-  | 'discovered';       // Show track and open buttons (for untracked repos)
+  | 'default' // Show open and remove buttons
+  | 'add-to-workspace' // Show "Add to workspace" button only
+  | 'minimal' // Show only open button
+  | 'workspace' // Show open, move, and remove-from-workspace buttons
+  | 'discovered'; // Show track and open buttons (for untracked repos)
 
 /**
  * Props for LocalProjectCard component
@@ -161,7 +163,7 @@ export interface RepositoryAvatarProps {
  */
 export interface LocalProjectsPanelEventPayloads {
   /** Filter projects event */
-  'filter': { filter: string };
+  filter: { filter: string };
   /** Select project event */
   'select-repository': { identifier: string };
   /** Open project event */

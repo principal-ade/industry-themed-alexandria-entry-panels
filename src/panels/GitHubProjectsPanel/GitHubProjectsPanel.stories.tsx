@@ -41,7 +41,11 @@ export const Default: Story = {
     const events = createMockEvents();
 
     return (
-      <GitHubProjectsPanel context={context} actions={actions} events={events} />
+      <GitHubProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
     );
   },
 };
@@ -87,7 +91,11 @@ export const Loading: Story = {
     const events = createMockEvents();
 
     return (
-      <GitHubProjectsPanel context={context} actions={actions} events={events} />
+      <GitHubProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
     );
   },
 };
@@ -133,7 +141,11 @@ export const Empty: Story = {
     const events = createMockEvents();
 
     return (
-      <GitHubProjectsPanel context={context} actions={actions} events={events} />
+      <GitHubProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
     );
   },
 };
@@ -155,7 +167,8 @@ export const Error: Story = {
               organizations: [],
               orgRepositories: {},
               loading: false,
-              error: 'Failed to fetch repositories. Please check your network connection.',
+              error:
+                'Failed to fetch repositories. Please check your network connection.',
               currentUser: 'developer',
             } as GitHubProjectsSlice,
             loading: false,
@@ -180,7 +193,11 @@ export const Error: Story = {
     const events = createMockEvents();
 
     return (
-      <GitHubProjectsPanel context={context} actions={actions} events={events} />
+      <GitHubProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
     );
   },
 };
@@ -226,7 +243,11 @@ export const UserReposOnly: Story = {
     const events = createMockEvents();
 
     return (
-      <GitHubProjectsPanel context={context} actions={actions} events={events} />
+      <GitHubProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
     );
   },
 };
@@ -272,7 +293,11 @@ export const MultipleOrganizations: Story = {
     const events = createMockEvents();
 
     return (
-      <GitHubProjectsPanel context={context} actions={actions} events={events} />
+      <GitHubProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
     );
   },
 };
@@ -364,7 +389,11 @@ export const WithClonedRepos: Story = {
     const events = createMockEvents();
 
     return (
-      <GitHubProjectsPanel context={context} actions={actions} events={events} />
+      <GitHubProjectsPanel
+        context={context}
+        actions={actions}
+        events={events}
+      />
     );
   },
 };
