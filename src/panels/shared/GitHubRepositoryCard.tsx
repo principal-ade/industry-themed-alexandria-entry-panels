@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
+import { useDraggable } from '@principal-ade/panel-framework-core';
 import {
   ExternalLink,
   GitFork,
@@ -62,6 +63,26 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const isCloned = Boolean(localRepo);
+
+  // Add drag-and-drop functionality
+  // Don't make draggable if already in the collection
+  const { isDragging, ...dragProps } = useDraggable({
+    dataType: 'repository-github',
+    primaryData: repository.full_name,
+    metadata: {
+      name: repository.name,
+      owner: repository.owner.login,
+      description: repository.description,
+      language: repository.language,
+      stars: repository.stargazers_count,
+      isPrivate: repository.private,
+      htmlUrl: repository.html_url,
+      cloneUrl: repository.clone_url,
+    },
+    suggestedActions: ['add-to-collection'],
+    sourcePanel: 'github-repositories',
+    dragPreview: repository.full_name,
+  });
 
   const handleClone = useCallback(
     (e: React.MouseEvent) => {
@@ -127,6 +148,7 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      {...(isInCollection ? {} : dragProps)}
       style={{
         display: 'flex',
         alignItems: 'flex-start',
@@ -139,8 +161,15 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
             ? theme.colors.backgroundTertiary
             : 'transparent',
         border: `1px solid ${isSelected ? theme.colors.primary : 'transparent'}`,
-        cursor: onSelect ? 'pointer' : 'default',
-        transition: 'background-color 0.15s, border-color 0.15s',
+        cursor: isInCollection
+          ? 'not-allowed'
+          : isDragging
+            ? 'grabbing'
+            : onSelect
+              ? 'grab'
+              : 'default',
+        opacity: isDragging ? 0.5 : isInCollection ? 0.7 : 1,
+        transition: 'background-color 0.15s, border-color 0.15s, opacity 0.15s',
       }}
     >
       {/* Avatar */}
