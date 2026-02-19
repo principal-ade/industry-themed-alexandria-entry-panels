@@ -16,11 +16,59 @@ import { githubProjectsPanelTools } from './panels/GitHubProjectsPanel/tools';
 import { userProfilePanelTools } from './panels/UserProfilePanel/tools';
 import { userCollectionsPanelTools } from './panels/UserCollectionsPanel/tools';
 
+// Import panel-specific types for proper typing
+import type {
+  LocalProjectsPanelActions,
+  LocalProjectsPanelContext,
+} from './panels/LocalProjectsPanel/types';
+import type {
+  WorkspaceRepositoriesPanelActions,
+  WorkspaceRepositoriesPanelContext,
+} from './panels/WorkspaceRepositoriesPanel/types';
+import type {
+  WorkspacesListPanelActions,
+  WorkspacesListPanelContext,
+} from './panels/WorkspacesListPanel/types';
+import type {
+  WorkspaceCollectionPanelActions,
+  WorkspaceCollectionPanelContext,
+} from './panels/WorkspaceCollectionPanel/types';
+import type {
+  GitHubStarredPanelActions,
+  GitHubStarredPanelContext,
+} from './panels/GitHubStarredPanel/types';
+import type {
+  GitHubProjectsPanelActions,
+  GitHubProjectsPanelContext,
+} from './panels/GitHubProjectsPanel/types';
+import type {
+  UserProfilePanelActions,
+  UserProfilePanelContext,
+} from './panels/UserProfilePanel/types';
+import type {
+  UserCollectionsPanelActions,
+  UserCollectionsPanelContext,
+} from './panels/UserCollectionsPanel/types';
+
+/**
+ * Union type of all panel definitions with their specific typed contexts
+ */
+type AlexandriaPanelDefinition =
+  | PanelDefinition<LocalProjectsPanelActions, LocalProjectsPanelContext>
+  | PanelDefinition<WorkspaceRepositoriesPanelActions, WorkspaceRepositoriesPanelContext>
+  | PanelDefinition<WorkspacesListPanelActions, WorkspacesListPanelContext>
+  | PanelDefinition<WorkspaceCollectionPanelActions, WorkspaceCollectionPanelContext>
+  | PanelDefinition<GitHubStarredPanelActions, GitHubStarredPanelContext>
+  | PanelDefinition<GitHubProjectsPanelActions, GitHubProjectsPanelContext>
+  | PanelDefinition<UserProfilePanelActions, UserProfilePanelContext>
+  | PanelDefinition<UserCollectionsPanelActions, UserCollectionsPanelContext>;
+
 /**
  * Export array of panel definitions.
  * This is the required export for panel extensions.
+ * Each panel has its typed actions and context requirements.
  */
-export const panels: PanelDefinition[] = [
+export const panels: AlexandriaPanelDefinition[] = [
   {
     metadata: {
       id: 'industry-theme.local-projects',
@@ -32,7 +80,7 @@ export const panels: PanelDefinition[] = [
       slices: ['alexandriaRepositories'],
       tools: localProjectsPanelTools,
     },
-    component: LocalProjectsPanel as any,
+    component: LocalProjectsPanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -63,7 +111,7 @@ export const panels: PanelDefinition[] = [
       slices: ['workspace', 'workspaceRepositories'],
       tools: workspaceRepositoriesPanelTools,
     },
-    component: WorkspaceRepositoriesPanel as any,
+    component: WorkspaceRepositoriesPanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -88,7 +136,7 @@ export const panels: PanelDefinition[] = [
       slices: ['workspaces'],
       tools: workspacesListPanelTools,
     },
-    component: WorkspacesListPanel as any,
+    component: WorkspacesListPanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -119,7 +167,7 @@ export const panels: PanelDefinition[] = [
       slices: ['workspace', 'workspaceRepositories'],
       tools: workspaceCollectionPanelTools,
     },
-    component: WorkspaceCollectionPanel as any,
+    component: WorkspaceCollectionPanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -144,7 +192,7 @@ export const panels: PanelDefinition[] = [
       slices: ['githubStarred', 'alexandriaRepositories'],
       tools: githubStarredPanelTools,
     },
-    component: GitHubStarredPanel as any,
+    component: GitHubStarredPanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -174,7 +222,7 @@ export const panels: PanelDefinition[] = [
       slices: ['githubProjects', 'alexandriaRepositories'],
       tools: githubProjectsPanelTools,
     },
-    component: GitHubProjectsPanel as any,
+    component: GitHubProjectsPanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -205,7 +253,7 @@ export const panels: PanelDefinition[] = [
       slices: ['userProfile'],
       tools: userProfilePanelTools,
     },
-    component: UserProfilePanel as any,
+    component: UserProfilePanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -235,7 +283,7 @@ export const panels: PanelDefinition[] = [
       slices: ['userCollections'],
       tools: userCollectionsPanelTools,
     },
-    component: UserCollectionsPanel as any,
+    component: UserCollectionsPanel,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
