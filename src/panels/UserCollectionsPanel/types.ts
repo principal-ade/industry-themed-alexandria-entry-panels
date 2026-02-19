@@ -5,7 +5,7 @@
  * user-created repository collections that sync to GitHub.
  */
 
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 
 /**
  * Collection type - matches @principal-ai/alexandria-collections
@@ -184,6 +184,23 @@ export interface RepositoryRemovedPayload {
   collectionId: string;
   repositoryId: string;
 }
+
+/**
+ * Context interface for UserCollectionsPanel
+ * Declares which slices this panel requires
+ */
+export interface UserCollectionsPanelContext {
+  /** User collections data slice (required) */
+  userCollections: DataSlice<UserCollectionsSlice>;
+}
+
+/**
+ * Props type for UserCollectionsPanel component
+ */
+export type UserCollectionsPanelPropsTyped = PanelComponentProps<
+  UserCollectionsPanelActions,
+  UserCollectionsPanelContext
+>;
 
 /**
  * Event payloads for UserCollectionsPanel

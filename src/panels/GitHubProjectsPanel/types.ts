@@ -2,7 +2,7 @@
  * GitHubProjectsPanel Type Definitions
  */
 
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 import type {
   GitHubRepository,
   GitHubOrganization,
@@ -55,6 +55,29 @@ export interface GitHubProjectsPanelActions extends PanelActions {
    */
   addToCollection?: (repo: GitHubRepository) => Promise<void>;
 }
+
+/**
+ * Context interface for GitHubProjectsPanel
+ * Declares which slices this panel requires and uses
+ */
+export interface GitHubProjectsPanelContext {
+  /** GitHub projects data slice (required) */
+  githubProjects: DataSlice<GitHubProjectsSlice>;
+  /** Alexandria repositories data slice (optional - for showing local repo status) */
+  alexandriaRepositories?: DataSlice<any>;
+  /** Workspace data slice (optional - for collection context) */
+  workspace?: DataSlice<any>;
+  /** Workspace repositories data slice (optional - for collection repos) */
+  workspaceRepositories?: DataSlice<any>;
+}
+
+/**
+ * Props type for GitHubProjectsPanel component
+ */
+export type GitHubProjectsPanelPropsTyped = PanelComponentProps<
+  GitHubProjectsPanelActions,
+  GitHubProjectsPanelContext
+>;
 
 /**
  * Event payloads for GitHubProjectsPanel

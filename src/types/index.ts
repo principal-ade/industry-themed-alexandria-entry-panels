@@ -2,6 +2,7 @@
  * Panel Extension Type Definitions
  *
  * Re-exports core types from @principal-ade/panel-framework-core
+ * and Alexandria-specific types
  */
 
 // Re-export all core types from panel-framework-core
@@ -40,3 +41,13 @@ export type {
   JsonSchema,
   PanelEventCallTemplate,
 } from '@principal-ade/panel-framework-core';
+
+// Re-export Alexandria-specific shared types
+export type {
+  AlexandriaPanelsActions,
+  AlexandriaPanelsContext,
+  AlexandriaPanelProps,
+} from './alexandria-panel-types';
+
+// Re-export all individual panel types
+export type * from './alexandria-panel-types';

@@ -1,23 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
 import { AlertCircle, Loader2, RotateCcw, Search, Star, X } from 'lucide-react';
-import type { PanelComponentProps } from '../../types';
-import type { AlexandriaRepositoriesSlice } from '../LocalProjectsPanel/types';
-import type { GitHubStarredSlice, GitHubStarredPanelActions } from './types';
+import type {
+  GitHubStarredSlice,
+  GitHubStarredPanelActions,
+  GitHubStarredPanelPropsTyped,
+} from './types';
 import type {
   GitHubRepository,
   LocalRepositoryReference,
 } from '../shared/github-types';
-import type {
-  WorkspaceCollectionSlice,
-  WorkspaceRepositoriesSlice,
-} from '../WorkspaceCollectionPanel/types';
+import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
 import '../shared/styles.css';
 
 const PANEL_ID = 'industry-theme.github-starred';
 
-export interface GitHubStarredPanelProps extends PanelComponentProps {
+export interface GitHubStarredPanelProps extends GitHubStarredPanelPropsTyped {
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
 }
@@ -66,18 +65,13 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
     setFilter('');
   }, []);
 
-  // Get data from slices
-  const starredSlice = context.getSlice<GitHubStarredSlice>('githubStarred');
-  const localReposSlice = context.getSlice<AlexandriaRepositoriesSlice>(
-    'alexandriaRepositories'
-  );
-
-  // Get workspace/collection context for "Add to Collection" functionality
-  const workspaceSlice =
-    context.getSlice<WorkspaceCollectionSlice>('workspace');
-  const workspaceReposSlice = context.getSlice<WorkspaceRepositoriesSlice>(
-    'workspaceRepositories'
-  );
+  // Get data from typed context slices (direct property access)
+  const {
+    githubStarred: starredSlice,
+    alexandriaRepositories: localReposSlice,
+    workspace: workspaceSlice,
+    workspaceRepositories: workspaceReposSlice,
+  } = context;
 
   const repositories = useMemo(
     () => starredSlice?.data?.repositories || [],
@@ -101,7 +95,7 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
 
   // Set of repo full_names already in the collection for quick lookup
   const collectionRepoSet = useMemo(() => {
-    return new Set(collectionRepos.map((r) => r.full_name));
+    return new Set(collectionRepos.map((r: GitHubRepository) => r.full_name));
   }, [collectionRepos]);
 
   // Cast actions to panel-specific type
@@ -111,7 +105,7 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
   const localRepoMap = useMemo(() => {
     const map = new Map<string, LocalRepositoryReference>();
 
-    localRepos.forEach((entry) => {
+    localRepos.forEach((entry: AlexandriaEntry) => {
       // Index by GitHub full_name (owner/repo format)
       if (entry.github?.id) {
         map.set(entry.github.id, {

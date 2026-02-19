@@ -5,7 +5,7 @@
  * including their organizations and starred repositories.
  */
 
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 
 /**
  * GitHub User profile - matches GitHubUser from electron-app
@@ -173,6 +173,23 @@ export interface StarredRepositoryCardProps {
   /** Callback when open in browser is clicked */
   onOpenInBrowser?: (repository: GitHubRepository) => void;
 }
+
+/**
+ * Context interface for UserProfilePanel
+ * Declares which slices this panel requires
+ */
+export interface UserProfilePanelContext {
+  /** User profile data slice (required) */
+  userProfile: DataSlice<UserProfileSlice>;
+}
+
+/**
+ * Props type for UserProfilePanel component
+ */
+export type UserProfilePanelPropsTyped = PanelComponentProps<
+  UserProfilePanelActions,
+  UserProfilePanelContext
+>;
 
 /**
  * Organization selected event payload

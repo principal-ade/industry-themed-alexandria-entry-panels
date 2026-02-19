@@ -2,7 +2,7 @@
  * GitHubStarredPanel Type Definitions
  */
 
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
 
 /**
@@ -46,6 +46,29 @@ export interface GitHubStarredPanelActions extends PanelActions {
    */
   addToCollection?: (repo: GitHubRepository) => Promise<void>;
 }
+
+/**
+ * Context interface for GitHubStarredPanel
+ * Declares which slices this panel requires and uses
+ */
+export interface GitHubStarredPanelContext {
+  /** GitHub starred repositories data slice (required) */
+  githubStarred: DataSlice<GitHubStarredSlice>;
+  /** Alexandria repositories data slice (optional - for showing local repo status) */
+  alexandriaRepositories?: DataSlice<any>;
+  /** Workspace data slice (optional - for collection context) */
+  workspace?: DataSlice<any>;
+  /** Workspace repositories data slice (optional - for collection repos) */
+  workspaceRepositories?: DataSlice<any>;
+}
+
+/**
+ * Props type for GitHubStarredPanel component
+ */
+export type GitHubStarredPanelPropsTyped = PanelComponentProps<
+  GitHubStarredPanelActions,
+  GitHubStarredPanelContext
+>;
 
 /**
  * Event payloads for GitHubStarredPanel

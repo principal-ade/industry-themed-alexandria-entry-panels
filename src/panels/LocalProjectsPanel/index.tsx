@@ -4,11 +4,12 @@ import { Search, Plus, FolderGit2, X, RefreshCw } from 'lucide-react';
 import './LocalProjectsPanel.css';
 import '../shared/styles.css';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
-import type { PanelComponentProps } from '../../types';
 import { LocalProjectCard } from './LocalProjectCard';
 import type {
   AlexandriaRepositoriesSlice,
   LocalProjectsPanelActions,
+  LocalProjectsPanelContext,
+  LocalProjectsPanelPropsTyped,
   RepositoryWindowState,
   DiscoveredRepository,
 } from './types';
@@ -26,7 +27,7 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
   payload,
 });
 
-export interface LocalProjectsPanelProps extends PanelComponentProps {
+export interface LocalProjectsPanelProps extends LocalProjectsPanelPropsTyped {
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
   /** Whether to disable the copy paths functionality in list items */
@@ -73,13 +74,11 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
     setFilter('');
   }, []);
 
-  // Get extended actions (type assertion for panel-specific actions)
-  const panelActions = actions as LocalProjectsPanelActions;
+  // Get extended actions (actions are already typed via LocalProjectsPanelPropsTyped)
+  const panelActions = actions;
 
-  // Get repositories from context slice
-  const repoSlice = context.getSlice<AlexandriaRepositoriesSlice>(
-    'alexandriaRepositories'
-  );
+  // Get repositories from typed context slice (direct property access)
+  const { alexandriaRepositories: repoSlice, userCollections: collectionSlice, selectedCollection } = context;
   const repositories = useMemo(
     () => repoSlice?.data?.repositories || [],
     [repoSlice?.data?.repositories]
@@ -90,14 +89,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   );
   const loading = repoSlice?.loading ?? false;
 
-  // Get selected collection info (for visual indicators)
-  // The context might have selectedCollection if used in WorldsView
-  const selectedCollection = 'selectedCollection' in context
-    ? (context.selectedCollection as Collection | null)
-    : null;
-
   // Get collection memberships to check which repos are in the selected collection
-  const collectionSlice = context.getSlice<UserCollectionsSlice>('userCollections');
   const collectionMemberships = useMemo(
     () => collectionSlice?.data?.memberships || [],
     [collectionSlice?.data]

@@ -32,7 +32,7 @@ export const panels: PanelDefinition[] = [
       slices: ['alexandriaRepositories'],
       tools: localProjectsPanelTools,
     },
-    component: LocalProjectsPanel,
+    component: LocalProjectsPanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -63,7 +63,7 @@ export const panels: PanelDefinition[] = [
       slices: ['workspace', 'workspaceRepositories'],
       tools: workspaceRepositoriesPanelTools,
     },
-    component: WorkspaceRepositoriesPanel,
+    component: WorkspaceRepositoriesPanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -88,7 +88,7 @@ export const panels: PanelDefinition[] = [
       slices: ['workspaces'],
       tools: workspacesListPanelTools,
     },
-    component: WorkspacesListPanel,
+    component: WorkspacesListPanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -119,7 +119,7 @@ export const panels: PanelDefinition[] = [
       slices: ['workspace', 'workspaceRepositories'],
       tools: workspaceCollectionPanelTools,
     },
-    component: WorkspaceCollectionPanel,
+    component: WorkspaceCollectionPanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -144,7 +144,7 @@ export const panels: PanelDefinition[] = [
       slices: ['githubStarred', 'alexandriaRepositories'],
       tools: githubStarredPanelTools,
     },
-    component: GitHubStarredPanel,
+    component: GitHubStarredPanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -174,7 +174,7 @@ export const panels: PanelDefinition[] = [
       slices: ['githubProjects', 'alexandriaRepositories'],
       tools: githubProjectsPanelTools,
     },
-    component: GitHubProjectsPanel,
+    component: GitHubProjectsPanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -205,7 +205,7 @@ export const panels: PanelDefinition[] = [
       slices: ['userProfile'],
       tools: userProfilePanelTools,
     },
-    component: UserProfilePanel,
+    component: UserProfilePanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console
@@ -235,7 +235,7 @@ export const panels: PanelDefinition[] = [
       slices: ['userCollections'],
       tools: userCollectionsPanelTools,
     },
-    component: UserCollectionsPanel,
+    component: UserCollectionsPanel as any,
 
     onMount: async (context: PanelContextValue) => {
       // eslint-disable-next-line no-console

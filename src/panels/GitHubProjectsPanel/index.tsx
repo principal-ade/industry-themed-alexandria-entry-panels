@@ -12,23 +12,22 @@ import {
   User,
   X,
 } from 'lucide-react';
-import type { PanelComponentProps } from '../../types';
-import type { AlexandriaRepositoriesSlice } from '../LocalProjectsPanel/types';
-import type { GitHubProjectsSlice, GitHubProjectsPanelActions } from './types';
+import type {
+  GitHubProjectsSlice,
+  GitHubProjectsPanelActions,
+  GitHubProjectsPanelPropsTyped,
+} from './types';
 import type {
   GitHubRepository,
   LocalRepositoryReference,
 } from '../shared/github-types';
-import type {
-  WorkspaceCollectionSlice,
-  WorkspaceRepositoriesSlice,
-} from '../WorkspaceCollectionPanel/types';
+import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
 import '../shared/styles.css';
 
 const PANEL_ID = 'industry-theme.github-projects';
 
-export interface GitHubProjectsPanelProps extends PanelComponentProps {
+export interface GitHubProjectsPanelProps extends GitHubProjectsPanelPropsTyped {
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
 }
@@ -80,18 +79,13 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
     setFilter('');
   }, []);
 
-  // Get data from slices
-  const projectsSlice = context.getSlice<GitHubProjectsSlice>('githubProjects');
-  const localReposSlice = context.getSlice<AlexandriaRepositoriesSlice>(
-    'alexandriaRepositories'
-  );
-
-  // Get workspace/collection context for "Add to Collection" functionality
-  const workspaceSlice =
-    context.getSlice<WorkspaceCollectionSlice>('workspace');
-  const workspaceReposSlice = context.getSlice<WorkspaceRepositoriesSlice>(
-    'workspaceRepositories'
-  );
+  // Get data from typed context slices (direct property access)
+  const {
+    githubProjects: projectsSlice,
+    alexandriaRepositories: localReposSlice,
+    workspace: workspaceSlice,
+    workspaceRepositories: workspaceReposSlice,
+  } = context;
 
   const userRepositories = useMemo(
     () => projectsSlice?.data?.userRepositories || [],
@@ -124,7 +118,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
 
   // Set of repo full_names already in the collection for quick lookup
   const collectionRepoSet = useMemo(() => {
-    return new Set(collectionRepos.map((r) => r.full_name));
+    return new Set(collectionRepos.map((r: GitHubRepository) => r.full_name));
   }, [collectionRepos]);
 
   // Cast actions to panel-specific type
@@ -134,7 +128,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
   const localRepoMap = useMemo(() => {
     const map = new Map<string, LocalRepositoryReference>();
 
-    localRepos.forEach((entry) => {
+    localRepos.forEach((entry: AlexandriaEntry) => {
       if (entry.github?.id) {
         map.set(entry.github.id, {
           path: entry.path,

@@ -6,7 +6,7 @@
  * using GitHub repository data rather than local filesystem entries.
  */
 
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
 
 /**
@@ -108,6 +108,25 @@ export interface RepositoryNavigatePayload {
   /** Full repository data if available */
   repository?: GitHubRepository;
 }
+
+/**
+ * Context interface for WorkspaceCollectionPanel
+ * Declares which slices this panel requires
+ */
+export interface WorkspaceCollectionPanelContext {
+  /** Workspace data slice (required) */
+  workspace: DataSlice<WorkspaceCollectionSlice>;
+  /** Workspace repositories data slice (required) */
+  workspaceRepositories: DataSlice<WorkspaceRepositoriesSlice>;
+}
+
+/**
+ * Props type for WorkspaceCollectionPanel component
+ */
+export type WorkspaceCollectionPanelPropsTyped = PanelComponentProps<
+  WorkspaceCollectionPanelActions,
+  WorkspaceCollectionPanelContext
+>;
 
 /**
  * Event payloads for WorkspaceCollectionPanel

@@ -11,11 +11,12 @@ import {
   Loader2,
   RefreshCw,
 } from 'lucide-react';
-import type { PanelComponentProps } from '../../types';
 import type {
   Collection,
   UserCollectionsSlice,
   UserCollectionsPanelActions,
+  UserCollectionsPanelContext,
+  UserCollectionsPanelPropsTyped,
   CollectionCardProps,
 } from './types';
 
@@ -30,7 +31,7 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
   payload,
 });
 
-export interface UserCollectionsPanelProps extends PanelComponentProps {
+export interface UserCollectionsPanelProps extends UserCollectionsPanelPropsTyped {
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
 }
@@ -230,12 +231,11 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
     string | null
   >(null);
 
-  // Get extended actions
-  const panelActions = actions as UserCollectionsPanelActions;
+  // Get extended actions (actions are already typed via UserCollectionsPanelPropsTyped)
+  const panelActions = actions;
 
-  // Get collections from context slice
-  const collectionsSlice =
-    context.getSlice<UserCollectionsSlice>('userCollections');
+  // Get collections from typed context slice (direct property access)
+  const { userCollections: collectionsSlice } = context;
   const collections = useMemo(
     () => collectionsSlice?.data?.collections || [],
     [collectionsSlice?.data?.collections]

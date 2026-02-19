@@ -5,7 +5,7 @@
  */
 
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 
 /**
  * Discovered repository - a git repo found but not tracked in Alexandria
@@ -147,6 +147,27 @@ export interface LocalProjectCardProps {
   /** Name of the selected collection (for tooltip) */
   selectedCollectionName?: string;
 }
+
+/**
+ * Context interface for LocalProjectsPanel
+ * Declares which slices this panel requires
+ */
+export interface LocalProjectsPanelContext {
+  /** Alexandria repositories data slice (required) */
+  alexandriaRepositories: DataSlice<AlexandriaRepositoriesSlice>;
+  /** User collections data slice (optional - used for visual indicators) */
+  userCollections?: DataSlice<import('../UserCollectionsPanel/types').UserCollectionsSlice>;
+  /** Selected collection (optional - used in WorldsView) */
+  selectedCollection?: import('../UserCollectionsPanel/types').Collection | null;
+}
+
+/**
+ * Props type for LocalProjectsPanel component
+ */
+export type LocalProjectsPanelPropsTyped = PanelComponentProps<
+  LocalProjectsPanelActions,
+  LocalProjectsPanelContext
+>;
 
 /**
  * Props for RepositoryAvatar component

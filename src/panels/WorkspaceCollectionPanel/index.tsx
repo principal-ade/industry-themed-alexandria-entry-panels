@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
 import { Folder, Loader2, Search, Trash2, X } from 'lucide-react';
-import type { PanelComponentProps } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
 import type {
   WorkspaceCollectionSlice,
   WorkspaceRepositoriesSlice,
   WorkspaceCollectionPanelActions,
+  WorkspaceCollectionPanelPropsTyped,
 } from './types';
 import { RepositoryAvatar } from '../LocalProjectsPanel/RepositoryAvatar';
 import '../shared/styles.css';
 
 type SortField = 'name' | 'updated';
 
-export interface WorkspaceCollectionPanelProps extends PanelComponentProps {
+export interface WorkspaceCollectionPanelProps extends WorkspaceCollectionPanelPropsTyped {
   selectedRepository?: string; // full_name like "owner/repo"
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
@@ -338,12 +338,11 @@ const WorkspaceCollectionPanelContent: React.FC<
   // Get extended actions
   const panelActions = actions as WorkspaceCollectionPanelActions;
 
-  // Get data from context using framework's getSlice pattern
-  const workspaceSlice =
-    context.getSlice<WorkspaceCollectionSlice>('workspace');
-  const repositoriesSlice = context.getSlice<WorkspaceRepositoriesSlice>(
-    'workspaceRepositories'
-  );
+  // Get data from typed context slices (direct property access)
+  const {
+    workspace: workspaceSlice,
+    workspaceRepositories: repositoriesSlice,
+  } = context;
 
   const workspace = workspaceSlice?.data?.workspace ?? null;
   const repositories = repositoriesSlice?.data?.repositories ?? [];

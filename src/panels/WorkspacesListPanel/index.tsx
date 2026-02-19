@@ -1,12 +1,13 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
 import { Search, Plus, X, Layers } from 'lucide-react';
-import type { PanelComponentProps } from '../../types';
 import { WorkspaceCard } from './WorkspaceCard';
 import type {
   Workspace,
   WorkspacesSlice,
   WorkspacesListPanelActions,
+  WorkspacesListPanelContext,
+  WorkspacesListPanelPropsTyped,
 } from './types';
 
 // Panel event prefix
@@ -20,7 +21,7 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
   payload,
 });
 
-export interface WorkspacesListPanelProps extends PanelComponentProps {
+export interface WorkspacesListPanelProps extends WorkspacesListPanelPropsTyped {
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
 }
@@ -57,11 +58,11 @@ const WorkspacesListPanelContent: React.FC<WorkspacesListPanelProps> = ({
     });
   }, [defaultShowSearch]);
 
-  // Get extended actions
-  const panelActions = actions as WorkspacesListPanelActions;
+  // Get extended actions (actions are already typed via WorkspacesListPanelPropsTyped)
+  const panelActions = actions;
 
-  // Get workspaces from context slice
-  const workspacesSlice = context.getSlice<WorkspacesSlice>('workspaces');
+  // Get workspaces from typed context slice (direct property access)
+  const { workspaces: workspacesSlice } = context;
   const workspaces = useMemo(
     () => workspacesSlice?.data?.workspaces || [],
     [workspacesSlice?.data?.workspaces]

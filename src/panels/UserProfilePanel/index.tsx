@@ -14,12 +14,13 @@ import {
   X,
   Circle,
 } from 'lucide-react';
-import type { PanelComponentProps } from '../../types';
 import type {
   GitHubOrganization,
   GitHubRepository,
   UserProfileSlice,
   UserProfilePanelActions,
+  UserProfilePanelContext,
+  UserProfilePanelPropsTyped,
   UserProfileView,
   UserPresenceStatus,
 } from './types';
@@ -298,7 +299,7 @@ const RepositoryCard: React.FC<{
 /**
  * UserProfilePanelContent - Internal component that uses theme
  */
-const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
+const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
   context,
   actions,
   events,
@@ -309,11 +310,11 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchBox, setShowSearchBox] = useState(false);
 
-  // Get extended actions
-  const panelActions = actions as UserProfilePanelActions;
+  // Get extended actions (actions are already typed via UserProfilePanelPropsTyped)
+  const panelActions = actions;
 
-  // Get user profile data from context slice
-  const profileSlice = context.getSlice<UserProfileSlice>('userProfile');
+  // Get user profile data from typed context slice (direct property access)
+  const { userProfile: profileSlice } = context;
   const user = profileSlice?.data?.user ?? null;
   const organizations = useMemo(
     () => profileSlice?.data?.organizations || [],
@@ -970,7 +971,7 @@ const UserProfilePanelContent: React.FC<PanelComponentProps> = ({
  * - industry-theme.user-profile:clone-repository
  * - industry-theme.user-profile:filter-starred
  */
-export const UserProfilePanel: React.FC<PanelComponentProps> = (props) => {
+export const UserProfilePanel: React.FC<UserProfilePanelPropsTyped> = (props) => {
   return <UserProfilePanelContent {...props} />;
 };
 

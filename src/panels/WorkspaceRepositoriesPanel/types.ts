@@ -5,7 +5,7 @@
  */
 
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 
 /**
  * Workspace type
@@ -17,6 +17,31 @@ export interface Workspace {
   createdAt: number;
   updatedAt: number;
   suggestedClonePath?: string;
+}
+
+/**
+ * Data slice for workspace
+ */
+export interface WorkspaceSlice {
+  /** The current workspace */
+  workspace: Workspace | null;
+  /** Loading state */
+  loading: boolean;
+  /** Error message if loading failed */
+  error?: string;
+}
+
+/**
+ * Data slice for workspace repositories
+ * Contains Alexandria entries for repos in the workspace
+ */
+export interface WorkspaceRepositoriesSlice {
+  /** Repositories in the workspace */
+  repositories: AlexandriaEntry[];
+  /** Loading state */
+  loading: boolean;
+  /** Error message if loading failed */
+  error?: string;
 }
 
 /**
@@ -58,6 +83,27 @@ export interface RepositoryOpenedPayload {
   repositoryId: string;
   repository: AlexandriaEntry;
 }
+
+/**
+ * Context interface for WorkspaceRepositoriesPanel
+ * Declares which slices this panel requires
+ */
+export interface WorkspaceRepositoriesPanelContext {
+  /** Workspace data slice (required) */
+  workspace: DataSlice<WorkspaceSlice>;
+  /** Workspace repositories data slice (required) */
+  workspaceRepositories: DataSlice<WorkspaceRepositoriesSlice>;
+  /** User home path (optional - for display purposes) */
+  userHomePath?: DataSlice<string>;
+}
+
+/**
+ * Props type for WorkspaceRepositoriesPanel component
+ */
+export type WorkspaceRepositoriesPanelPropsTyped = PanelComponentProps<
+  WorkspaceRepositoriesPanelActions,
+  WorkspaceRepositoriesPanelContext
+>;
 
 /**
  * Event payloads for WorkspaceRepositoriesPanel

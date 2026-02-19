@@ -4,7 +4,7 @@
  * Types for the Workspaces List panel
  */
 
-import type { PanelActions } from '../../types';
+import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 
 /**
  * Workspace type - Extended for list panel use
@@ -144,6 +144,23 @@ export interface WorkspaceCreatedPayload {
 export interface WorkspaceDeletedPayload {
   workspaceId: string;
 }
+
+/**
+ * Context interface for WorkspacesListPanel
+ * Declares which slices this panel requires
+ */
+export interface WorkspacesListPanelContext {
+  /** Workspaces data slice (required) */
+  workspaces: DataSlice<WorkspacesSlice>;
+}
+
+/**
+ * Props type for WorkspacesListPanel component
+ */
+export type WorkspacesListPanelPropsTyped = PanelComponentProps<
+  WorkspacesListPanelActions,
+  WorkspacesListPanelContext
+>;
 
 /**
  * Event payloads for WorkspacesListPanel

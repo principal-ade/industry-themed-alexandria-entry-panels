@@ -2,10 +2,16 @@ import React, { useMemo, useEffect, useCallback, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
 import { Folder, Home, Check } from 'lucide-react';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
-import type { PanelComponentProps } from '../../types';
 import { LocalProjectCard } from '../LocalProjectsPanel/LocalProjectCard';
 import '../LocalProjectsPanel/LocalProjectsPanel.css';
-import type { Workspace, WorkspaceRepositoriesPanelActions } from './types';
+import type {
+  Workspace,
+  WorkspaceRepositoriesPanelActions,
+  WorkspaceRepositoriesPanelContext,
+  WorkspaceRepositoriesPanelPropsTyped,
+  WorkspaceSlice,
+  WorkspaceRepositoriesSlice,
+} from './types';
 
 // Panel event prefix
 const PANEL_ID = 'industry-theme.workspace-repositories';
@@ -21,7 +27,7 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
 /**
  * WorkspaceRepositoriesPanelContent - Internal component that uses theme
  */
-const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
+const WorkspaceRepositoriesPanelContent: React.FC<WorkspaceRepositoriesPanelPropsTyped> = ({
   context,
   actions,
   events,
@@ -33,26 +39,22 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
   const [copiedPath, setCopiedPath] = useState(false);
   const [isPathHovered, setIsPathHovered] = useState(false);
 
-  // Get extended actions
-  const panelActions = actions as WorkspaceRepositoriesPanelActions;
+  // Get extended actions (actions are already typed via WorkspaceRepositoriesPanelPropsTyped)
+  const panelActions = actions;
 
-  // Get data from context using framework's getSlice pattern
-  const workspaceSlice = context.getSlice<Workspace>('workspace');
-  const repositoriesSlice = context.getSlice<AlexandriaEntry[]>(
-    'workspaceRepositories'
-  );
-  const userHomePathSlice = context.getSlice<string>('userHomePath');
+  // Get data from typed context slices (direct property access)
+  const { workspace: workspaceSlice, workspaceRepositories: repositoriesSlice, userHomePath: userHomePathSlice } = context;
 
-  const workspace = workspaceSlice?.data ?? null;
+  const workspace = workspaceSlice?.data?.workspace ?? null;
   const userHomePath = userHomePathSlice?.data ?? undefined;
   const isLoading =
     workspaceSlice?.loading || repositoriesSlice?.loading || false;
 
   // Sort repositories alphabetically by name
   const sortedRepositories = useMemo(() => {
-    const repos = repositoriesSlice?.data ?? [];
+    const repos = repositoriesSlice?.data?.repositories ?? [];
     return [...repos].sort((a, b) => a.name.localeCompare(b.name));
-  }, [repositoriesSlice?.data]);
+  }, [repositoriesSlice?.data?.repositories]);
 
   // Check locations for all repositories
   useEffect(() => {
@@ -569,7 +571,7 @@ const WorkspaceRepositoriesPanelContent: React.FC<PanelComponentProps> = ({
  * - repository:selected
  * - repository:opened
  */
-export const WorkspaceRepositoriesPanel: React.FC<PanelComponentProps> = (
+export const WorkspaceRepositoriesPanel: React.FC<WorkspaceRepositoriesPanelPropsTyped> = (
   props
 ) => {
   return <WorkspaceRepositoriesPanelContent {...props} />;
