@@ -466,6 +466,7 @@ export type {
 
 export type {
   Workspace,
+  WorkspaceSlice,
   WorkspaceRepositoriesPanelActions,
   RepositorySelectedPayload,
   RepositoryOpenedPayload,
