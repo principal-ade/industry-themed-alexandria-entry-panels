@@ -21,7 +21,7 @@ import type {
   GitHubRepository,
   LocalRepositoryReference,
 } from '../shared/github-types';
-import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
+import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library';
 import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
 import '../shared/styles.css';
 

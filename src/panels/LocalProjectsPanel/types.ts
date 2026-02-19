@@ -4,7 +4,7 @@
  * Types for the Local Projects panel, extending core-library types
  */
 
-import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
+import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library';
 import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 
 /**

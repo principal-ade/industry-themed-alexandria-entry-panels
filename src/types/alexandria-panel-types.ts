@@ -7,7 +7,7 @@
  */
 
 import type { PanelActions, DataSlice, PanelComponentProps } from '@principal-ade/panel-framework-core';
-import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
+import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library';
 
 // Re-export individual panel types
 export type {
