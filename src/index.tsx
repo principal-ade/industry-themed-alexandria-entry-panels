@@ -459,6 +459,7 @@ export type {
   RepositoryAvatarProps,
   AlexandriaRepositoriesSlice,
   LocalProjectsPanelActions,
+  LocalProjectsPanelContext,
   CardActionMode,
   RepositoryWindowState,
   DiscoveredRepository,
@@ -468,6 +469,7 @@ export type {
   Workspace,
   WorkspaceSlice,
   WorkspaceRepositoriesPanelActions,
+  WorkspaceRepositoriesPanelContext,
   RepositorySelectedPayload,
   RepositoryOpenedPayload,
 } from './panels/WorkspaceRepositoriesPanel/types';
@@ -475,6 +477,7 @@ export type {
 export type {
   WorkspacesSlice,
   WorkspacesListPanelActions,
+  WorkspacesListPanelContext,
   WorkspaceCardProps,
   WorkspaceSelectedPayload,
   WorkspaceOpenedPayload,
@@ -502,12 +505,14 @@ export type {
 export type {
   GitHubStarredSlice,
   GitHubStarredPanelActions,
+  GitHubStarredPanelContext,
   GitHubStarredPanelEventPayloads,
 } from './panels/GitHubStarredPanel/types';
 
 export type {
   GitHubProjectsSlice,
   GitHubProjectsPanelActions,
+  GitHubProjectsPanelContext,
   GitHubProjectsPanelEventPayloads,
 } from './panels/GitHubProjectsPanel/types';
 
@@ -535,6 +540,7 @@ export type {
   CollectionMembership,
   UserCollectionsSlice,
   UserCollectionsPanelActions,
+  UserCollectionsPanelContext,
   CollectionCardProps,
   CollectionSelectedPayload,
   CollectionCreatedPayload,
