@@ -497,8 +497,6 @@ export type {
 } from './panels/WorkspaceCollectionPanel/types';
 
 export type {
-  GitHubRepository,
-  GitHubOrganization,
   LocalRepositoryReference,
 } from './panels/shared/github-types';
 
@@ -518,8 +516,8 @@ export type {
 
 export type {
   GitHubUserProfile,
-  GitHubOrganization as UserProfileOrganization,
-  GitHubRepository as UserProfileRepository,
+  GitHubOrganization,
+  GitHubRepository,
   UserProfileSlice,
   UserProfilePanelActions,
   UserProfileView,

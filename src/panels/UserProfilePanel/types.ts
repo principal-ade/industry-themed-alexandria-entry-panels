@@ -6,6 +6,7 @@
  */
 
 import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
+import type { GitHubRepository, GitHubOrganization } from '../shared/github-types';
 
 /**
  * GitHub User profile - matches GitHubUser from electron-app
@@ -27,38 +28,8 @@ export interface GitHubUserProfile {
   updated_at: string;
 }
 
-/**
- * GitHub Organization - matches GitHubOrganization from electron-app
- */
-export interface GitHubOrganization {
-  login: string;
-  id: number;
-  avatar_url: string;
-  description: string | null;
-}
-
-/**
- * GitHub Repository - matches GitHubRepository from electron-app
- */
-export interface GitHubRepository {
-  id: number;
-  name: string;
-  full_name: string;
-  owner: {
-    login: string;
-    avatar_url?: string;
-  };
-  private: boolean;
-  html_url: string;
-  description: string | null;
-  fork: boolean;
-  clone_url: string;
-  updated_at: string;
-  pushed_at: string;
-  language: string | null;
-  default_branch: string;
-  stargazers_count?: number;
-}
+// Re-export shared types for convenience
+export type { GitHubRepository, GitHubOrganization };
 
 /**
  * User presence status from network
