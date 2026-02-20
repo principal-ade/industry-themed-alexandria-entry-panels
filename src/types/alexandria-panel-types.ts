@@ -79,6 +79,8 @@ export type {
 export type {
   // WorkspaceRepositoriesPanel types
   Workspace as WorkspaceRepositoryWorkspace,
+  WorkspaceSlice as WorkspaceRepositoryWorkspaceSlice,
+  WorkspaceRepositoriesSlice,
   WorkspaceRepositoriesPanelActions,
   RepositorySelectedPayload as WorkspaceRepositorySelectedPayload,
   RepositoryOpenedPayload,
