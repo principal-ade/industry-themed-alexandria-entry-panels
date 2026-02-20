@@ -488,7 +488,7 @@ export type {
 export type {
   Workspace as WorkspaceCollectionWorkspace,
   WorkspaceCollectionSlice,
-  WorkspaceRepositoriesSlice,
+  WorkspaceCollectionRepositoriesSlice,
   WorkspaceCollectionPanelActions,
   RepositorySelectedPayload as CollectionRepositorySelectedPayload,
   RepositoryRemovedPayload,

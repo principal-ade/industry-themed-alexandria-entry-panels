@@ -4,7 +4,7 @@ import { Folder, Loader2, Search, Trash2, X } from 'lucide-react';
 import type { GitHubRepository } from '../shared/github-types';
 import type {
   WorkspaceCollectionSlice,
-  WorkspaceRepositoriesSlice,
+  WorkspaceCollectionRepositoriesSlice,
   WorkspaceCollectionPanelActions,
   WorkspaceCollectionPanelPropsTyped,
 } from './types';
@@ -1123,7 +1123,7 @@ export const WorkspaceCollectionPanelPreview: React.FC = () => {
 export type {
   Workspace,
   WorkspaceCollectionSlice,
-  WorkspaceRepositoriesSlice,
+  WorkspaceCollectionRepositoriesSlice,
   WorkspaceCollectionPanelActions,
   RepositorySelectedPayload,
   RepositoryRemovedPayload,

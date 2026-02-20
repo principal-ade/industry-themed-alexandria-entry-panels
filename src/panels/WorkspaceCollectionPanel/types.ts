@@ -37,11 +37,11 @@ export interface WorkspaceCollectionSlice {
 }
 
 /**
- * Data slice for workspace repositories
- * Contains GitHub repository data for repos in the workspace
+ * Data slice for workspace collection repositories
+ * Contains GitHub repository data for repos in the workspace collection
  */
-export interface WorkspaceRepositoriesSlice {
-  /** Repositories in the workspace */
+export interface WorkspaceCollectionRepositoriesSlice {
+  /** Repositories in the workspace collection */
   repositories: GitHubRepository[];
   /** Loading state */
   loading: boolean;
@@ -117,7 +117,7 @@ export interface WorkspaceCollectionPanelContext {
   /** Workspace data slice (required) */
   workspace: DataSlice<WorkspaceCollectionSlice>;
   /** Workspace repositories data slice (required) */
-  workspaceRepositories: DataSlice<WorkspaceRepositoriesSlice>;
+  workspaceRepositories: DataSlice<WorkspaceCollectionRepositoriesSlice>;
 }
 
 /**

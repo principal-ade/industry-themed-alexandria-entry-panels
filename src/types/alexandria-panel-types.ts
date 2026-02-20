@@ -43,7 +43,7 @@ export type {
   // WorkspaceCollectionPanel types
   Workspace as WorkspaceCollectionWorkspace,
   WorkspaceCollectionSlice,
-  WorkspaceRepositoriesSlice,
+  WorkspaceCollectionRepositoriesSlice,
   WorkspaceCollectionPanelActions,
   RepositorySelectedPayload as CollectionRepositorySelectedPayload,
   RepositoryRemovedPayload as WorkspaceRepositoryRemovedPayload,
@@ -182,7 +182,7 @@ export interface AlexandriaPanelsContext {
   // Workspaces
   workspaces?: DataSlice<import('../panels/WorkspacesListPanel/types').WorkspacesSlice>;
   workspace?: DataSlice<import('../panels/WorkspaceCollectionPanel/types').WorkspaceCollectionSlice>;
-  workspaceRepositories?: DataSlice<import('../panels/WorkspaceCollectionPanel/types').WorkspaceRepositoriesSlice>;
+  workspaceRepositories?: DataSlice<import('../panels/WorkspaceCollectionPanel/types').WorkspaceCollectionRepositoriesSlice>;
 
   // GitHub
   githubStarred?: DataSlice<import('../panels/GitHubStarredPanel/types').GitHubStarredSlice>;
