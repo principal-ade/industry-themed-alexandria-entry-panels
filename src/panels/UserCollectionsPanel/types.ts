@@ -106,7 +106,7 @@ export interface UserCollectionsPanelActions extends PanelActions {
    * @param collectionId - Collection ID
    * @param repositoryId - Repository identifier
    */
-  removeRepository?: (
+  removeRepositoryFromCollection?: (
     collectionId: string,
     repositoryId: string
   ) => Promise<void>;

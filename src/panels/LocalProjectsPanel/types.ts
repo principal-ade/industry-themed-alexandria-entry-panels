@@ -58,17 +58,17 @@ export interface LocalProjectsPanelActions extends PanelActions {
   registerRepository?: (name: string, path: string) => Promise<void>;
 
   /**
-   * Remove a repository from Alexandria
+   * Remove a local repository from Alexandria
    * @param name - Repository name
    * @param deleteLocal - Whether to delete local files
    */
-  removeRepository?: (name: string, deleteLocal: boolean) => Promise<void>;
+  removeLocalRepository?: (name: string, deleteLocal: boolean) => Promise<void>;
 
   /**
-   * Open a repository in dev workspace
+   * Open a local repository in dev workspace
    * @param entry - Alexandria entry to open
    */
-  openRepository?: (entry: AlexandriaEntry) => Promise<void>;
+  openLocalRepository?: (entry: AlexandriaEntry) => Promise<void>;
 
   /**
    * Focus an already-open repository window

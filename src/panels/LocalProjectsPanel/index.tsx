@@ -123,8 +123,8 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   // Handle open repository
   const handleOpenRepository = useCallback(
     async (entry: AlexandriaEntry) => {
-      if (!panelActions.openRepository) {
-        console.warn('Open repository action not available');
+      if (!panelActions.openLocalRepository) {
+        console.warn('Open local repository action not available');
         return;
       }
 
@@ -132,7 +132,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
       setWindowStates((prev) => new Map(prev).set(entry.path, 'opening'));
 
       try {
-        await panelActions.openRepository(entry);
+        await panelActions.openLocalRepository(entry);
 
         // Update window state to ready
         setWindowStates((prev) => new Map(prev).set(entry.path, 'ready'));
@@ -226,13 +226,13 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
 
   // Handle remove repository
   const handleRemoveRepository = async (entry: AlexandriaEntry) => {
-    if (!panelActions.removeRepository) {
-      console.warn('Remove repository action not available');
+    if (!panelActions.removeLocalRepository) {
+      console.warn('Remove local repository action not available');
       return;
     }
 
     try {
-      await panelActions.removeRepository(entry.name, false);
+      await panelActions.removeLocalRepository(entry.name, false);
       await context.refresh('repository', 'alexandriaRepositories');
     } catch (error) {
       console.error('Failed to remove repository:', error);
