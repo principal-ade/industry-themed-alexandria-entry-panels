@@ -4,9 +4,6 @@ import { Search, Plus, X, Layers } from 'lucide-react';
 import { WorkspaceCard } from './WorkspaceCard';
 import type {
   Workspace,
-  WorkspacesSlice,
-  WorkspacesListPanelActions,
-  WorkspacesListPanelContext,
   WorkspacesListPanelPropsTyped,
 } from './types';
 

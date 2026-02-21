@@ -5,12 +5,7 @@ import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/type
 import { LocalProjectCard } from '../LocalProjectsPanel/LocalProjectCard';
 import '../LocalProjectsPanel/LocalProjectsPanel.css';
 import type {
-  Workspace,
-  WorkspaceRepositoriesPanelActions,
-  WorkspaceRepositoriesPanelContext,
   WorkspaceRepositoriesPanelPropsTyped,
-  WorkspaceSlice,
-  WorkspaceRepositoriesSlice,
 } from './types';
 
 // Panel event prefix

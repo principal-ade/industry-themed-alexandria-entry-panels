@@ -6,14 +6,10 @@ import '../shared/styles.css';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
 import { LocalProjectCard } from './LocalProjectCard';
 import type {
-  AlexandriaRepositoriesSlice,
-  LocalProjectsPanelActions,
-  LocalProjectsPanelContext,
   LocalProjectsPanelPropsTyped,
   RepositoryWindowState,
   DiscoveredRepository,
 } from './types';
-import type { Collection, UserCollectionsSlice } from '../UserCollectionsPanel/types';
 import type { CollectionMembership } from '@principal-ai/alexandria-collections';
 
 // Panel event prefix
@@ -41,7 +37,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   context,
   actions,
   events,
-  defaultShowSearch = false,
+  defaultShowSearch = true,
   disableCopyPaths = true,
 }) => {
   const { theme } = useTheme();

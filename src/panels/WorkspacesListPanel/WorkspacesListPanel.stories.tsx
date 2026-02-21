@@ -7,7 +7,7 @@ import {
   createMockEvents,
   mockWorkspaces,
 } from '../../mocks/panelContext';
-import type { WorkspacesSlice } from './types';
+import type { WorkspacesSlice, WorkspacesListPanelPropsTyped } from './types';
 
 /**
  * WorkspacesListPanel - Browse and manage workspaces
@@ -66,7 +66,7 @@ type Story = StoryObj<typeof WorkspacesListPanel>;
  */
 export const Default: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as WorkspacesListPanelPropsTyped['context'];
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
@@ -103,7 +103,7 @@ export const Empty: Story = {
           },
         ],
       ]),
-    });
+    }) as WorkspacesListPanelPropsTyped['context'];
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
@@ -140,7 +140,7 @@ export const Loading: Story = {
           },
         ],
       ]),
-    });
+    }) as WorkspacesListPanelPropsTyped['context'];
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
@@ -159,7 +159,7 @@ export const Loading: Story = {
  */
 export const ReadOnly: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as WorkspacesListPanelPropsTyped['context'];
     const actions = {
       ...createMockWorkspacesListActions(),
       createWorkspace: undefined,
@@ -183,7 +183,7 @@ export const ReadOnly: Story = {
  */
 export const PermanentSearch: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as WorkspacesListPanelPropsTyped['context'];
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 
@@ -232,7 +232,7 @@ export const ManyWorkspaces: Story = {
           },
         ],
       ]),
-    });
+    }) as WorkspacesListPanelPropsTyped['context'];
     const actions = createMockWorkspacesListActions();
     const events = createMockEvents();
 

@@ -619,7 +619,14 @@ export const createMockContext = (
     },
   };
 
-  return { ...defaultContext, ...overrides };
+  // Convert slices Map to direct properties for typed access
+  const slicesAsProperties: Record<string, DataSlice> = {};
+  const finalSlices = overrides?.slices || mockSlices;
+  finalSlices.forEach((slice, key) => {
+    slicesAsProperties[key] = slice;
+  });
+
+  return { ...defaultContext, ...slicesAsProperties, ...overrides };
 };
 
 /**

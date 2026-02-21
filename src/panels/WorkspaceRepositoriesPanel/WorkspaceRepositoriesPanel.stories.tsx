@@ -11,7 +11,7 @@ import type {
   PanelEvent,
 } from '../../types';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
-import type { Workspace } from './types';
+import type { Workspace, WorkspaceRepositoriesPanelPropsTyped } from './types';
 
 // Mock workspace
 const mockWorkspace: Workspace = {
@@ -154,7 +154,7 @@ export const Default: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as unknown as WorkspaceRepositoriesPanelPropsTyped,
 };
 
 export const NoWorkspaceSelected: Story = {
@@ -175,7 +175,7 @@ export const NoWorkspaceSelected: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as unknown as WorkspaceRepositoriesPanelPropsTyped,
 };
 
 export const EmptyWorkspace: Story = {
@@ -200,7 +200,7 @@ export const EmptyWorkspace: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as unknown as WorkspaceRepositoriesPanelPropsTyped,
 };
 
 export const Loading: Story = {
@@ -230,7 +230,7 @@ export const Loading: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as unknown as WorkspaceRepositoriesPanelPropsTyped,
 };
 
 export const MixedLocations: Story = {
@@ -322,5 +322,5 @@ export const MixedLocations: Story = {
       },
     },
     events: mockEvents,
-  } as PanelComponentProps,
+  } as unknown as WorkspaceRepositoriesPanelPropsTyped,
 };

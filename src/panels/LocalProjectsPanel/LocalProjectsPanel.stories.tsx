@@ -9,7 +9,7 @@ import {
   createMockEvents,
   mockAlexandriaRepositories,
 } from '../../mocks/panelContext';
-import type { AlexandriaRepositoriesSlice } from './types';
+import type { AlexandriaRepositoriesSlice, LocalProjectsPanelPropsTyped } from './types';
 
 /**
  * LocalProjectsPanel - Browse and manage local Alexandria repositories
@@ -63,7 +63,7 @@ type Story = StoryObj<typeof LocalProjectsPanel>;
  */
 export const Default: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as LocalProjectsPanelPropsTyped['context'];
     const actions = createMockLocalProjectsActions();
     const events = createMockEvents();
 
@@ -95,7 +95,7 @@ export const Empty: Story = {
           },
         ],
       ]),
-    });
+    }) as LocalProjectsPanelPropsTyped['context'];
     const actions = createMockLocalProjectsActions();
     const events = createMockEvents();
 
@@ -127,7 +127,7 @@ export const Loading: Story = {
           },
         ],
       ]),
-    });
+    }) as LocalProjectsPanelPropsTyped['context'];
     const actions = createMockLocalProjectsActions();
     const events = createMockEvents();
 
@@ -142,7 +142,7 @@ export const Loading: Story = {
  */
 export const ReadOnly: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as LocalProjectsPanelPropsTyped['context'];
     const actions = {
       ...createMockLocalProjectsActions(),
       selectDirectory: undefined,
@@ -160,7 +160,7 @@ export const ReadOnly: Story = {
  */
 export const PermanentSearch: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as LocalProjectsPanelPropsTyped['context'];
     const actions = createMockLocalProjectsActions();
     const events = createMockEvents();
 

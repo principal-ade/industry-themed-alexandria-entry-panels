@@ -13,7 +13,6 @@ import {
   X,
 } from 'lucide-react';
 import type {
-  GitHubProjectsSlice,
   GitHubProjectsPanelActions,
   GitHubProjectsPanelPropsTyped,
 } from './types';
@@ -53,7 +52,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
   context,
   actions,
   events,
-  defaultShowSearch = false,
+  defaultShowSearch = true,
 }) => {
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
@@ -67,13 +66,16 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
+    // Don't allow toggling off if defaultShowSearch is true
+    if (defaultShowSearch) return;
+
     setShowSearch((prev) => {
       if (prev) {
         setFilter('');
       }
       return !prev;
     });
-  }, []);
+  }, [defaultShowSearch]);
 
   const handleClearFilter = useCallback(() => {
     setFilter('');
@@ -552,79 +554,25 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
           position: 'relative',
           height: '40px',
           minHeight: '40px',
-          padding: '0 16px',
+          padding: '0',
           borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
           boxSizing: 'border-box',
+          backgroundColor: theme.colors.background,
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            visibility: showSearch ? 'hidden' : 'visible',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <FolderGit2 size={18} color={theme.colors.primary} />
-            <span
-              style={{
-                fontSize: `${theme.fontSizes[2]}px`,
-                fontWeight: theme.fontWeights.medium,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.body,
-              }}
-            >
-              GitHub Projects
-            </span>
-          </div>
-
-          {/* Search toggle button */}
-          <button
-            className={`header-button ${showSearch ? 'active' : ''}`}
-            onClick={handleToggleSearch}
-            style={{
-              background: showSearch
-                ? theme.colors.backgroundSecondary
-                : 'none',
-              border: `1px solid ${showSearch ? theme.colors.border : 'transparent'}`,
-              borderRadius: '4px',
-              cursor: 'pointer',
-              padding: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: showSearch
-                ? theme.colors.primary
-                : theme.colors.textSecondary,
-              ['--theme-text' as string]: theme.colors.text,
-            }}
-            title={showSearch ? 'Close search' : 'Search repositories'}
-          >
-            <Search size={16} />
-          </button>
-        </div>
-
-        {/* Search overlay */}
-        {showSearch && (
+        {/* Permanent search mode (when defaultShowSearch is true) */}
+        {defaultShowSearch && showSearch ? (
           <div
-            className="search-overlay"
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
               display: 'flex',
               alignItems: 'center',
-              padding: '0 16px',
-              backgroundColor: theme.colors.backgroundSecondary,
-              zIndex: 10,
+              gap: '0',
+              width: '100%',
             }}
           >
+            {/* Search input */}
             <div
               style={{
                 position: 'relative',
@@ -645,18 +593,19 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
               <input
                 type="text"
                 className="search-input"
-                placeholder="Filter repositories..."
+                placeholder="Filter GitHub projects..."
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 autoFocus
                 style={{
                   width: '100%',
-                  padding: '6px 32px 6px 32px',
+                  padding: '0 32px',
+                  height: '40px',
                   fontSize: `${theme.fontSizes[1]}px`,
                   color: theme.colors.text,
                   backgroundColor: theme.colors.background,
-                  border: `1px solid ${theme.colors.border}`,
-                  borderRadius: '4px',
+                  border: 'none',
+                  borderRadius: '0',
                   outline: 'none',
                   fontFamily: theme.fonts.body,
                   transition: 'border-color 0.2s ease',
@@ -685,24 +634,164 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
                 </button>
               )}
             </div>
-            <button
-              onClick={handleToggleSearch}
+          </div>
+        ) : (
+          <>
+            {/* Normal mode */}
+            <div
               style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px',
-                marginLeft: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                color: theme.colors.textSecondary,
+                justifyContent: 'space-between',
+                width: '100%',
+                visibility: showSearch ? 'hidden' : 'visible',
               }}
-              title="Close search"
             >
-              <X size={16} />
-            </button>
-          </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+                <FolderGit2
+                  size={18}
+                  style={{ color: theme.colors.primary }}
+                />
+                <span
+                  style={{
+                    fontSize: `${theme.fontSizes[2]}px`,
+                    fontWeight: theme.fontWeights.medium,
+                    color: theme.colors.text,
+                    fontFamily: theme.fonts.body,
+                  }}
+                >
+                  GitHub Projects
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+                {/* Search toggle button */}
+                <button
+                  className={`header-button ${showSearch ? 'active' : ''}`}
+                  onClick={handleToggleSearch}
+                  style={{
+                    background: showSearch
+                      ? theme.colors.backgroundSecondary
+                      : 'none',
+                    border: 'none',
+                    borderRadius: '0',
+                    cursor: 'pointer',
+                    padding: '0 12px',
+                    height: '40px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: showSearch
+                      ? theme.colors.primary
+                      : theme.colors.textSecondary,
+                    ['--theme-text' as string]: theme.colors.text,
+                  }}
+                  title={showSearch ? 'Close search' : 'Search repositories'}
+                >
+                  <Search size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Search overlay (for normal toggleable search) */}
+            {showSearch && !defaultShowSearch && (
+              <div
+                className="search-overlay"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0',
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    position: 'relative',
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Search
+                    size={16}
+                    color={theme.colors.textSecondary}
+                    style={{
+                      position: 'absolute',
+                      left: '10px',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Filter GitHub projects..."
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    autoFocus
+                    style={{
+                      width: '100%',
+                      padding: '0 32px',
+                      height: '40px',
+                      fontSize: `${theme.fontSizes[1]}px`,
+                      color: theme.colors.text,
+                      backgroundColor: theme.colors.background,
+                      border: 'none',
+                      borderRadius: '0',
+                      outline: 'none',
+                      fontFamily: theme.fonts.body,
+                      transition: 'border-color 0.2s ease',
+                      ['--theme-primary' as string]: theme.colors.primary,
+                    }}
+                  />
+                  {filter && (
+                    <button
+                      className="clear-filter-button"
+                      onClick={handleClearFilter}
+                      style={{
+                        position: 'absolute',
+                        right: '8px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: theme.colors.textSecondary,
+                        ['--theme-text' as string]: theme.colors.text,
+                      }}
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
+                <button
+                  onClick={handleToggleSearch}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0 12px',
+                    height: '40px',
+                    marginLeft: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: theme.colors.textSecondary,
+                  }}
+                  title="Close search"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 

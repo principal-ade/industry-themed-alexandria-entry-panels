@@ -13,9 +13,6 @@ import {
 } from 'lucide-react';
 import type {
   Collection,
-  UserCollectionsSlice,
-  UserCollectionsPanelActions,
-  UserCollectionsPanelContext,
   UserCollectionsPanelPropsTyped,
   CollectionCardProps,
 } from './types';

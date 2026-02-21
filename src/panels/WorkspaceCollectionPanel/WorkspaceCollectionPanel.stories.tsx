@@ -14,7 +14,8 @@ import type { GitHubRepository } from '../shared/github-types';
 import type {
   Workspace,
   WorkspaceCollectionSlice,
-  WorkspaceRepositoriesSlice,
+  WorkspaceCollectionRepositoriesSlice,
+  WorkspaceCollectionPanelPropsTyped,
 } from './types';
 
 // Mock workspace
@@ -167,8 +168,8 @@ export const Default: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: mockRepositories,
@@ -198,7 +199,7 @@ export const Default: Story = {
       },
     },
     events: mockEvents,
-  } as PanelComponentProps,
+  } as WorkspaceCollectionPanelPropsTyped,
 };
 
 export const NoWorkspaceSelected: Story = {
@@ -212,8 +213,8 @@ export const NoWorkspaceSelected: Story = {
           workspace: null,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: [],
@@ -224,7 +225,7 @@ export const NoWorkspaceSelected: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as WorkspaceCollectionPanelPropsTyped,
 };
 
 export const EmptyWorkspace: Story = {
@@ -239,8 +240,8 @@ export const EmptyWorkspace: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: [],
@@ -251,7 +252,7 @@ export const EmptyWorkspace: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as WorkspaceCollectionPanelPropsTyped,
 };
 
 export const Loading: Story = {
@@ -266,8 +267,8 @@ export const Loading: Story = {
           workspace: mockWorkspace,
           loading: true,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: [],
@@ -278,7 +279,7 @@ export const Loading: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as WorkspaceCollectionPanelPropsTyped,
 };
 
 export const WithError: Story = {
@@ -294,8 +295,8 @@ export const WithError: Story = {
           loading: false,
           error: 'Failed to load repositories. Please try again.',
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: mockRepositories.slice(0, 2),
@@ -306,7 +307,7 @@ export const WithError: Story = {
     ),
     actions: mockActions,
     events: mockEvents,
-  } as PanelComponentProps,
+  } as WorkspaceCollectionPanelPropsTyped,
 };
 
 export const ManyRepositories: Story = {
@@ -326,8 +327,8 @@ export const ManyRepositories: Story = {
           },
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: [
@@ -377,7 +378,7 @@ export const ManyRepositories: Story = {
       },
     },
     events: mockEvents,
-  } as PanelComponentProps,
+  } as WorkspaceCollectionPanelPropsTyped,
 };
 
 export const ReadOnly: Story = {
@@ -392,8 +393,8 @@ export const ReadOnly: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: mockRepositories,
@@ -407,7 +408,7 @@ export const ReadOnly: Story = {
       // No navigateToRepository or removeRepositoryFromWorkspace - read only mode
     },
     events: mockEvents,
-  } as PanelComponentProps,
+  } as WorkspaceCollectionPanelPropsTyped,
 };
 
 export const PermanentSearch: Story = {
@@ -422,8 +423,8 @@ export const PermanentSearch: Story = {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceRepositoriesSlice>(
-          'workspaceRepositories',
+        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceCollectionRepositories',
           'workspace',
           {
             repositories: mockRepositories,
@@ -454,5 +455,5 @@ export const PermanentSearch: Story = {
     },
     events: mockEvents,
     defaultShowSearch: true,
-  } as PanelComponentProps,
+  } as unknown as WorkspaceCollectionPanelPropsTyped,
 };

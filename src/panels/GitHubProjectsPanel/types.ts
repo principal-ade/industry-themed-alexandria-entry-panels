@@ -64,11 +64,11 @@ export interface GitHubProjectsPanelContext {
   /** GitHub projects data slice (required) */
   githubProjects: DataSlice<GitHubProjectsSlice>;
   /** Alexandria repositories data slice (optional - for showing local repo status) */
-  alexandriaRepositories?: DataSlice<any>;
+  alexandriaRepositories?: DataSlice<import('../LocalProjectsPanel/types').AlexandriaRepositoriesSlice>;
   /** Workspace data slice (optional - for collection context) */
-  workspace?: DataSlice<any>;
+  workspace?: DataSlice<import('../WorkspaceCollectionPanel/types').WorkspaceCollectionSlice>;
   /** Workspace repositories data slice (optional - for collection repos) */
-  workspaceRepositories?: DataSlice<any>;
+  workspaceRepositories?: DataSlice<import('../WorkspaceCollectionPanel/types').WorkspaceCollectionRepositoriesSlice>;
 }
 
 /**

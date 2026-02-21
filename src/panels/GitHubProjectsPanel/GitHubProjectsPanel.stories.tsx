@@ -9,7 +9,7 @@ import {
   mockGitHubOrganizations,
   mockGitHubOrgRepositories,
 } from '../../mocks/panelContext';
-import type { GitHubProjectsSlice } from './types';
+import type { GitHubProjectsSlice, GitHubProjectsPanelPropsTyped } from './types';
 
 const meta: Meta<typeof GitHubProjectsPanel> = {
   title: 'Panels/GitHubProjectsPanel',
@@ -36,7 +36,7 @@ type Story = StoryObj<typeof GitHubProjectsPanel>;
  */
 export const Default: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as GitHubProjectsPanelPropsTyped['context'];
     const actions = createMockGitHubProjectsActions();
     const events = createMockEvents();
 
@@ -86,7 +86,7 @@ export const Loading: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubProjectsPanelPropsTyped['context'];
     const actions = createMockGitHubProjectsActions();
     const events = createMockEvents();
 
@@ -136,7 +136,7 @@ export const Empty: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubProjectsPanelPropsTyped['context'];
     const actions = createMockGitHubProjectsActions();
     const events = createMockEvents();
 
@@ -188,7 +188,7 @@ export const Error: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubProjectsPanelPropsTyped['context'];
     const actions = createMockGitHubProjectsActions();
     const events = createMockEvents();
 
@@ -238,7 +238,7 @@ export const UserReposOnly: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubProjectsPanelPropsTyped['context'];
     const actions = createMockGitHubProjectsActions();
     const events = createMockEvents();
 
@@ -288,7 +288,7 @@ export const MultipleOrganizations: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubProjectsPanelPropsTyped['context'];
     const actions = createMockGitHubProjectsActions();
     const events = createMockEvents();
 
@@ -384,7 +384,7 @@ export const WithClonedRepos: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubProjectsPanelPropsTyped['context'];
     const actions = createMockGitHubProjectsActions();
     const events = createMockEvents();
 

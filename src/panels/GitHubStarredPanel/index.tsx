@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
 import { AlertCircle, Loader2, RotateCcw, Search, Star, X } from 'lucide-react';
 import type {
-  GitHubStarredSlice,
   GitHubStarredPanelActions,
   GitHubStarredPanelPropsTyped,
 } from './types';
@@ -42,7 +41,7 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
   context,
   actions,
   events,
-  defaultShowSearch = false,
+  defaultShowSearch = true,
 }) => {
   const { theme } = useTheme();
   const [filter, setFilter] = useState('');
@@ -53,13 +52,16 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
+    // Don't allow toggling off if defaultShowSearch is true
+    if (defaultShowSearch) return;
+
     setShowSearch((prev) => {
       if (prev) {
         setFilter('');
       }
       return !prev;
     });
-  }, []);
+  }, [defaultShowSearch]);
 
   const handleClearFilter = useCallback(() => {
     setFilter('');
@@ -407,92 +409,25 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
           position: 'relative',
           height: '40px',
           minHeight: '40px',
-          padding: '0 16px',
+          padding: '0',
           borderBottom: `1px solid ${theme.colors.border}`,
           display: 'flex',
           alignItems: 'center',
           boxSizing: 'border-box',
+          backgroundColor: theme.colors.background,
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            visibility: showSearch ? 'hidden' : 'visible',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Star size={18} style={{ color: '#f59e0b' }} />
-            <span
-              style={{
-                fontSize: `${theme.fontSizes[2]}px`,
-                fontWeight: theme.fontWeights.medium,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.body,
-              }}
-            >
-              Starred
-            </span>
-            {repositories.length > 0 && (
-              <span
-                style={{
-                  fontSize: `${theme.fontSizes[1]}px`,
-                  color: theme.colors.textSecondary,
-                  padding: '2px 8px',
-                  borderRadius: '12px',
-                  backgroundColor: theme.colors.background,
-                }}
-              >
-                {repositories.length}
-              </span>
-            )}
-          </div>
-
-          {/* Search toggle button */}
-          <button
-            className={`header-button ${showSearch ? 'active' : ''}`}
-            onClick={handleToggleSearch}
-            style={{
-              background: showSearch
-                ? theme.colors.backgroundSecondary
-                : 'none',
-              border: `1px solid ${showSearch ? theme.colors.border : 'transparent'}`,
-              borderRadius: '4px',
-              cursor: 'pointer',
-              padding: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: showSearch
-                ? theme.colors.primary
-                : theme.colors.textSecondary,
-              ['--theme-text' as string]: theme.colors.text,
-            }}
-            title={showSearch ? 'Close search' : 'Search repositories'}
-          >
-            <Search size={16} />
-          </button>
-        </div>
-
-        {/* Search overlay */}
-        {showSearch && (
+        {/* Permanent search mode (when defaultShowSearch is true) */}
+        {defaultShowSearch && showSearch ? (
           <div
-            className="search-overlay"
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
               display: 'flex',
               alignItems: 'center',
-              padding: '0 16px',
-              backgroundColor: theme.colors.backgroundSecondary,
-              zIndex: 10,
+              gap: '0',
+              width: '100%',
             }}
           >
+            {/* Search input */}
             <div
               style={{
                 position: 'relative',
@@ -519,12 +454,13 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
                 autoFocus
                 style={{
                   width: '100%',
-                  padding: '6px 32px 6px 32px',
+                  padding: '0 32px',
+                  height: '40px',
                   fontSize: `${theme.fontSizes[1]}px`,
                   color: theme.colors.text,
                   backgroundColor: theme.colors.background,
-                  border: `1px solid ${theme.colors.border}`,
-                  borderRadius: '4px',
+                  border: 'none',
+                  borderRadius: '0',
                   outline: 'none',
                   fontFamily: theme.fonts.body,
                   transition: 'border-color 0.2s ease',
@@ -553,24 +489,174 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
                 </button>
               )}
             </div>
-            <button
-              onClick={handleToggleSearch}
+          </div>
+        ) : (
+          <>
+            {/* Normal mode */}
+            <div
               style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px',
-                marginLeft: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                color: theme.colors.textSecondary,
+                justifyContent: 'space-between',
+                width: '100%',
+                visibility: showSearch ? 'hidden' : 'visible',
               }}
-              title="Close search"
             >
-              <X size={16} />
-            </button>
-          </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+                <Star size={18} style={{ color: '#f59e0b' }} />
+                <span
+                  style={{
+                    fontSize: `${theme.fontSizes[2]}px`,
+                    fontWeight: theme.fontWeights.medium,
+                    color: theme.colors.text,
+                    fontFamily: theme.fonts.body,
+                  }}
+                >
+                  Starred
+                </span>
+                {repositories.length > 0 && (
+                  <span
+                    style={{
+                      fontSize: `${theme.fontSizes[1]}px`,
+                      color: theme.colors.textSecondary,
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                      backgroundColor: theme.colors.background,
+                    }}
+                  >
+                    {repositories.length}
+                  </span>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+                {/* Search toggle button */}
+                <button
+                  className={`header-button ${showSearch ? 'active' : ''}`}
+                  onClick={handleToggleSearch}
+                  style={{
+                    background: showSearch
+                      ? theme.colors.backgroundSecondary
+                      : 'none',
+                    border: 'none',
+                    borderRadius: '0',
+                    cursor: 'pointer',
+                    padding: '0 12px',
+                    height: '40px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: showSearch
+                      ? theme.colors.primary
+                      : theme.colors.textSecondary,
+                    ['--theme-text' as string]: theme.colors.text,
+                  }}
+                  title={showSearch ? 'Close search' : 'Search repositories'}
+                >
+                  <Search size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Search overlay (for normal toggleable search) */}
+            {showSearch && !defaultShowSearch && (
+              <div
+                className="search-overlay"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0',
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    position: 'relative',
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Search
+                    size={16}
+                    color={theme.colors.textSecondary}
+                    style={{
+                      position: 'absolute',
+                      left: '10px',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Filter starred repositories..."
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    autoFocus
+                    style={{
+                      width: '100%',
+                      padding: '0 32px',
+                      height: '40px',
+                      fontSize: `${theme.fontSizes[1]}px`,
+                      color: theme.colors.text,
+                      backgroundColor: theme.colors.background,
+                      border: 'none',
+                      borderRadius: '0',
+                      outline: 'none',
+                      fontFamily: theme.fonts.body,
+                      transition: 'border-color 0.2s ease',
+                      ['--theme-primary' as string]: theme.colors.primary,
+                    }}
+                  />
+                  {filter && (
+                    <button
+                      className="clear-filter-button"
+                      onClick={handleClearFilter}
+                      style={{
+                        position: 'absolute',
+                        right: '8px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: theme.colors.textSecondary,
+                        ['--theme-text' as string]: theme.colors.text,
+                      }}
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
+                <button
+                  onClick={handleToggleSearch}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0 12px',
+                    height: '40px',
+                    marginLeft: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: theme.colors.textSecondary,
+                  }}
+                  title="Close search"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 

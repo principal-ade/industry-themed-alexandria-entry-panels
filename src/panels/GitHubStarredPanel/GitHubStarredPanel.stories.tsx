@@ -7,7 +7,7 @@ import {
   createMockEvents,
   mockGitHubStarredRepositories,
 } from '../../mocks/panelContext';
-import type { GitHubStarredSlice } from './types';
+import type { GitHubStarredSlice, GitHubStarredPanelPropsTyped } from './types';
 
 const meta: Meta<typeof GitHubStarredPanel> = {
   title: 'Panels/GitHubStarredPanel',
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof GitHubStarredPanel>;
  */
 export const Default: Story = {
   render: () => {
-    const context = createMockContext();
+    const context = createMockContext() as GitHubStarredPanelPropsTyped['context'];
     const actions = createMockGitHubStarredActions();
     const events = createMockEvents();
 
@@ -74,7 +74,7 @@ export const Loading: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubStarredPanelPropsTyped['context'];
     const actions = createMockGitHubStarredActions();
     const events = createMockEvents();
 
@@ -114,7 +114,7 @@ export const Empty: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubStarredPanelPropsTyped['context'];
     const actions = createMockGitHubStarredActions();
     const events = createMockEvents();
 
@@ -159,7 +159,7 @@ export const Error: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubStarredPanelPropsTyped['context'];
     const actions = createMockGitHubStarredActions();
     const events = createMockEvents();
 
@@ -248,7 +248,7 @@ export const WithClonedRepos: Story = {
           },
         ],
       ]),
-    });
+    }) as GitHubStarredPanelPropsTyped['context'];
     const actions = createMockGitHubStarredActions();
     const events = createMockEvents();
 

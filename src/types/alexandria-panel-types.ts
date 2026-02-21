@@ -118,7 +118,7 @@ export type {
  */
 export interface AlexandriaPanelsActions extends PanelActions {
   // Repository operations
-  cloneRepository?: (repo: any) => Promise<void>;
+  cloneRepository?: (repo: import('../panels/shared/github-types').GitHubRepository) => Promise<void>;
   openRepository?: (path: string | AlexandriaEntry) => Promise<void>;
   registerRepository?: (name: string, path: string) => Promise<void>;
   removeLocalRepository?: (name: string, deleteLocal: boolean) => Promise<void>;
@@ -126,18 +126,18 @@ export interface AlexandriaPanelsActions extends PanelActions {
   trackRepository?: (name: string, path: string) => Promise<void>;
 
   // Workspace operations
-  createWorkspace?: (name: string, options?: any) => Promise<any>;
-  updateWorkspace?: (workspaceId: string, updates: any) => Promise<void>;
+  createWorkspace?: (name: string, options?: Record<string, unknown>) => Promise<import('../panels/WorkspacesListPanel/types').Workspace>;
+  updateWorkspace?: (workspaceId: string, updates: Partial<import('../panels/WorkspacesListPanel/types').Workspace>) => Promise<void>;
   deleteWorkspace?: (workspaceId: string) => Promise<void>;
   setDefaultWorkspace?: (workspaceId: string) => Promise<void>;
   openWorkspace?: (workspaceId: string) => Promise<void>;
-  getWorkspaceRepositories?: (workspaceId: string) => Promise<any[]>;
+  getWorkspaceRepositories?: (workspaceId: string) => Promise<import('../panels/shared/github-types').GitHubRepository[]>;
 
   // Collection operations
-  createCollection?: (name: string, description?: string, icon?: string) => Promise<any>;
-  updateCollection?: (collectionId: string, updates: any) => Promise<void>;
+  createCollection?: (name: string, description?: string, icon?: string) => Promise<import('../panels/UserCollectionsPanel/types').Collection>;
+  updateCollection?: (collectionId: string, updates: Partial<import('../panels/UserCollectionsPanel/types').Collection>) => Promise<void>;
   deleteCollection?: (collectionId: string) => Promise<void>;
-  addRepositoryToCollection?: (collectionId: string, repositoryId: string, metadata?: any) => Promise<void>;
+  addRepositoryToCollection?: (collectionId: string, repositoryId: string, metadata?: Record<string, unknown>) => Promise<void>;
   removeRepositoryFromCollection?: (collectionId: string, repositoryId: string) => Promise<void>;
   enableGitHubSync?: () => Promise<void>;
   refreshCollections?: () => Promise<void>;
@@ -145,19 +145,19 @@ export interface AlexandriaPanelsActions extends PanelActions {
   // GitHub operations
   refreshStarred?: () => Promise<void>;
   refreshProjects?: () => Promise<void>;
-  addToCollection?: (repo: any) => Promise<void>;
+  addToCollection?: (repo: import('../panels/shared/github-types').GitHubRepository) => Promise<void>;
 
   // Navigation
-  navigateToRepository?: (owner: string | any, repo?: string) => void;
-  previewRepository?: (repository: any) => void;
+  navigateToRepository?: (owner: string | AlexandriaEntry, repo?: string) => void;
+  previewRepository?: (repository: import('../panels/shared/github-types').GitHubRepository | AlexandriaEntry) => void;
   openInBrowser?: (url: string) => Promise<void>;
 
   // User profile
   viewOrganization?: (orgLogin: string) => Promise<void>;
   viewRepository?: (owner: string, repo: string) => Promise<void>;
-  fetchUserProfile?: (username: string) => Promise<any>;
-  fetchUserOrganizations?: (username: string) => Promise<any[]>;
-  fetchUserStarredRepositories?: (username: string) => Promise<any[]>;
+  fetchUserProfile?: (username: string) => Promise<import('../panels/UserProfilePanel/types').GitHubUserProfile>;
+  fetchUserOrganizations?: (username: string) => Promise<import('../panels/UserProfilePanel/types').GitHubOrganization[]>;
+  fetchUserStarredRepositories?: (username: string) => Promise<import('../panels/shared/github-types').GitHubRepository[]>;
 
   // Workspace repository operations
   removeRepositoryFromWorkspace?: (repositoryId: string, workspaceId: string) => Promise<void>;
@@ -167,14 +167,14 @@ export interface AlexandriaPanelsActions extends PanelActions {
 
   // Utility
   selectDirectory?: () => Promise<{ path: string; name: string } | null>;
-  getRepositoryWindowState?: (entry: AlexandriaEntry) => Promise<any>;
+  getRepositoryWindowState?: (entry: AlexandriaEntry) => Promise<import('../panels/LocalProjectsPanel/types').RepositoryWindowState>;
 }
 
 /**
  * Unified Context Interface
  * Combines all context slices from all panels in the package
  */
-export interface AlexandriaPanelsContext {
+export interface AlexandriaPanelsContext extends Record<string, unknown> {
   // Alexandria repositories
   alexandriaRepositories?: DataSlice<import('../panels/LocalProjectsPanel/types').AlexandriaRepositoriesSlice>;
 
@@ -199,5 +199,5 @@ export interface AlexandriaPanelsContext {
  */
 export type AlexandriaPanelProps<
   TActions extends PanelActions = AlexandriaPanelsActions,
-  TContext extends Record<string, any> = AlexandriaPanelsContext
+  TContext extends Record<string, unknown> = AlexandriaPanelsContext
 > = PanelComponentProps<TActions, TContext>;

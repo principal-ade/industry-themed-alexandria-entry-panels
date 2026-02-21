@@ -17,9 +17,6 @@ import {
 import type {
   GitHubOrganization,
   GitHubRepository,
-  UserProfileSlice,
-  UserProfilePanelActions,
-  UserProfilePanelContext,
   UserProfilePanelPropsTyped,
   UserProfileView,
   UserPresenceStatus,
@@ -308,7 +305,6 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
   const [activeView, setActiveView] =
     useState<UserProfileView>('organizations');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showSearchBox, setShowSearchBox] = useState(false);
 
   // Get extended actions (actions are already typed via UserProfilePanelPropsTyped)
   const panelActions = actions;
@@ -395,7 +391,6 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
     (view: UserProfileView) => {
       setActiveView(view);
       setSearchQuery('');
-      setShowSearchBox(false);
       events.emit(createPanelEvent(`${PANEL_ID}:view:changed`, { view }));
     },
     [events]
@@ -452,7 +447,6 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
       events.on<{ filter: string }>(`${PANEL_ID}:filter-starred`, (event) => {
         if (event.payload?.filter !== undefined) {
           setSearchQuery(event.payload.filter);
-          setShowSearchBox(true);
           setActiveView('starred');
         }
       }),

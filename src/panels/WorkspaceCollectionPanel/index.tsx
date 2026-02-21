@@ -3,8 +3,6 @@ import { useTheme } from '@principal-ade/industry-theme';
 import { Folder, Loader2, Search, Trash2, X } from 'lucide-react';
 import type { GitHubRepository } from '../shared/github-types';
 import type {
-  WorkspaceCollectionSlice,
-  WorkspaceCollectionRepositoriesSlice,
   WorkspaceCollectionPanelActions,
   WorkspaceCollectionPanelPropsTyped,
 } from './types';
@@ -345,7 +343,10 @@ const WorkspaceCollectionPanelContent: React.FC<
   } = context;
 
   const workspace = workspaceSlice?.data?.workspace ?? null;
-  const repositories = repositoriesSlice?.data?.repositories ?? [];
+  const repositories = useMemo(
+    () => repositoriesSlice?.data?.repositories ?? [],
+    [repositoriesSlice?.data?.repositories]
+  );
   const isLoading =
     workspaceSlice?.loading || repositoriesSlice?.loading || false;
   const error = workspaceSlice?.data?.error || repositoriesSlice?.data?.error;
