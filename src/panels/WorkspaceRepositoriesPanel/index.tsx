@@ -552,6 +552,8 @@ const WorkspaceRepositoriesPanelContent: React.FC<WorkspaceRepositoriesPanelProp
 /**
  * WorkspaceRepositoriesPanel - Workspace repository management panel
  *
+ * @deprecated This panel is deprecated. Use WorkspaceCollectionPanel instead.
+ *
  * Features:
  * - List all repositories in a workspace
  * - Group by in/outside workspace directory

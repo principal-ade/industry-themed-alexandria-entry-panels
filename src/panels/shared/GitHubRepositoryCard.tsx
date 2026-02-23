@@ -151,8 +151,8 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
       {...(isInCollection ? {} : dragProps)}
       style={{
         display: 'flex',
-        alignItems: 'flex-start',
-        gap: '12px',
+        flexDirection: 'column',
+        gap: '8px',
         padding: '12px',
         borderRadius: '8px',
         backgroundColor: isSelected
@@ -172,152 +172,81 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
         transition: 'background-color 0.15s, border-color 0.15s, opacity 0.15s',
       }}
     >
-      {/* Avatar */}
-      <RepositoryAvatar
-        owner={repository.owner.login}
-        customAvatarUrl={repository.owner.avatar_url}
-        size={40}
-      />
+      {/* Top row: Avatar + Name/Owner + Actions */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+        {/* Avatar */}
+        <RepositoryAvatar
+          owner={repository.owner.login}
+          customAvatarUrl={repository.owner.avatar_url}
+          size={40}
+        />
 
-      {/* Content */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        {/* Header row: name + badges */}
+        {/* Name and Owner */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* Header row: name + badges */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginBottom: '2px',
+            }}
+          >
+            <span
+              style={{
+                fontSize: `${theme.fontSizes[2]}px`,
+                fontWeight: theme.fontWeights.semibold,
+                fontFamily: theme.fonts.body,
+                color: isCloned ? '#10b981' : theme.colors.text,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              title={repository.full_name}
+            >
+              {repository.name}
+            </span>
+
+            {/* Badges */}
+            {repository.private && (
+              <span title="Private repository">
+                <Lock
+                  size={12}
+                  style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
+                />
+              </span>
+            )}
+            {repository.fork && (
+              <span title="Forked repository">
+                <GitFork
+                  size={12}
+                  style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
+                />
+              </span>
+            )}
+          </div>
+
+          {/* Owner */}
+          <div
+            style={{
+              fontSize: `${theme.fontSizes[0]}px`,
+              fontFamily: theme.fonts.body,
+              color: theme.colors.textSecondary,
+            }}
+          >
+            {repository.owner.login}
+          </div>
+        </div>
+
+        {/* Actions */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            marginBottom: '4px',
+            flexShrink: 0,
           }}
         >
-          <span
-            style={{
-              fontSize: `${theme.fontSizes[2]}px`,
-              fontWeight: theme.fontWeights.semibold,
-              fontFamily: theme.fonts.body,
-              color: isCloned ? '#10b981' : theme.colors.text,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-            title={repository.full_name}
-          >
-            {repository.name}
-          </span>
-
-          {/* Badges */}
-          {repository.private && (
-            <span title="Private repository">
-              <Lock
-                size={12}
-                style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
-              />
-            </span>
-          )}
-          {repository.fork && (
-            <span title="Forked repository">
-              <GitFork
-                size={12}
-                style={{ color: theme.colors.textSecondary, flexShrink: 0 }}
-              />
-            </span>
-          )}
-        </div>
-
-        {/* Owner */}
-        <div
-          style={{
-            fontSize: `${theme.fontSizes[0]}px`,
-            fontFamily: theme.fonts.body,
-            color: theme.colors.textSecondary,
-            marginBottom: '4px',
-          }}
-        >
-          {repository.owner.login}
-        </div>
-
-        {/* Description */}
-        {repository.description && (
-          <div
-            style={{
-              fontSize: `${theme.fontSizes[1]}px`,
-              fontFamily: theme.fonts.body,
-              color: theme.colors.textSecondary,
-              lineHeight: theme.lineHeights.body,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              marginBottom: '8px',
-            }}
-          >
-            {repository.description}
-          </div>
-        )}
-
-        {/* Metadata row */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            fontSize: `${theme.fontSizes[0]}px`,
-            fontFamily: theme.fonts.body,
-            color: theme.colors.textSecondary,
-          }}
-        >
-          {/* Language */}
-          {repository.language && (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: getLanguageColor(repository.language),
-                }}
-              />
-              {repository.language}
-            </span>
-          )}
-
-          {/* Stars */}
-          {repository.stargazers_count !== undefined &&
-            repository.stargazers_count > 0 && (
-              <span
-                style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
-              >
-                <Star size={12} />
-                {formatNumber(repository.stargazers_count)}
-              </span>
-            )}
-
-          {/* License */}
-          {repository.license && (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Scale size={12} />
-              {repository.license}
-            </span>
-          )}
-
-          {/* Updated time */}
-          <span>
-            Updated{' '}
-            {getRelativeTime(repository.pushed_at || repository.updated_at)}
-          </span>
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          flexShrink: 0,
-        }}
-      >
         {/* Open on GitHub button */}
         <button
           type="button"
@@ -439,6 +368,75 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
             Clone
           </button>
         )}
+        </div>
+      </div>
+
+      {/* Description - full width */}
+      {repository.description && (
+        <div
+          style={{
+            fontSize: `${theme.fontSizes[1]}px`,
+            fontFamily: theme.fonts.body,
+            color: theme.colors.textSecondary,
+            lineHeight: theme.lineHeights.body,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {repository.description}
+        </div>
+      )}
+
+      {/* Metadata row - full width */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          fontSize: `${theme.fontSizes[0]}px`,
+          fontFamily: theme.fonts.body,
+          color: theme.colors.textSecondary,
+        }}
+      >
+        {/* Language */}
+        {repository.language && (
+          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: getLanguageColor(repository.language),
+              }}
+            />
+            {repository.language}
+          </span>
+        )}
+
+        {/* Stars */}
+        {repository.stargazers_count !== undefined &&
+          repository.stargazers_count > 0 && (
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Star size={12} />
+              {formatNumber(repository.stargazers_count)}
+            </span>
+          )}
+
+        {/* License */}
+        {repository.license && (
+          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Scale size={12} />
+            {repository.license}
+          </span>
+        )}
+
+        {/* Updated time */}
+        <span>
+          Updated {getRelativeTime(repository.pushed_at || repository.updated_at)}
+        </span>
       </div>
     </div>
   );

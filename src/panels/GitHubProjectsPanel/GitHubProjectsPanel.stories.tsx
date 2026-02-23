@@ -17,14 +17,14 @@ const meta: Meta<typeof GitHubProjectsPanel> = {
   decorators: [
     (Story) => (
       <ThemeProvider>
-        <div style={{ height: '600px', width: '400px' }}>
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
           <Story />
         </div>
       </ThemeProvider>
     ),
   ],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
 };
 

@@ -51,7 +51,7 @@ This panel requires the \`workspaces\` data slice to be provided by the host app
   },
   decorators: [
     (Story) => (
-      <div style={{ height: '600px', width: '100%' }}>
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Story />
       </div>
     ),

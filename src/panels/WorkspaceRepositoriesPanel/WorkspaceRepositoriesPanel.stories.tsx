@@ -111,11 +111,19 @@ const mockEvents: PanelEventEmitter = {
   },
 };
 
+/**
+ * @deprecated This panel is deprecated. Use WorkspaceCollectionPanel instead.
+ */
 const meta: Meta<typeof WorkspaceRepositoriesPanel> = {
-  title: 'Panels/WorkspaceRepositoriesPanel',
+  title: 'Panels/WorkspaceRepositoriesPanel (Deprecated)',
   component: WorkspaceRepositoriesPanel,
   parameters: {
     layout: 'fullscreen',
+    docs: {
+      description: {
+        component: '⚠️ **DEPRECATED**: This panel is deprecated. Use `WorkspaceCollectionPanel` instead.',
+      },
+    },
   },
   decorators: [
     (Story) => (

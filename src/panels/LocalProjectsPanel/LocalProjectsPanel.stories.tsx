@@ -48,7 +48,7 @@ This panel requires the \`alexandriaRepositories\` data slice to be provided by 
   },
   decorators: [
     (Story) => (
-      <div style={{ height: '600px', width: '100%' }}>
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Story />
       </div>
     ),

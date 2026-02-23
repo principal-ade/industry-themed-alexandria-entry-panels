@@ -688,8 +688,6 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          gap: '4px',
-          padding: '8px',
         }}
       >
         {sortedRepositories.map((repo) => (

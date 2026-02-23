@@ -60,6 +60,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(
     new Set()
   );
+  const [hasInitializedCollapsed, setHasInitializedCollapsed] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState<GitHubRepository | null>(
     null
   );
@@ -109,6 +110,25 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
     () => localReposSlice?.data?.repositories || [],
     [localReposSlice?.data?.repositories]
   );
+
+  // Collapse all sections by default when data first loads
+  useEffect(() => {
+    if (hasInitializedCollapsed) return;
+
+    const hasData = userRepositories.length > 0 || organizations.length > 0;
+    if (!hasData) return;
+
+    const allSections = new Set<string>();
+    if (currentUser) {
+      allSections.add(currentUser);
+    } else if (userRepositories.length > 0) {
+      allSections.add('Your Repositories');
+    }
+    organizations.forEach((org) => allSections.add(org.login));
+
+    setCollapsedSections(allSections);
+    setHasInitializedCollapsed(true);
+  }, [hasInitializedCollapsed, userRepositories, organizations, currentUser]);
 
   // Collection context - used to show "Add to Collection" button
   const currentWorkspace = workspaceSlice?.data?.workspace;
@@ -823,8 +843,6 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          gap: '16px',
-          padding: '8px',
         }}
       >
         {/* User's repositories */}
@@ -837,7 +855,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
             )}
             {!collapsedSections.has(currentUser || 'Your Repositories') && (
               <div
-                style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
+                style={{ display: 'flex', flexDirection: 'column' }}
               >
                 {filteredUserRepos
                   .sort((a, b) =>
@@ -883,7 +901,6 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '4px',
                   }}
                 >
                   {repos
