@@ -5,10 +5,8 @@ import {
   ExternalLink,
   GitFork,
   Lock,
-  Star,
   FolderOpen,
   Download,
-  Scale,
   FolderPlus,
   Check,
 } from 'lucide-react';
@@ -128,21 +126,6 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
     [onAddToCollection, repository, isLoading, isInCollection]
   );
 
-  // Format relative time
-  const getRelativeTime = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return 'today';
-    if (diffDays === 1) return 'yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
-    return `${Math.floor(diffDays / 365)} years ago`;
-  };
-
   return (
     <div
       onClick={handleClick}
@@ -153,8 +136,8 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
         display: 'flex',
         flexDirection: 'column',
         gap: '8px',
-        padding: '12px',
-        borderRadius: '8px',
+        padding: '20px',
+        borderBottom: `1px solid ${theme.colors.border}`,
         backgroundColor: isSelected
           ? `${theme.colors.primary}15`
           : isHovered
@@ -389,95 +372,6 @@ export const GitHubRepositoryCard: React.FC<GitHubRepositoryCardProps> = ({
           {repository.description}
         </div>
       )}
-
-      {/* Metadata row - full width */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          fontSize: `${theme.fontSizes[0]}px`,
-          fontFamily: theme.fonts.body,
-          color: theme.colors.textSecondary,
-        }}
-      >
-        {/* Language */}
-        {repository.language && (
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span
-              style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: getLanguageColor(repository.language),
-              }}
-            />
-            {repository.language}
-          </span>
-        )}
-
-        {/* Stars */}
-        {repository.stargazers_count !== undefined &&
-          repository.stargazers_count > 0 && (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Star size={12} />
-              {formatNumber(repository.stargazers_count)}
-            </span>
-          )}
-
-        {/* License */}
-        {repository.license && (
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Scale size={12} />
-            {repository.license}
-          </span>
-        )}
-
-        {/* Updated time */}
-        <span>
-          Updated {getRelativeTime(repository.pushed_at || repository.updated_at)}
-        </span>
-      </div>
     </div>
   );
 };
-
-/**
- * Get color for programming language (simplified)
- */
-function getLanguageColor(language: string): string {
-  const colors: Record<string, string> = {
-    TypeScript: '#3178c6',
-    JavaScript: '#f7df1e',
-    Python: '#3572A5',
-    Rust: '#dea584',
-    Go: '#00ADD8',
-    Java: '#b07219',
-    Ruby: '#701516',
-    PHP: '#4F5D95',
-    'C++': '#f34b7d',
-    C: '#555555',
-    'C#': '#178600',
-    Swift: '#F05138',
-    Kotlin: '#A97BFF',
-    Shell: '#89e051',
-    HTML: '#e34c26',
-    CSS: '#563d7c',
-    Vue: '#41b883',
-    Svelte: '#ff3e00',
-  };
-  return colors[language] || '#8b949e';
-}
-
-/**
- * Format large numbers with K/M suffixes
- */
-function formatNumber(num: number): string {
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`;
-  }
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}K`;
-  }
-  return num.toString();
-}
