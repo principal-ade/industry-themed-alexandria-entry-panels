@@ -31,6 +31,8 @@ const createPanelEvent = <T,>(type: string, payload: T) => ({
 export interface UserCollectionsPanelProps extends UserCollectionsPanelPropsTyped {
   /** Whether to show the search bar by default */
   defaultShowSearch?: boolean;
+  /** Whether to show the create collection button (default: false for drag-drop workflow) */
+  showCreateButton?: boolean;
 }
 
 /**

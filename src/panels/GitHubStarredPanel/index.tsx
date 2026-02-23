@@ -701,9 +701,6 @@ const GitHubStarredPanelContent: React.FC<GitHubStarredPanelProps> = ({
             onOpen={handleOpen}
             onSelect={handleSelect}
             isSelected={selectedRepo?.id === repo.id}
-            onAddToCollection={
-              currentWorkspace ? handleAddToCollection : undefined
-            }
             isInCollection={collectionRepoSet.has(repo.full_name)}
             collectionName={collectionName}
           />
