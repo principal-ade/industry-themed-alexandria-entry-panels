@@ -50,8 +50,8 @@ export interface UserProfileSlice {
   user: GitHubUserProfile | null;
   /** User's collections */
   collections: Collection[];
-  /** User's GitHub organizations */
-  organizations: GitHubOrganization[];
+  /** User's repositories (projects) */
+  repositories: GitHubRepository[];
   /** User's starred repositories (public) */
   starredRepositories: GitHubRepository[];
   /** User's presence status in the network */
@@ -204,10 +204,10 @@ export interface UserProfilePanelEventPayloads {
   /** Repository clone requested notification */
   'repository:clone-requested': RepositoryCloneRequestedPayload;
   /** Profile view changed (switched tabs) */
-  'view:changed': { view: 'collections' | 'organizations' | 'starred' };
+  'view:changed': { view: 'collections' | 'projects' | 'starred' };
 }
 
 /**
  * Active view tab in the panel
  */
-export type UserProfileView = 'collections' | 'organizations' | 'starred';
+export type UserProfileView = 'collections' | 'projects' | 'starred';

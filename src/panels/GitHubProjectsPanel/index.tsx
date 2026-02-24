@@ -836,7 +836,7 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
         </div>
       )}
 
-      {/* Repository sections */}
+      {/* Repository list */}
       <div
         style={{
           flex: 1,
@@ -845,105 +845,55 @@ const GitHubProjectsPanelContent: React.FC<GitHubProjectsPanelProps> = ({
           flexDirection: 'column',
         }}
       >
-        {/* User's repositories */}
-        {filteredUserRepos.length > 0 && (
-          <div>
-            {renderSectionHeader(
-              currentUser || 'Your Repositories',
-              filteredUserRepos.length,
-              <User size={16} color={theme.colors.textSecondary} />
-            )}
-            {!collapsedSections.has(currentUser || 'Your Repositories') && (
-              <div
-                style={{ display: 'flex', flexDirection: 'column' }}
-              >
-                {filteredUserRepos
-                  .sort((a, b) =>
-                    a.name.localeCompare(b.name, undefined, {
-                      sensitivity: 'base',
-                    })
-                  )
-                  .map((repo) => (
-                    <GitHubRepositoryCard
-                      key={repo.id}
-                      repository={repo}
-                      localRepo={localRepoMap.get(repo.full_name)}
-                      onClone={
-                        panelActions.cloneRepository ? handleClone : undefined
-                      }
-                      onOpen={handleOpen}
-                      onSelect={handleSelect}
-                      isSelected={selectedRepo?.id === repo.id}
-                      isInCollection={collectionRepoSet.has(repo.full_name)}
-                      collectionName={collectionName}
-                    />
-                  ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Organization repositories */}
-        {organizations.map((org) => {
-          const repos = filteredOrgRepos[org.login];
-          if (!repos || repos.length === 0) return null;
-
-          return (
-            <div key={org.id}>
-              {renderSectionHeader(
-                org.login,
-                repos.length,
-                <Building2 size={16} color={theme.colors.textSecondary} />,
-                true
-              )}
-              {!collapsedSections.has(org.login) && (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  {repos
-                    .sort((a, b) =>
-                      a.name.localeCompare(b.name, undefined, {
-                        sensitivity: 'base',
-                      })
-                    )
-                    .map((repo) => (
-                      <GitHubRepositoryCard
-                        key={repo.id}
-                        repository={repo}
-                        localRepo={localRepoMap.get(repo.full_name)}
-                        onClone={
-                          panelActions.cloneRepository ? handleClone : undefined
-                        }
-                        onOpen={handleOpen}
-                        onSelect={handleSelect}
-                        isSelected={selectedRepo?.id === repo.id}
-                        isInCollection={collectionRepoSet.has(repo.full_name)}
-                        collectionName={collectionName}
-                      />
-                    ))}
-                </div>
-              )}
-            </div>
+        {/* All repositories in a single list */}
+        {(() => {
+          // Combine all filtered repos into one list
+          const allFilteredRepos = [
+            ...filteredUserRepos,
+            ...Object.values(filteredOrgRepos).flat(),
+          ].sort((a, b) =>
+            a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
           );
-        })}
 
-        {/* Empty state after filtering */}
-        {filteredUserRepos.length === 0 &&
-          Object.keys(filteredOrgRepos).length === 0 &&
-          hasData && (
-            <div
-              style={{
-                padding: '32px',
-                textAlign: 'center',
-                color: theme.colors.textSecondary,
-              }}
-            >
-              <p style={{ margin: 0 }}>No repositories match your filter.</p>
-            </div>
-          )}
+          if (allFilteredRepos.length > 0) {
+            return (
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {allFilteredRepos.map((repo) => (
+                  <GitHubRepositoryCard
+                    key={repo.id}
+                    repository={repo}
+                    localRepo={localRepoMap.get(repo.full_name)}
+                    onClone={
+                      panelActions.cloneRepository ? handleClone : undefined
+                    }
+                    onOpen={handleOpen}
+                    onSelect={handleSelect}
+                    isSelected={selectedRepo?.id === repo.id}
+                    isInCollection={collectionRepoSet.has(repo.full_name)}
+                    collectionName={collectionName}
+                  />
+                ))}
+              </div>
+            );
+          }
+
+          // Empty state after filtering
+          if (hasData) {
+            return (
+              <div
+                style={{
+                  padding: '32px',
+                  textAlign: 'center',
+                  color: theme.colors.textSecondary,
+                }}
+              >
+                <p style={{ margin: 0 }}>No repositories match your filter.</p>
+              </div>
+            );
+          }
+
+          return null;
+        })()}
 
         {/* No repos at all */}
         {!hasData && !loading && (

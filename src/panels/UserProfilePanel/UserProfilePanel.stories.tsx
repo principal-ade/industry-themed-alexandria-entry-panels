@@ -13,7 +13,6 @@ import type {
 import type { Collection } from '@principal-ai/alexandria-collections';
 import type {
   GitHubUserProfile,
-  GitHubOrganization,
   GitHubRepository,
   UserProfileSlice,
   UserProfilePanelPropsTyped,
@@ -38,25 +37,64 @@ const mockUser: GitHubUserProfile = {
   updated_at: new Date().toISOString(),
 };
 
-// Mock organizations
-const mockOrganizations: GitHubOrganization[] = [
+// Mock user repositories (projects)
+const mockRepositories: GitHubRepository[] = [
   {
-    id: 9919,
-    login: 'github',
-    avatar_url: 'https://avatars.githubusercontent.com/u/9919?v=4',
-    description: 'How people build software.',
+    id: 1001,
+    name: 'my-awesome-app',
+    full_name: 'octocat/my-awesome-app',
+    owner: {
+      login: 'octocat',
+      avatar_url: 'https://avatars.githubusercontent.com/u/583231?v=4',
+    },
+    private: false,
+    html_url: 'https://github.com/octocat/my-awesome-app',
+    description: 'A really awesome application I built',
+    clone_url: 'https://github.com/octocat/my-awesome-app.git',
+    updated_at: new Date().toISOString(),
+    pushed_at: new Date().toISOString(),
+    language: 'TypeScript',
+    stargazers_count: 42,
+    default_branch: 'main',
+    fork: false,
   },
   {
-    id: 4314092,
-    login: 'microsoft',
-    avatar_url: 'https://avatars.githubusercontent.com/u/4314092?v=4',
-    description: 'Open source projects and samples from Microsoft.',
+    id: 1002,
+    name: 'dotfiles',
+    full_name: 'octocat/dotfiles',
+    owner: {
+      login: 'octocat',
+      avatar_url: 'https://avatars.githubusercontent.com/u/583231?v=4',
+    },
+    private: false,
+    html_url: 'https://github.com/octocat/dotfiles',
+    description: 'My personal configuration files',
+    clone_url: 'https://github.com/octocat/dotfiles.git',
+    updated_at: new Date(Date.now() - 86400000 * 5).toISOString(),
+    pushed_at: new Date(Date.now() - 86400000 * 5).toISOString(),
+    language: 'Shell',
+    stargazers_count: 15,
+    default_branch: 'main',
+    fork: false,
   },
   {
-    id: 6154722,
-    login: 'facebook',
-    avatar_url: 'https://avatars.githubusercontent.com/u/6154722?v=4',
-    description: 'We are working to build community through open source technology.',
+    id: 1003,
+    name: 'hello-world',
+    full_name: 'octocat/hello-world',
+    owner: {
+      login: 'octocat',
+      avatar_url: 'https://avatars.githubusercontent.com/u/583231?v=4',
+    },
+    private: false,
+    html_url: 'https://github.com/octocat/hello-world',
+    description: 'My first repository',
+    clone_url: 'https://github.com/octocat/hello-world.git',
+    updated_at: new Date(Date.now() - 86400000 * 30).toISOString(),
+    pushed_at: new Date(Date.now() - 86400000 * 30).toISOString(),
+    language: 'JavaScript',
+    stargazers_count: 5,
+    default_branch: 'main',
+    fork: false,
   },
 ];
 
@@ -271,7 +309,7 @@ export const Default: Story = {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
           collections: mockCollections,
-          organizations: mockOrganizations,
+          repositories: mockRepositories,
           starredRepositories: mockStarredRepositories,
           presence: {
             status: 'online',
@@ -311,7 +349,7 @@ export const NoUserSelected: Story = {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: null,
           collections: [],
-          organizations: [],
+          repositories: [],
           starredRepositories: [],
           loading: false,
         }),
@@ -335,7 +373,7 @@ export const Loading: Story = {
           {
             user: null,
             collections: [],
-            organizations: [],
+            repositories: [],
             starredRepositories: [],
             loading: true,
           },
@@ -358,7 +396,7 @@ export const WithPresenceAway: Story = {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
           collections: [],
-          organizations: mockOrganizations,
+          repositories: mockRepositories,
           starredRepositories: mockStarredRepositories,
           presence: {
             status: 'away',
@@ -391,7 +429,7 @@ export const WithPresenceOffline: Story = {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
           collections: [],
-          organizations: mockOrganizations,
+          repositories: mockRepositories,
           starredRepositories: mockStarredRepositories,
           presence: {
             status: 'offline',
@@ -432,7 +470,7 @@ export const NoOrganizations: Story = {
             public_repos: 3,
           },
           collections: [],
-          organizations: [],
+          repositories: [],
           starredRepositories: mockStarredRepositories.slice(0, 2),
           loading: false,
         }),
@@ -461,7 +499,7 @@ export const NoStarredRepositories: Story = {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
           collections: [],
-          organizations: mockOrganizations,
+          repositories: mockRepositories,
           starredRepositories: [],
           loading: false,
         }),
@@ -502,7 +540,7 @@ export const MinimalProfile: Story = {
             updated_at: new Date().toISOString(),
           },
           collections: [],
-          organizations: [],
+          repositories: [],
           starredRepositories: [],
           loading: false,
         }),
@@ -523,7 +561,7 @@ export const ManyStarredRepositories: Story = {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
           collections: [],
-          organizations: mockOrganizations,
+          repositories: mockRepositories,
           starredRepositories: [
             ...mockStarredRepositories,
             ...Array.from({ length: 20 }, (_, i) => ({

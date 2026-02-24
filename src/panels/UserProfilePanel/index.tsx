@@ -14,15 +14,16 @@ import {
   X,
   Circle,
   FolderOpen,
+  FolderGit2,
 } from 'lucide-react';
 import type {
   Collection,
-  GitHubOrganization,
   GitHubRepository,
   UserProfilePanelPropsTyped,
   UserProfileView,
   UserPresenceStatus,
 } from './types';
+import { GitHubRepositoryCard } from '../shared/GitHubRepositoryCard';
 
 // Panel event prefix
 const PANEL_ID = 'industry-theme.user-profile';
@@ -59,76 +60,6 @@ const getPresenceColor = (status: UserPresenceStatus['status']): string => {
     default:
       return '#6b7280';
   }
-};
-
-/**
- * OrganizationCard - Displays a single organization
- */
-const OrganizationCard: React.FC<{
-  organization: GitHubOrganization;
-  onClick?: (org: GitHubOrganization) => void;
-}> = ({ organization, onClick }) => {
-  const { theme } = useTheme();
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div
-      onClick={() => onClick?.(organization)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '12px',
-        borderRadius: '8px',
-        backgroundColor: isHovered
-          ? theme.colors.backgroundTertiary
-          : theme.colors.background,
-        border: `1px solid ${theme.colors.border}`,
-        cursor: onClick ? 'pointer' : 'default',
-        transition: 'all 0.15s ease',
-      }}
-    >
-      <img
-        src={organization.avatar_url}
-        alt={organization.login}
-        style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '8px',
-          objectFit: 'cover',
-        }}
-      />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div
-          style={{
-            fontSize: `${theme.fontSizes[1]}px`,
-            fontWeight: theme.fontWeights.semibold,
-            color: theme.colors.text,
-            fontFamily: theme.fonts.body,
-          }}
-        >
-          {organization.login}
-        </div>
-        {organization.description && (
-          <div
-            style={{
-              fontSize: `${theme.fontSizes[0]}px`,
-              color: theme.colors.textSecondary,
-              fontFamily: theme.fonts.body,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {organization.description}
-          </div>
-        )}
-      </div>
-      <Building2 size={16} style={{ color: theme.colors.textSecondary }} />
-    </div>
-  );
 };
 
 /**
@@ -390,9 +321,9 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
     () => profileSlice?.data?.collections || [],
     [profileSlice?.data?.collections]
   );
-  const organizations = useMemo(
-    () => profileSlice?.data?.organizations || [],
-    [profileSlice?.data?.organizations]
+  const repositories = useMemo(
+    () => profileSlice?.data?.repositories || [],
+    [profileSlice?.data?.repositories]
   );
   const starredRepositories = useMemo(
     () => profileSlice?.data?.starredRepositories || [],
@@ -425,20 +356,6 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
       );
     },
     [events]
-  );
-
-  // Handle organization selection
-  const handleOrganizationSelect = useCallback(
-    (organization: GitHubOrganization) => {
-      events.emit(
-        createPanelEvent(`${PANEL_ID}:organization:selected`, {
-          orgLogin: organization.login,
-          organization,
-        })
-      );
-      panelActions.viewOrganization?.(organization.login);
-    },
-    [events, panelActions]
   );
 
   // Handle repository selection
@@ -495,18 +412,6 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
           handleViewChange(event.payload.view);
         }
       }),
-      events.on<{ orgLogin: string }>(
-        `${PANEL_ID}:select-organization`,
-        (event) => {
-          const orgLogin = event.payload?.orgLogin;
-          if (orgLogin) {
-            const org = organizations.find((o) => o.login === orgLogin);
-            if (org) {
-              handleOrganizationSelect(org);
-            }
-          }
-        }
-      ),
       events.on<{ owner: string; repo: string }>(
         `${PANEL_ID}:select-repository`,
         (event) => {
@@ -546,10 +451,8 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
     return () => unsubscribers.forEach((unsub) => unsub());
   }, [
     events,
-    organizations,
     starredRepositories,
     handleViewChange,
-    handleOrganizationSelect,
     handleRepositorySelect,
     handleCloneRepository,
   ]);
@@ -667,8 +570,8 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
               src={user.avatar_url}
               alt={user.login}
               style={{
-                width: '64px',
-                height: '64px',
+                width: '80px',
+                height: '80px',
                 borderRadius: '50%',
                 objectFit: 'cover',
               }}
@@ -833,7 +736,7 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
           Collections ({collections.length})
         </button>
         <button
-          onClick={() => handleViewChange('organizations')}
+          onClick={() => handleViewChange('projects')}
           style={{
             flex: 1,
             display: 'flex',
@@ -844,25 +747,25 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
             border: 'none',
             backgroundColor: 'transparent',
             color:
-              activeView === 'organizations'
+              activeView === 'projects'
                 ? theme.colors.primary
                 : theme.colors.textSecondary,
             fontSize: `${theme.fontSizes[1]}px`,
             fontWeight:
-              activeView === 'organizations'
+              activeView === 'projects'
                 ? theme.fontWeights.semibold
                 : theme.fontWeights.medium,
             fontFamily: theme.fonts.body,
             cursor: 'pointer',
             borderBottom:
-              activeView === 'organizations'
+              activeView === 'projects'
                 ? `2px solid ${theme.colors.primary}`
                 : '2px solid transparent',
             transition: 'all 0.15s ease',
           }}
         >
-          <Building2 size={16} />
-          Organizations ({organizations.length})
+          <FolderGit2 size={16} />
+          Projects ({repositories.length})
         </button>
         <button
           onClick={() => handleViewChange('starred')}
@@ -997,9 +900,9 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
           </>
         )}
 
-        {activeView === 'organizations' && (
+        {activeView === 'projects' && (
           <>
-            {organizations.length === 0 ? (
+            {repositories.length === 0 ? (
               <div
                 style={{
                   padding: '32px',
@@ -1007,20 +910,24 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
                   color: theme.colors.textSecondary,
                 }}
               >
-                <Building2
+                <FolderGit2
                   size={32}
                   style={{ marginBottom: '12px', opacity: 0.5 }}
                 />
-                <p style={{ margin: 0 }}>No organizations</p>
+                <p style={{ margin: 0 }}>No projects</p>
               </div>
             ) : (
-              organizations.map((org) => (
-                <OrganizationCard
-                  key={org.id}
-                  organization={org}
-                  onClick={handleOrganizationSelect}
-                />
-              ))
+              repositories
+                .sort((a, b) =>
+                  a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+                )
+                .map((repo) => (
+                  <GitHubRepositoryCard
+                    key={repo.id}
+                    repository={repo}
+                    onSelect={handleRepositorySelect}
+                  />
+                ))
             )}
           </>
         )}
