@@ -14,9 +14,13 @@ export interface Workspace {
   id: string;
   name: string;
   description?: string;
+  icon?: string;
+  theme?: string;
+  suggestedClonePath?: string;
   createdAt: number;
   updatedAt: number;
-  suggestedClonePath?: string;
+  /** Whether the workspace is private (not shared) */
+  isPrivate?: boolean;
 }
 
 /**
@@ -26,6 +30,20 @@ export interface WorkspaceSlice {
   /** The current workspace */
   workspace: Workspace | null;
   /** Loading state */
+  loading: boolean;
+  /** Error message if loading failed */
+  error?: string;
+}
+
+/**
+ * Data slice for workspaces list
+ */
+export interface WorkspacesSlice {
+  /** List of all workspaces */
+  workspaces: Workspace[];
+  /** Default workspace ID */
+  defaultWorkspaceId?: string | null;
+  /** Whether workspaces are currently loading */
   loading: boolean;
   /** Error message if loading failed */
   error?: string;

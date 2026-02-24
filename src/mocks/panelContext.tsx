@@ -13,7 +13,7 @@ import type { AlexandriaRepositoriesSlice } from '../panels/LocalProjectsPanel/t
 import type {
   Workspace,
   WorkspacesSlice,
-} from '../panels/WorkspacesListPanel/types';
+} from '../panels/WorkspaceRepositoriesPanel/types';
 import type {
   GitHubRepository,
   GitHubOrganization,

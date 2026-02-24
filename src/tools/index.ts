@@ -27,15 +27,6 @@ export {
 } from '../panels/WorkspaceRepositoriesPanel/tools';
 
 export {
-  workspacesListPanelTools,
-  workspacesListPanelToolsMetadata,
-  filterWorkspacesTool,
-  selectWorkspaceTool,
-  openWorkspaceTool,
-  createWorkspaceTool,
-} from '../panels/WorkspacesListPanel/tools';
-
-export {
   workspaceCollectionPanelTools,
   workspaceCollectionPanelToolsMetadata,
   filterRepositoriesTool,
