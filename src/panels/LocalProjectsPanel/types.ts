@@ -5,7 +5,9 @@
  */
 
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library';
+import type { Collection } from '@principal-ai/alexandria-collections';
 import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
+import type { UserCollectionsSlice } from '../UserCollectionsPanel/types';
 
 /**
  * Discovered repository - a git repo found but not tracked in Alexandria
@@ -156,9 +158,9 @@ export interface LocalProjectsPanelContext {
   /** Alexandria repositories data slice (required) */
   alexandriaRepositories: DataSlice<AlexandriaRepositoriesSlice>;
   /** User collections data slice (optional - used for visual indicators) */
-  userCollections?: DataSlice<import('../UserCollectionsPanel/types').UserCollectionsSlice>;
+  userCollections?: DataSlice<UserCollectionsSlice>;
   /** Selected collection (optional - used in WorldsView) */
-  selectedCollection?: import('../UserCollectionsPanel/types').Collection | null;
+  selectedCollection?: Collection | null;
 }
 
 /**

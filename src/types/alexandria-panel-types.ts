@@ -9,11 +9,12 @@
 import type { PanelActions, DataSlice, PanelComponentProps } from '@principal-ade/panel-framework-core';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library';
 
+// Collection types should be imported from @principal-ai/alexandria-collections
+import type { Collection, CollectionMembership } from '@principal-ai/alexandria-collections';
+
 // Re-export individual panel types
 export type {
   // UserCollectionsPanel types
-  Collection,
-  CollectionMembership,
   UserCollectionsSlice,
   UserCollectionsPanelActions,
   CollectionCardProps,
@@ -52,17 +53,10 @@ export type {
 } from '../panels/WorkspaceCollectionPanel/types';
 
 export type {
-  // WorkspacesListPanel types
+  // Workspace types (from WorkspaceRepositoriesPanel)
   Workspace,
   WorkspacesSlice,
-  WorkspacesListPanelActions,
-  WorkspaceCardProps,
-  WorkspaceSelectedPayload,
-  WorkspaceOpenedPayload,
-  WorkspaceCreatedPayload,
-  WorkspaceDeletedPayload,
-  WorkspacesListPanelEventPayloads,
-} from '../panels/WorkspacesListPanel/types';
+} from '../panels/WorkspaceRepositoriesPanel/types';
 
 export type {
   // LocalProjectsPanel types
@@ -126,16 +120,16 @@ export interface AlexandriaPanelsActions extends PanelActions {
   trackRepository?: (name: string, path: string) => Promise<void>;
 
   // Workspace operations
-  createWorkspace?: (name: string, options?: Record<string, unknown>) => Promise<import('../panels/WorkspacesListPanel/types').Workspace>;
-  updateWorkspace?: (workspaceId: string, updates: Partial<import('../panels/WorkspacesListPanel/types').Workspace>) => Promise<void>;
+  createWorkspace?: (name: string, options?: Record<string, unknown>) => Promise<import('../panels/WorkspaceRepositoriesPanel/types').Workspace>;
+  updateWorkspace?: (workspaceId: string, updates: Partial<import('../panels/WorkspaceRepositoriesPanel/types').Workspace>) => Promise<void>;
   deleteWorkspace?: (workspaceId: string) => Promise<void>;
   setDefaultWorkspace?: (workspaceId: string) => Promise<void>;
   openWorkspace?: (workspaceId: string) => Promise<void>;
   getWorkspaceRepositories?: (workspaceId: string) => Promise<import('../panels/shared/github-types').GitHubRepository[]>;
 
   // Collection operations
-  createCollection?: (name: string, description?: string, icon?: string) => Promise<import('../panels/UserCollectionsPanel/types').Collection>;
-  updateCollection?: (collectionId: string, updates: Partial<import('../panels/UserCollectionsPanel/types').Collection>) => Promise<void>;
+  createCollection?: (name: string, description?: string, icon?: string) => Promise<Collection>;
+  updateCollection?: (collectionId: string, updates: Partial<Collection>) => Promise<void>;
   deleteCollection?: (collectionId: string) => Promise<void>;
   addRepositoryToCollection?: (collectionId: string, repositoryId: string, metadata?: Record<string, unknown>) => Promise<void>;
   removeRepositoryFromCollection?: (collectionId: string, repositoryId: string) => Promise<void>;
@@ -182,7 +176,7 @@ export interface AlexandriaPanelsContext extends Record<string, unknown> {
   userCollections?: DataSlice<import('../panels/UserCollectionsPanel/types').UserCollectionsSlice>;
 
   // Workspaces
-  workspaces?: DataSlice<import('../panels/WorkspacesListPanel/types').WorkspacesSlice>;
+  workspaces?: DataSlice<import('../panels/WorkspaceRepositoriesPanel/types').WorkspacesSlice>;
   workspace?: DataSlice<import('../panels/WorkspaceCollectionPanel/types').WorkspaceCollectionSlice>;
   workspaceRepositories?: DataSlice<import('../panels/WorkspaceCollectionPanel/types').WorkspaceCollectionRepositoriesSlice>;
 

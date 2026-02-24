@@ -1,6 +1,5 @@
 import { LocalProjectsPanel } from './panels/LocalProjectsPanel';
 import { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
-import { WorkspacesListPanel } from './panels/WorkspacesListPanel';
 import { WorkspaceCollectionPanel } from './panels/WorkspaceCollectionPanel';
 import { GitHubStarredPanel } from './panels/GitHubStarredPanel';
 import { GitHubProjectsPanel } from './panels/GitHubProjectsPanel';
@@ -9,7 +8,6 @@ import { UserCollectionsPanel } from './panels/UserCollectionsPanel';
 import type { PanelDefinition, PanelContextValue } from './types';
 import { localProjectsPanelTools } from './panels/LocalProjectsPanel/tools';
 import { workspaceRepositoriesPanelTools } from './panels/WorkspaceRepositoriesPanel/tools';
-import { workspacesListPanelTools } from './panels/WorkspacesListPanel/tools';
 import { workspaceCollectionPanelTools } from './panels/WorkspaceCollectionPanel/tools';
 import { githubStarredPanelTools } from './panels/GitHubStarredPanel/tools';
 import { githubProjectsPanelTools } from './panels/GitHubProjectsPanel/tools';
@@ -25,10 +23,6 @@ import type {
   WorkspaceRepositoriesPanelActions,
   WorkspaceRepositoriesPanelContext,
 } from './panels/WorkspaceRepositoriesPanel/types';
-import type {
-  WorkspacesListPanelActions,
-  WorkspacesListPanelContext,
-} from './panels/WorkspacesListPanel/types';
 import type {
   WorkspaceCollectionPanelActions,
   WorkspaceCollectionPanelContext,
@@ -56,7 +50,6 @@ import type {
 type AlexandriaPanelDefinition =
   | PanelDefinition<LocalProjectsPanelActions, LocalProjectsPanelContext>
   | PanelDefinition<WorkspaceRepositoriesPanelActions, WorkspaceRepositoriesPanelContext>
-  | PanelDefinition<WorkspacesListPanelActions, WorkspacesListPanelContext>
   | PanelDefinition<WorkspaceCollectionPanelActions, WorkspaceCollectionPanelContext>
   | PanelDefinition<GitHubStarredPanelActions, GitHubStarredPanelContext>
   | PanelDefinition<GitHubProjectsPanelActions, GitHubProjectsPanelContext>
@@ -123,37 +116,6 @@ export const panels: AlexandriaPanelDefinition[] = [
     onUnmount: async (_context: PanelContextValue) => {
       // eslint-disable-next-line no-console
       console.log('Workspace Repositories Panel unmounting');
-    },
-  },
-  {
-    metadata: {
-      id: 'industry-theme.workspaces-list',
-      name: 'Workspaces',
-      icon: 'Layers',
-      version: '0.1.0',
-      author: 'Industry Theme',
-      description: 'Browse and manage workspaces',
-      slices: ['workspaces'],
-      tools: workspacesListPanelTools,
-    },
-    component: WorkspacesListPanel,
-
-    onMount: async (context: PanelContextValue) => {
-      // eslint-disable-next-line no-console
-      console.log('Workspaces List Panel mounted');
-
-      // Refresh workspaces if available
-      if (
-        context.hasSlice('workspaces') &&
-        !context.isSliceLoading('workspaces')
-      ) {
-        await context.refresh('workspace', 'workspaces');
-      }
-    },
-
-    onUnmount: async (_context: PanelContextValue) => {
-      // eslint-disable-next-line no-console
-      console.log('Workspaces List Panel unmounting');
     },
   },
   {
@@ -341,15 +303,6 @@ export {
 } from './panels/WorkspaceRepositoriesPanel/tools';
 
 export {
-  workspacesListPanelTools,
-  workspacesListPanelToolsMetadata,
-  filterWorkspacesTool,
-  selectWorkspaceTool,
-  openWorkspaceTool,
-  createWorkspaceTool,
-} from './panels/WorkspacesListPanel/tools';
-
-export {
   workspaceCollectionPanelTools,
   workspaceCollectionPanelToolsMetadata,
   filterRepositoriesTool,
@@ -414,13 +367,6 @@ export {
 export { WorkspaceRepositoriesPanel } from './panels/WorkspaceRepositoriesPanel';
 
 export {
-  WorkspacesListPanel,
-  WorkspacesListPanelPreview,
-  WorkspaceCard,
-  type WorkspacesListPanelProps,
-} from './panels/WorkspacesListPanel';
-
-export {
   WorkspaceCollectionPanel,
   WorkspaceCollectionPanelPreview,
   type WorkspaceCollectionPanelProps,
@@ -468,23 +414,13 @@ export type {
 export type {
   Workspace,
   WorkspaceSlice,
+  WorkspacesSlice,
   WorkspaceRepositoriesSlice,
   WorkspaceRepositoriesPanelActions,
   WorkspaceRepositoriesPanelContext,
   RepositorySelectedPayload,
   RepositoryOpenedPayload,
 } from './panels/WorkspaceRepositoriesPanel/types';
-
-export type {
-  WorkspacesSlice,
-  WorkspacesListPanelActions,
-  WorkspacesListPanelContext,
-  WorkspaceCardProps,
-  WorkspaceSelectedPayload,
-  WorkspaceOpenedPayload,
-  WorkspaceCreatedPayload,
-  WorkspaceDeletedPayload,
-} from './panels/WorkspacesListPanel/types';
 
 export type {
   Workspace as WorkspaceCollectionWorkspace,
@@ -535,8 +471,6 @@ export type {
 export type { GitHubRepositoryCardProps } from './panels/shared/GitHubRepositoryCard';
 
 export type {
-  Collection,
-  CollectionMembership,
   UserCollectionsSlice,
   UserCollectionsPanelActions,
   UserCollectionsPanelContext,

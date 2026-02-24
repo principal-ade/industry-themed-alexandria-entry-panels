@@ -6,36 +6,7 @@
  */
 
 import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
-
-/**
- * Collection type - matches @principal-ai/alexandria-collections
- */
-export interface Collection {
-  id: string;
-  name: string;
-  description?: string;
-  icon?: string;
-  theme?: string;
-  isDefault?: boolean;
-  suggestedClonePath?: string;
-  metadata?: Record<string, unknown>;
-  createdAt: number;
-  updatedAt: number;
-}
-
-/**
- * Collection membership - links repositories to collections
- */
-export interface CollectionMembership {
-  collectionId: string;
-  repositoryId: string; // Format: "owner/repo"
-  addedAt: number;
-  metadata?: {
-    pinned?: boolean;
-    notes?: string;
-    [key: string]: unknown;
-  };
-}
+import type { Collection, CollectionMembership } from '@principal-ai/alexandria-collections';
 
 /**
  * Data slice for user collections

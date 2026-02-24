@@ -11,8 +11,8 @@ import {
   Loader2,
   RefreshCw,
 } from 'lucide-react';
+import type { Collection } from '@principal-ai/alexandria-collections';
 import type {
-  Collection,
   UserCollectionsPanelPropsTyped,
   CollectionCardProps,
 } from './types';
@@ -239,21 +239,17 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
     () => collectionsSlice?.data?.collections || [],
     [collectionsSlice?.data?.collections]
   );
-  const memberships = useMemo(
-    () => collectionsSlice?.data?.memberships || [],
-    [collectionsSlice?.data?.memberships]
-  );
   const loading = collectionsSlice?.loading ?? false;
   const saving = collectionsSlice?.data?.saving ?? false;
   const gitHubRepoExists = collectionsSlice?.data?.gitHubRepoExists ?? false;
   const gitHubRepoUrl = collectionsSlice?.data?.gitHubRepoUrl ?? null;
 
-  // Get repository count for a collection
+  // Get repository count for a collection (use collection.members directly)
   const getRepoCount = useCallback(
-    (collectionId: string) => {
-      return memberships.filter((m) => m.collectionId === collectionId).length;
+    (collection: Collection) => {
+      return collection.members?.length ?? 0;
     },
-    [memberships]
+    []
   );
 
   // Filter and sort collections
@@ -737,7 +733,7 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
             <CollectionCard
               key={collection.id}
               collection={collection}
-              repositoryCount={getRepoCount(collection.id)}
+              repositoryCount={getRepoCount(collection)}
               isSelected={collection.id === selectedCollectionId}
               onClick={handleCollectionSelect}
               onEdit={handleEditCollection}
@@ -866,10 +862,8 @@ export const UserCollectionsPanelPreview: React.FC = () => {
   );
 };
 
-// Re-export types
+// Re-export types (Collection and CollectionMembership should be imported from @principal-ai/alexandria-collections)
 export type {
-  Collection,
-  CollectionMembership,
   UserCollectionsSlice,
   UserCollectionsPanelActions,
   CollectionCardProps,

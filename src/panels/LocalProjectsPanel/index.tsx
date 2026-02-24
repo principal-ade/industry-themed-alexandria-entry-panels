@@ -10,7 +10,6 @@ import type {
   RepositoryWindowState,
   DiscoveredRepository,
 } from './types';
-import type { CollectionMembership } from '@principal-ai/alexandria-collections';
 
 // Panel event prefix
 const PANEL_ID = 'industry-theme.local-projects';
@@ -74,7 +73,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   const panelActions = actions;
 
   // Get repositories from typed context slice (direct property access)
-  const { alexandriaRepositories: repoSlice, userCollections: collectionSlice, selectedCollection } = context;
+  const { alexandriaRepositories: repoSlice, selectedCollection } = context;
   const repositories = useMemo(
     () => repoSlice?.data?.repositories || [],
     [repoSlice?.data?.repositories]
@@ -85,22 +84,13 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   );
   const loading = repoSlice?.loading ?? false;
 
-  // Get collection memberships to check which repos are in the selected collection
-  const collectionMemberships = useMemo(
-    () => collectionSlice?.data?.memberships || [],
-    [collectionSlice?.data]
-  );
-
   // Build a Set of repository IDs that are in the selected collection
+  // Uses collection.members directly instead of separate memberships array
   const repositoriesInCollection = useMemo(() => {
-    if (!selectedCollection) return new Set<string>();
+    if (!selectedCollection?.members) return new Set<string>();
 
-    return new Set(
-      collectionMemberships
-        .filter((m: CollectionMembership) => m.collectionId === selectedCollection.id)
-        .map((m: CollectionMembership) => m.repositoryId)
-    );
-  }, [selectedCollection, collectionMemberships]);
+    return new Set(selectedCollection.members.map((m) => m.repositoryId));
+  }, [selectedCollection]);
 
   // Convert discovered repos to AlexandriaEntry-like format for display
   const discoveredAsEntries = useMemo(() => {
