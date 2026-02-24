@@ -5,10 +5,10 @@ import {
   createDataSlice,
 } from '@principal-ade/panel-framework-core';
 import type {
-  PanelComponentProps,
   PanelActions,
   PanelEventEmitter,
   PanelEvent,
+  DataSlice,
 } from '../../types';
 import type { GitHubRepository } from '../shared/github-types';
 import type {
@@ -16,7 +16,31 @@ import type {
   WorkspaceCollectionSlice,
   WorkspaceCollectionRepositoriesSlice,
   WorkspaceCollectionPanelPropsTyped,
+  WorkspaceCollectionPanelContext,
 } from './types';
+
+/**
+ * Helper to create a typed panel context with slices as direct properties
+ */
+function createTypedPanelContext(
+  currentScope: Parameters<typeof createPanelContext>[0],
+  slices: {
+    workspace: DataSlice<WorkspaceCollectionSlice>;
+    workspaceRepositories: DataSlice<WorkspaceCollectionRepositoriesSlice>;
+  }
+): WorkspaceCollectionPanelContext {
+  const baseContext = createPanelContext(currentScope, [
+    slices.workspace,
+    slices.workspaceRepositories,
+  ]);
+
+  // Add slices as direct properties (required by typed context pattern)
+  return {
+    ...baseContext,
+    workspace: slices.workspace,
+    workspaceRepositories: slices.workspaceRepositories,
+  } as WorkspaceCollectionPanelContext;
+}
 
 // Mock workspace
 const mockWorkspace: Workspace = {
@@ -158,25 +182,25 @@ type Story = StoryObj<typeof WorkspaceCollectionPanel>;
 
 export const Default: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
         workspace: { name: mockWorkspace.name, path: '' },
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: mockRepositories,
             loading: false,
           }
         ),
-      ]
+      }
     ),
     actions: {
       ...mockActions,
@@ -204,24 +228,24 @@ export const Default: Story = {
 
 export const NoWorkspaceSelected: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: null,
           loading: false,
         }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: [],
             loading: false,
           }
         ),
-      ]
+      }
     ),
     actions: mockActions,
     events: mockEvents,
@@ -230,25 +254,25 @@ export const NoWorkspaceSelected: Story = {
 
 export const EmptyWorkspace: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
         workspace: { name: mockWorkspace.name, path: '' },
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: [],
             loading: false,
           }
         ),
-      ]
+      }
     ),
     actions: mockActions,
     events: mockEvents,
@@ -257,25 +281,26 @@ export const EmptyWorkspace: Story = {
 
 export const Loading: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
         workspace: { name: mockWorkspace.name, path: '' },
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: mockWorkspace,
           loading: true,
-        }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        }, { loading: true }),
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: [],
             loading: true,
-          }
+          },
+          { loading: true }
         ),
-      ]
+      }
     ),
     actions: mockActions,
     events: mockEvents,
@@ -284,26 +309,26 @@ export const Loading: Story = {
 
 export const WithError: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
         workspace: { name: mockWorkspace.name, path: '' },
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: mockWorkspace,
           loading: false,
           error: 'Failed to load repositories. Please try again.',
         }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: mockRepositories.slice(0, 2),
             loading: false,
           }
         ),
-      ]
+      }
     ),
     actions: mockActions,
     events: mockEvents,
@@ -312,13 +337,13 @@ export const WithError: Story = {
 
 export const ManyRepositories: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
         workspace: { name: 'Large Collection', path: '' },
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: {
             ...mockWorkspace,
             name: 'Large Collection',
@@ -327,8 +352,8 @@ export const ManyRepositories: Story = {
           },
           loading: false,
         }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: [
@@ -358,7 +383,7 @@ export const ManyRepositories: Story = {
             loading: false,
           }
         ),
-      ]
+      }
     ),
     actions: {
       ...mockActions,
@@ -383,25 +408,25 @@ export const ManyRepositories: Story = {
 
 export const ReadOnly: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
         workspace: { name: mockWorkspace.name, path: '' },
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: mockRepositories,
             loading: false,
           }
         ),
-      ]
+      }
     ),
     actions: {
       ...mockActions,
@@ -413,25 +438,25 @@ export const ReadOnly: Story = {
 
 export const PermanentSearch: Story = {
   args: {
-    context: createPanelContext(
+    context: createTypedPanelContext(
       {
         type: 'workspace',
         workspace: { name: mockWorkspace.name, path: '' },
       },
-      [
-        createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
+      {
+        workspace: createDataSlice<WorkspaceCollectionSlice>('workspace', 'workspace', {
           workspace: mockWorkspace,
           loading: false,
         }),
-        createDataSlice<WorkspaceCollectionRepositoriesSlice>(
-          'workspaceCollectionRepositories',
+        workspaceRepositories: createDataSlice<WorkspaceCollectionRepositoriesSlice>(
+          'workspaceRepositories',
           'workspace',
           {
             repositories: mockRepositories,
             loading: false,
           }
         ),
-      ]
+      }
     ),
     actions: {
       ...mockActions,
