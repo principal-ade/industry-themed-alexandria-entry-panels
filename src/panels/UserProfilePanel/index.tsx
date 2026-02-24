@@ -13,8 +13,10 @@ import {
   Search,
   X,
   Circle,
+  FolderOpen,
 } from 'lucide-react';
 import type {
+  Collection,
   GitHubOrganization,
   GitHubRepository,
   UserProfilePanelPropsTyped,
@@ -294,6 +296,78 @@ const RepositoryCard: React.FC<{
 };
 
 /**
+ * CollectionCard - Displays a single collection
+ */
+const CollectionCard: React.FC<{
+  collection: Collection;
+  onClick?: (collection: Collection) => void;
+}> = ({ collection, onClick }) => {
+  const { theme } = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      onClick={() => onClick?.(collection)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '12px',
+        borderRadius: '8px',
+        backgroundColor: isHovered
+          ? theme.colors.backgroundTertiary
+          : theme.colors.background,
+        border: `1px solid ${theme.colors.border}`,
+        cursor: onClick ? 'pointer' : 'default',
+        transition: 'all 0.15s ease',
+      }}
+    >
+      <div
+        style={{
+          width: '40px',
+          height: '40px',
+          borderRadius: '8px',
+          backgroundColor: theme.colors.backgroundTertiary,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <FolderOpen size={20} style={{ color: theme.colors.primary }} />
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div
+          style={{
+            fontSize: `${theme.fontSizes[1]}px`,
+            fontWeight: theme.fontWeights.semibold,
+            color: theme.colors.text,
+            fontFamily: theme.fonts.body,
+          }}
+        >
+          {collection.name}
+        </div>
+        {collection.description && (
+          <div
+            style={{
+              fontSize: `${theme.fontSizes[0]}px`,
+              color: theme.colors.textSecondary,
+              fontFamily: theme.fonts.body,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {collection.description}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/**
  * UserProfilePanelContent - Internal component that uses theme
  */
 const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
@@ -303,7 +377,7 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
 }) => {
   const { theme } = useTheme();
   const [activeView, setActiveView] =
-    useState<UserProfileView>('organizations');
+    useState<UserProfileView>('collections');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Get extended actions (actions are already typed via UserProfilePanelPropsTyped)
@@ -312,6 +386,10 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
   // Get user profile data from typed context slice (direct property access)
   const { userProfile: profileSlice } = context;
   const user = profileSlice?.data?.user ?? null;
+  const collections = useMemo(
+    () => profileSlice?.data?.collections || [],
+    [profileSlice?.data?.collections]
+  );
   const organizations = useMemo(
     () => profileSlice?.data?.organizations || [],
     [profileSlice?.data?.organizations]
@@ -335,6 +413,19 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
         repo.language?.toLowerCase().includes(query)
     );
   }, [starredRepositories, searchQuery]);
+
+  // Handle collection selection
+  const handleCollectionSelect = useCallback(
+    (collection: Collection) => {
+      events.emit(
+        createPanelEvent(`${PANEL_ID}:collection:selected`, {
+          collectionId: collection.id,
+          collection,
+        })
+      );
+    },
+    [events]
+  );
 
   // Handle organization selection
   const handleOrganizationSelect = useCallback(
@@ -563,31 +654,6 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
 
   return (
     <div style={baseContainerStyle}>
-      {/* Panel Header */}
-      <div
-        style={{
-          height: '40px',
-          minHeight: '40px',
-          padding: '0 16px',
-          borderBottom: `1px solid ${theme.colors.border}`,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-      >
-        <User size={18} color={theme.colors.primary} />
-        <span
-          style={{
-            fontSize: `${theme.fontSizes[2]}px`,
-            fontWeight: theme.fontWeights.medium,
-            color: theme.colors.text,
-            fontFamily: theme.fonts.body,
-          }}
-        >
-          User Profile
-        </span>
-      </div>
-
       {/* User Info */}
       <div
         style={{
@@ -632,10 +698,14 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
               {user.name || user.login}
             </div>
             <div
+              onClick={() =>
+                panelActions.openInBrowser?.(`https://github.com/${user.login}`)
+              }
               style={{
                 fontSize: `${theme.fontSizes[1]}px`,
-                color: theme.colors.textSecondary,
+                color: theme.colors.primary,
                 fontFamily: theme.fonts.body,
+                cursor: panelActions.openInBrowser ? 'pointer' : 'default',
               }}
             >
               @{user.login}
@@ -730,6 +800,38 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
           backgroundColor: theme.colors.background,
         }}
       >
+        <button
+          onClick={() => handleViewChange('collections')}
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            padding: '12px',
+            border: 'none',
+            backgroundColor: 'transparent',
+            color:
+              activeView === 'collections'
+                ? theme.colors.primary
+                : theme.colors.textSecondary,
+            fontSize: `${theme.fontSizes[1]}px`,
+            fontWeight:
+              activeView === 'collections'
+                ? theme.fontWeights.semibold
+                : theme.fontWeights.medium,
+            fontFamily: theme.fonts.body,
+            cursor: 'pointer',
+            borderBottom:
+              activeView === 'collections'
+                ? `2px solid ${theme.colors.primary}`
+                : '2px solid transparent',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          <FolderOpen size={16} />
+          Collections ({collections.length})
+        </button>
         <button
           onClick={() => handleViewChange('organizations')}
           style={{
@@ -867,6 +969,34 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
           gap: '8px',
         }}
       >
+        {activeView === 'collections' && (
+          <>
+            {collections.length === 0 ? (
+              <div
+                style={{
+                  padding: '32px',
+                  textAlign: 'center',
+                  color: theme.colors.textSecondary,
+                }}
+              >
+                <FolderOpen
+                  size={32}
+                  style={{ marginBottom: '12px', opacity: 0.5 }}
+                />
+                <p style={{ margin: 0 }}>No collections</p>
+              </div>
+            ) : (
+              collections.map((collection) => (
+                <CollectionCard
+                  key={collection.id}
+                  collection={collection}
+                  onClick={handleCollectionSelect}
+                />
+              ))
+            )}
+          </>
+        )}
+
         {activeView === 'organizations' && (
           <>
             {organizations.length === 0 ? (

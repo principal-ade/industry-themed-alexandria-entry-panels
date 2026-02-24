@@ -10,6 +10,7 @@ import type {
   PanelEvent,
   DataSlice,
 } from '../../types';
+import type { Collection } from '@principal-ai/alexandria-collections';
 import type {
   GitHubUserProfile,
   GitHubOrganization,
@@ -56,6 +57,43 @@ const mockOrganizations: GitHubOrganization[] = [
     login: 'facebook',
     avatar_url: 'https://avatars.githubusercontent.com/u/6154722?v=4',
     description: 'We are working to build community through open source technology.',
+  },
+];
+
+// Mock collections
+const mockCollections: Collection[] = [
+  {
+    id: 'col-1',
+    name: 'Frontend Tools',
+    description: 'UI libraries and frameworks I use regularly',
+    icon: 'folder',
+    createdAt: Date.now() - 86400000 * 30,
+    updatedAt: Date.now() - 86400000 * 2,
+    members: [
+      { repositoryId: 'facebook/react', collectionId: 'col-1', addedAt: Date.now() - 86400000 * 10 },
+      { repositoryId: 'vuejs/vue', collectionId: 'col-1', addedAt: Date.now() - 86400000 * 8 },
+    ],
+  },
+  {
+    id: 'col-2',
+    name: 'Machine Learning',
+    description: 'AI and ML libraries',
+    icon: 'brain',
+    createdAt: Date.now() - 86400000 * 20,
+    updatedAt: Date.now(),
+    members: [
+      { repositoryId: 'pytorch/pytorch', collectionId: 'col-2', addedAt: Date.now() - 86400000 * 5 },
+      { repositoryId: 'tensorflow/tensorflow', collectionId: 'col-2', addedAt: Date.now() - 86400000 * 3 },
+    ],
+  },
+  {
+    id: 'col-3',
+    name: 'Utilities',
+    description: 'Helpful tools and utilities',
+    icon: 'tool',
+    createdAt: Date.now() - 86400000 * 15,
+    updatedAt: Date.now() - 86400000 * 1,
+    members: [],
   },
 ];
 
@@ -232,6 +270,7 @@ export const Default: Story = {
       {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
+          collections: mockCollections,
           organizations: mockOrganizations,
           starredRepositories: mockStarredRepositories,
           presence: {
@@ -271,6 +310,7 @@ export const NoUserSelected: Story = {
       {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: null,
+          collections: [],
           organizations: [],
           starredRepositories: [],
           loading: false,
@@ -294,6 +334,7 @@ export const Loading: Story = {
           'global',
           {
             user: null,
+            collections: [],
             organizations: [],
             starredRepositories: [],
             loading: true,
@@ -316,6 +357,7 @@ export const WithPresenceAway: Story = {
       {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
+          collections: [],
           organizations: mockOrganizations,
           starredRepositories: mockStarredRepositories,
           presence: {
@@ -348,6 +390,7 @@ export const WithPresenceOffline: Story = {
       {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
+          collections: [],
           organizations: mockOrganizations,
           starredRepositories: mockStarredRepositories,
           presence: {
@@ -388,6 +431,7 @@ export const NoOrganizations: Story = {
             following: 20,
             public_repos: 3,
           },
+          collections: [],
           organizations: [],
           starredRepositories: mockStarredRepositories.slice(0, 2),
           loading: false,
@@ -416,6 +460,7 @@ export const NoStarredRepositories: Story = {
       {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
+          collections: [],
           organizations: mockOrganizations,
           starredRepositories: [],
           loading: false,
@@ -456,6 +501,7 @@ export const MinimalProfile: Story = {
             created_at: '2024-01-15T10:30:00Z',
             updated_at: new Date().toISOString(),
           },
+          collections: [],
           organizations: [],
           starredRepositories: [],
           loading: false,
@@ -476,6 +522,7 @@ export const ManyStarredRepositories: Story = {
       {
         userProfile: createDataSlice<UserProfileSlice>('userProfile', 'global', {
           user: mockUser,
+          collections: [],
           organizations: mockOrganizations,
           starredRepositories: [
             ...mockStarredRepositories,

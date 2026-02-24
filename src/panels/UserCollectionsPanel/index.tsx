@@ -309,9 +309,10 @@ const UserCollectionsPanelContent: React.FC<UserCollectionsPanelProps> = ({
 
   // Handle create collection - emits event for host app to show modal
   const handleCreateCollection = useCallback(() => {
-    events.emit(
-      createPanelEvent(`${PANEL_ID}:create-collection-requested`, {})
-    );
+    console.log('[UserCollectionsPanel] handleCreateCollection called, events:', events);
+    const event = createPanelEvent(`${PANEL_ID}:create-collection-requested`, {});
+    console.log('[UserCollectionsPanel] Emitting event:', event);
+    events.emit(event);
   }, [events]);
 
   // Handle enable GitHub sync

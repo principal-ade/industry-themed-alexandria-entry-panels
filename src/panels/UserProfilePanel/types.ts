@@ -7,6 +7,7 @@
 
 import type { PanelActions, DataSlice, PanelComponentProps } from '../../types';
 import type { GitHubRepository, GitHubOrganization } from '../shared/github-types';
+import type { Collection } from '@principal-ai/alexandria-collections';
 
 /**
  * GitHub User profile - matches GitHubUser from electron-app
@@ -29,7 +30,7 @@ export interface GitHubUserProfile {
 }
 
 // Re-export shared types for convenience
-export type { GitHubRepository, GitHubOrganization };
+export type { GitHubRepository, GitHubOrganization, Collection };
 
 /**
  * User presence status from network
@@ -47,6 +48,8 @@ export interface UserPresenceStatus {
 export interface UserProfileSlice {
   /** The user's GitHub profile */
   user: GitHubUserProfile | null;
+  /** User's collections */
+  collections: Collection[];
   /** User's GitHub organizations */
   organizations: GitHubOrganization[];
   /** User's starred repositories (public) */
@@ -201,10 +204,10 @@ export interface UserProfilePanelEventPayloads {
   /** Repository clone requested notification */
   'repository:clone-requested': RepositoryCloneRequestedPayload;
   /** Profile view changed (switched tabs) */
-  'view:changed': { view: 'organizations' | 'starred' };
+  'view:changed': { view: 'collections' | 'organizations' | 'starred' };
 }
 
 /**
  * Active view tab in the panel
  */
-export type UserProfileView = 'organizations' | 'starred';
+export type UserProfileView = 'collections' | 'organizations' | 'starred';
