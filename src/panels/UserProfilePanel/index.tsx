@@ -231,8 +231,9 @@ const RepositoryCard: React.FC<{
  */
 const CollectionCard: React.FC<{
   collection: Collection;
+  isSelected?: boolean;
   onClick?: (collection: Collection) => void;
-}> = ({ collection, onClick }) => {
+}> = ({ collection, isSelected, onClick }) => {
   const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -247,10 +248,12 @@ const CollectionCard: React.FC<{
         gap: '12px',
         padding: '12px',
         borderRadius: '8px',
-        backgroundColor: isHovered
-          ? theme.colors.backgroundTertiary
-          : theme.colors.background,
-        border: `1px solid ${theme.colors.border}`,
+        backgroundColor: isSelected
+          ? `${theme.colors.primary}15`
+          : isHovered
+            ? theme.colors.backgroundTertiary
+            : theme.colors.background,
+        border: `1px solid ${isSelected ? theme.colors.primary : theme.colors.border}`,
         cursor: onClick ? 'pointer' : 'default',
         transition: 'all 0.15s ease',
       }}
@@ -330,6 +333,7 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
     [profileSlice?.data?.starredRepositories]
   );
   const presence = profileSlice?.data?.presence;
+  const selectedCollectionId = profileSlice?.data?.selectedCollectionId;
   const loading = profileSlice?.loading ?? false;
 
   // Filter starred repositories by search
@@ -893,6 +897,7 @@ const UserProfilePanelContent: React.FC<UserProfilePanelPropsTyped> = ({
                 <CollectionCard
                   key={collection.id}
                   collection={collection}
+                  isSelected={collection.id === selectedCollectionId}
                   onClick={handleCollectionSelect}
                 />
               ))

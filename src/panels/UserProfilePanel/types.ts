@@ -56,6 +56,10 @@ export interface UserProfileSlice {
   starredRepositories: GitHubRepository[];
   /** User's presence status in the network */
   presence?: UserPresenceStatus;
+  /** Currently selected collection ID (for highlighting) */
+  selectedCollectionId?: string | null;
+  /** Currently active view tab */
+  currentView?: 'profile' | 'collections' | 'projects' | 'starred';
   /** Whether data is loading */
   loading: boolean;
   /** Error message if loading failed */
