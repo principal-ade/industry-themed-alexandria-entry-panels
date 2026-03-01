@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useTheme } from '@principal-ade/industry-theme';
-import { Search, Plus, FolderGit2, X, RefreshCw } from 'lucide-react';
+import { RepositoryTreeCore } from '@principal-ade/dynamic-file-tree';
+import { Search, Plus, FolderGit2, X, RefreshCw, List, GitFork } from 'lucide-react';
 import './LocalProjectsPanel.css';
 import '../shared/styles.css';
 import type { AlexandriaEntry } from '@principal-ai/alexandria-core-library/types';
@@ -13,6 +14,9 @@ import type {
 
 // Panel event prefix
 const PANEL_ID = 'industry-theme.local-projects';
+
+// View mode type
+type ViewMode = 'list' | 'tree';
 
 // Helper to create panel events with required fields
 const createPanelEvent = <T,>(type: string, payload: T) => ({
@@ -51,6 +55,7 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
   const [windowStates, setWindowStates] = useState<
     Map<string, RepositoryWindowState>
   >(new Map());
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
 
   // Toggle search and clear filter when closing
   const handleToggleSearch = useCallback(() => {
@@ -510,6 +515,28 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
 
             {/* Action buttons */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+              {/* View mode toggle button */}
+              <button
+                onClick={() => setViewMode(viewMode === 'list' ? 'tree' : 'list')}
+                title={viewMode === 'list' ? 'Switch to tree view' : 'Switch to list view'}
+                style={{
+                  padding: '0 12px',
+                  height: '40px',
+                  borderRadius: '0',
+                  border: 'none',
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  color: theme.colors.textSecondary,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s',
+                  flexShrink: 0,
+                }}
+              >
+                {viewMode === 'list' ? <GitFork size={16} /> : <List size={16} />}
+              </button>
+
               {/* Scan for repos button */}
               <button
                 onClick={handleScanForRepos}
@@ -647,6 +674,28 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
                   title={showSearch ? 'Close search' : 'Search projects'}
                 >
                   <Search size={16} />
+                </button>
+
+                {/* View mode toggle button */}
+                <button
+                  onClick={() => setViewMode(viewMode === 'list' ? 'tree' : 'list')}
+                  title={viewMode === 'list' ? 'Switch to tree view' : 'Switch to list view'}
+                  style={{
+                    padding: '0 12px',
+                    height: '40px',
+                    borderRadius: '0',
+                    border: 'none',
+                    backgroundColor: theme.colors.backgroundSecondary,
+                    color: theme.colors.textSecondary,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s',
+                    flexShrink: 0,
+                  }}
+                >
+                  {viewMode === 'list' ? <GitFork size={16} /> : <List size={16} />}
                 </button>
 
                 {/* Scan for repos button */}
@@ -822,49 +871,63 @@ const LocalProjectsPanelContent: React.FC<LocalProjectsPanelProps> = ({
           padding: '0',
         }}
       >
-        {/* Repository list */}
-        {filteredAndSortedRepositories.map((entry) => {
-          // Determine repository ID (same logic as CollectionMapPanel)
-          const repositoryId =
-            entry.github?.owner && entry.name
-              ? `${entry.github.owner}/${entry.name}`
-              : entry.name;
+        {viewMode === 'tree' ? (
+          /* Tree view */
+          <RepositoryTreeCore
+            repositories={filteredAndSortedRepositories}
+            theme={theme}
+            onSelect={handleSelectRepository}
+            selectedRepositoryPath={selectedEntry?.path}
+            defaultOpen={true}
+            verticalPadding="0px"
+          />
+        ) : (
+          /* List view */
+          <>
+            {filteredAndSortedRepositories.map((entry) => {
+              // Determine repository ID (same logic as CollectionMapPanel)
+              const repositoryId =
+                entry.github?.owner && entry.name
+                  ? `${entry.github.owner}/${entry.name}`
+                  : entry.name;
 
-          const isInCollection = repositoriesInCollection.has(repositoryId);
+              const isInCollection = repositoriesInCollection.has(repositoryId);
 
-          return (
-            <LocalProjectCard
-              key={entry.path}
-              entry={entry}
-              actionMode={entry.isDiscovered ? 'discovered' : 'default'}
-              isSelected={selectedEntry?.path === entry.path}
-              onSelect={handleSelectRepository}
-              onOpen={handleOpenRepository}
-              onRemove={entry.isDiscovered ? undefined : handleRemoveRepository}
-              onTrack={entry.isDiscovered ? handleTrackRepository : undefined}
-              windowState={windowStates.get(entry.path) || 'closed'}
-              disableCopyPaths={disableCopyPaths}
-              isInSelectedCollection={isInCollection}
-              selectedCollectionName={selectedCollection?.name}
-            />
-          );
-        })}
+              return (
+                <LocalProjectCard
+                  key={entry.path}
+                  entry={entry}
+                  actionMode={entry.isDiscovered ? 'discovered' : 'default'}
+                  isSelected={selectedEntry?.path === entry.path}
+                  onSelect={handleSelectRepository}
+                  onOpen={handleOpenRepository}
+                  onRemove={entry.isDiscovered ? undefined : handleRemoveRepository}
+                  onTrack={entry.isDiscovered ? handleTrackRepository : undefined}
+                  windowState={windowStates.get(entry.path) || 'closed'}
+                  disableCopyPaths={disableCopyPaths}
+                  isInSelectedCollection={isInCollection}
+                  selectedCollectionName={selectedCollection?.name}
+                />
+              );
+            })}
 
-        {/* No results message */}
-        {filteredAndSortedRepositories.length === 0 && !loading && (
-          <div
-            style={{
-              padding: '32px',
-              textAlign: 'center',
-              color: theme.colors.textSecondary,
-            }}
-          >
-            <p style={{ margin: 0 }}>
-              {normalizedFilter
-                ? 'No local projects match your filter.'
-                : 'No local projects found.'}
-            </p>
-          </div>
+            {/* No results message */}
+            {filteredAndSortedRepositories.length === 0 && !loading && (
+              <div
+                style={{
+                  padding: '32px',
+                  textAlign: 'center',
+                  color: theme.colors.textSecondary,
+                }}
+              >
+                <p style={{ margin: 0 }}>
+                  {normalizedFilter
+                    ? 'No local projects match your filter.'
+                    : 'No local projects found.'}
+                </p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
